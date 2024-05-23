@@ -1,12 +1,19 @@
 .sminingHeaderWeb {
-    height: 80px;
-    position: sticky;
+    height: 190px;
+    /* position: sticky; */
     width: 100%;
     top: 0;
-    z-index: 11;
+    z-index: 11111111;
     font-family: "PT Sans", sans-serif !important;
     background: white;
 }
+.fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2147483647 !important;
+    background-color: #000;
+  }
 
 .smilingCartRemoveBtn {
     height: 40px;
@@ -104,8 +111,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
+    height: 60px;
     z-index: 1;
+    background-color: black;
+    color: white !important;
 }
 
 .similingCartBotttomMain {
@@ -137,7 +146,7 @@
     /* align-items: center; */
     gap: 30px;
     text-transform: uppercase;
-    color: black;
+    color: white;
     font-size: 13px;
     margin-left: -2em;
     margin-top: 15px;
@@ -191,21 +200,26 @@
     color: black !important;
     background: transparent;
     gap: 50px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .shop-dropdown {
     height: auto;
-    width: 100%;
+    width: fit-content;
     position: absolute;
-    background: rgba(255, 255, 255, 0.8);
-    top: 72px;
-    left: 0;
-    backdrop-filter: blur(8px);
-    border-radius: 0 0 15px 15px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    transition: backdrop-filter 0.3s ease;
+    /* background: rgba(255, 255, 255, 0.8); */
+    /* top: 72px; */
+    left: 50%;
+    /* backdrop-filter: blur(8px); */
+    /* border-radius: 0 0 15px 15px; */
+    /* border: 1px solid rgba(255, 255, 255, 0.5); */
+    /* transition: backdrop-filter 0.3s ease; */
     z-index: 11111111;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 0px;
+    /* box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 0px; */
+    transform: translateX(-50%);
 }
 
 .nav-li-shop-main:hover {
@@ -231,7 +245,7 @@
     /* font-weight: 500; */
     font-size: 14px !important;
     text-transform: capitalize;
-    color: #AF8238 !important;
+    color: white !important;
 }
 
 .nav-li-smining:hover {
@@ -643,9 +657,10 @@
 }
 
 .HeaderMenuItemMainDiv {
-    width: 70%;
+    width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 100% !important;
     gap: 20px;
 }
@@ -671,7 +686,62 @@
 }
 
 
-/* diamondtine */              
+/* diamondtine */
+.gorjanaTopHeader {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    background-color: white !important;
+    margin-inline: 20%;
+    border-bottom: 1px solid lightgray;
+    padding: 0;
+    padding-left: 0 !important;
+    color: #acabab;
+    justify-content: space-between;
+  }
+  
+  /* .contact-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .contact-info a {
+    margin-left: 5px;
+  } */
+  
+  .login-link {
+    display: flex;
+    gap: 10px;
+  }
+             
+.gorajanaBottomHeaderMain {
+    display: flex;
+    background-color: white;
+    height: 100px;
+    margin-inline: 20%;
+
+} 
+.daimondHeaderDiv1{
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .daimondHeaderDiv2{
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .daimondHeaderDiv3{
+    width: 33.33%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
 
 @media (max-width:1640px) {
     .menuImages {

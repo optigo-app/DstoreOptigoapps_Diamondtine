@@ -20,7 +20,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { ScrollToView, storImagePath } from "../../../../Utils/globalFunctions/GlobalFunction";
 import { productListApiCall } from "../../../../Utils/API/ProductListAPI";
 import { getDesignPriceList } from "../../../../Utils/API/PriceDataApi";
-import { FaPowerOff } from "react-icons/fa";
+import { FaFacebookF, FaPowerOff, FaTwitter, FaYoutube } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
 import { GoHeart } from "react-icons/go";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
@@ -29,11 +29,16 @@ import Tab from '@mui/material/Tab';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { MdOutlineFavoriteBorder } from "react-icons/md";
+import { FiShoppingCart } from "react-icons/fi";
+import { VscSearch } from "react-icons/vsc";
+import { LuUser2 } from "react-icons/lu";
 import { List, ListItem, ListItemText, Button, IconButton } from '@mui/material';
 import { FilterAPI, FilterListAPI } from "../../../../Utils/API/FilterListAPI";
 import { toast } from "react-toastify";
 import { SearchProductDataAPI } from "../../../../Utils/API/SearchProductDataAPI";
 import { SearchPriceDataAPI } from "../../../../Utils/API/SearchPriceDataAPI";
+import { AiFillInstagram } from "react-icons/ai";
 
 export default function Header() {
   // const [titleImg, setTitleImg ] = useState() 
@@ -578,7 +583,7 @@ export default function Header() {
     setHoveredIndex(index);
     setExpandedMenu(index);
     setSelectedData(menuItems[index] || []);
-    document.body.style.overflow = 'hidden';
+    // document.body.style.overflow = 'hidden';
 
   };
   const handleMouseLeave = (index) => {
@@ -797,6 +802,18 @@ export default function Header() {
   } else if (isDesktop) {
     drawerWidth = '25%';
   }
+
+  window.addEventListener('scroll', function () {
+    var topHeader = document.querySelector('.gorjanaTopHeader');
+    var bottomHeader = document.querySelector('.gorajanaBottomHeaderMain');
+    var fixedHeader = document.getElementById('fixedHeader');
+
+    if (window.pageYOffset > 100 && topHeader.getBoundingClientRect().bottom <= 0 && bottomHeader.getBoundingClientRect().top <= 0) {
+      fixedHeader.classList.add('fixed');
+    } else {
+      fixedHeader.classList.remove('fixed');
+    }
+  });
 
   return (
     <>
@@ -1041,118 +1058,141 @@ export default function Header() {
       )}
 
       {!serachsShowOverlay &&
-        <div className="sminingHeaderWeb ">
-         <div className="gorjanaTopHeader">
-          <IoCallOutline style={{ height: "20px", width: "40px" }} />
-          <a href="/pages/store-locator" className="FontFamilySet" style={{ fontSize: "12px", color: 'black', textDecoration: 'none' }}>
-            Call: +91-9810876359
-          </a>
-        </div>
-          {islogin == 'false' ?
-            <div className="Smining-Top-Header ">
-              <div
-                style={{
-                  width: "90%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <ul className="nav-ul-shop" style={{ listStyle: "none", padding: 0 }}>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => ScrollToView('brandsComponentID')}
-                  >
-                    Our Brands
-                  </li>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => ScrollToView('elveeGiftMainId')}
-                  >
-                    Product
-                  </li>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => ScrollToView('craftmenshipId')}
-                  >
-                    Our Craftsmanship
-                  </li>
-                  <a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: lodingLogo ? '-5px' : '-25px' }}>
-                    {titleImg && <img src={titleImg} alt="Title" className="logoImage1" />}
-                  </a>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => ScrollToView('mainGalleryConatinerID')}
-                  >
-                    Gallery
-                  </li>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => ScrollToView('mainSocialMediaConatinerID')}
-                  >
-                    Social Media
-                  </li>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer" }}
-                  // onClick={() => navigation("/contact")}
-                  >
-                    Contact
-                  </li>
-                </ul>
-              </div>
-
-              <div
-                style={{
-                  width: "10%",
-                  display: "flex",
-                  justifyContent: 'center'
-                }}
-              >
-                <ul className="nav-ul-shop">
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigation('/LoginOption')}
-                  >
-                    Log In
-                  </li>
-                </ul>
-              </div>
+        <div className="sminingHeaderWeb" style={{ height: islogin == 'true' ? '190px' : '150px' }}>
+          <div className="gorjanaTopHeader">
+            <div className="contact-info">
+              <IoCallOutline style={{ height: "20px", width: "40px" }} />
+              <a href="/pages/store-locator" className="FontFamilySet" style={{ fontSize: "12px", color: 'black', textDecoration: 'none' }}>
+                Call: +91-9810876359
+              </a>
             </div>
-            :
-            <div className="Smining-Top-LoginHeader">
+            <div className="login-link">
+              <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} />
+              <AiFillInstagram style={{ fontSize: '15px', color: '#acabab' }} />
+              {islogin === "false" &&
+                <a href="/LoginOption" className="FontFamilySet" style={{ fontSize: "12px", color: 'black', textDecoration: 'none' }}>
+                  Login
+                </a>
+              }
+            </div>
+          </div>
+          <div className="gorajanaBottomHeaderMain">
+            <div className="daimondHeaderDiv1">
+              <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchText}
+                autoFocus
+                onChange={(e) => {
+                  setSearchText(e.target.value)
+
+                }}
+                className="serachinputBoxOverly"
+                onKeyDown={searchDataFucn}
+              />
+            </div>
+            <div className="daimondHeaderDiv2">
+              <img
+                alt=""
+                src={titleImg}
+                className="gorjanaHederImage"
+                onClick={() => navigation("/")}
+              />
+            </div>
+            <div className="daimondHeaderDiv3">
+              {islogin === "true" &&
+                <ul className="nav-ul-shop" style={{ marginTop: '24px' }}>
+                  <>
+                    <Badge
+                      badgeContent={getWishListCount}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                    >
+                      <Tooltip title="WishList">
+                        <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
+                          <GoHeart color="#7D7F85" fontSize='25px' />
+                        </li>
+                      </Tooltip>
+                    </Badge>
+                    <Badge
+                      badgeContent={getCartListCount}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                    >
+                      <Tooltip title="Cart">
+                        <li
+                          onClick={() => navigation('/CartPage')}
+                          style={{
+                            cursor: "pointer",
+                            marginTop: "0px",
+                          }}
+                        >
+                          <HiOutlineShoppingBag color="#7D7F85" fontSize='25px' />
+                        </li>
+                      </Tooltip>
+                    </Badge></>
+                  <Tooltip title="Account">
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
+                      onClick={() => navigation("/account")}
+                    >
+                      <IoPersonOutline color="#7D7F85" fontSize='25px' />
+                    </li>
+                  </Tooltip>
+                  <li
+                    className="nav-li-smining"
+                    style={{ cursor: "pointer", marginTop: "0" }}
+                    onClick={handleLogout}
+                  >
+                    <FaPowerOff color="#7D7F85" style={{ fontSize: '25px' }} />
+                  </li>
+                </ul>
+              }
+            </div>
+          </div>
+          {islogin == 'true' &&
+            <div id="fixedHeader" className="Smining-Top-LoginHeader">
               <div
                 className="HeaderMenuItemMainDiv"
               >
-                <a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '-25px' }}>
-                  {titleImg && <img src={titleImg} alt="Title" className="logoImage1" />}
-                </a>
-                <ul className="nav-ul-shop" style={{ height: '100%', display: 'flex', alignItems: 'center', listStyle: "none", padding: 0 }}>
-                  {menuItems.map((item, index) => (
+                <>
+                  <ul className="nav-ul-shop" style={{ height: '100%', display: 'flex', alignItems: 'center', listStyle: "none", padding: 0 }}>
                     <li
                       className="nav-li-smining"
-                      style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase', textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
-                      key={index}
-                      label={item.menuname}
-                      onMouseEnter={() => { setLeval0Data(item); handleMouseEnter(index, item) }}
-                      onMouseLeave={() => {
-                        handleMouseLeave();
-                      }}
-                      onClick={() => handleMenuClick(item)}
+                      style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase' }}
                     >
-                      {item.menuname}
+                      Home
                     </li>
-                  ))}
-                </ul>
+                    {menuItems.map((item, index) => (
+                      <li
+                        className="nav-li-smining"
+                        style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase', textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
+                        key={index}
+                        label={item.menuname}
+                        onMouseEnter={() => { setLeval0Data(item); handleMouseEnter(index, item) }}
+                        onMouseLeave={() => {
+                          handleMouseLeave();
+                        }}
+                        onClick={() => handleMenuClick(item)}
+                      >
+                        {item.menuname}
+                      </li>
+                    ))}
+                    <li
+                      className="nav-li-smining"
+                      style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase' }}
+                    >
+                      FAQS
+                    </li>
+                  </ul>
+                </>
               </div>
 
-              <div
+              {/* <div
                 style={{
                   width: "30%",
                   display: "flex",
@@ -1162,11 +1202,6 @@ export default function Header() {
               >
                 <ul className="nav-ul-shop" style={{ marginTop: '24px' }}>
                   <>
-                    {/* {location?.pathname == '/productpage' &&
-                      <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={toggleOverlay}>
-                        <IoSearch color="#7D7F85" fontSize='25px' />
-                      </li>
-                    } */}
                     <Badge
                       badgeContent={getWishListCount}
                       max={1000}
@@ -1214,21 +1249,24 @@ export default function Header() {
                     <FaPowerOff style={{ fontSize: '25px' }} />
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           }
+          {/* } */}
           <>
             <div className={`shop-dropdown ${expandedMenu !== null ? "open" : ""}`} onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
               <div
-                style={{
-                  display: "flex",
-                  padding: "50px",
-                  color: "#7d7f85",
-                  // backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  // flexDirection: "column",
-                  gap: "50px",
-                  justifyContent: 'space-between'
-                }}
+               style={{
+                display: "flex",
+                padding: "50px",
+                color: "#7d7f85",
+                gap: "50px",
+                justifyContent: 'space-between',
+                width: 'fit-content',
+                margin: '0 auto',
+                backgroundColor: 'white',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.9)',
+              }}
                 className="menuDropdownData"
               >
                 <div style={{}}>
@@ -1238,7 +1276,7 @@ export default function Header() {
                     {selectedData?.param1?.map((param1Item, param1Index) => (
                       <div key={param1Index}>
                         <span onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item)} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"PT Sans", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
-                        <div style={{ height: '300px', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
+                        <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
                           {param1Item?.param2?.map((param2Item, param2Index) => (
                             <p className="level2menuData" key={param2Index} onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item, param2Item)} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"PT Sans", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
                               {param2Item?.param2dataname}
@@ -1250,10 +1288,10 @@ export default function Header() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '15px' }}>
+                {/* <div style={{ display: 'flex', gap: '15px' }}>
                   <img src={`${storImagePath()}/images/Menu/Menu1.jpg`} alt="#" className="menuImages" />
                   <img src={`${storImagePath()}/images/Menu/Menu2.jpg`} alt="#" className="menuImages" />
-                </div>
+                </div> */}
 
               </div>
             </div>

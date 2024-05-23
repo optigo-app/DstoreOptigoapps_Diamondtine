@@ -1,138 +1,61 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './Footer.css'
-import { useNavigate } from 'react-router-dom';
-import { IoLocationOutline } from "react-icons/io5";
-import { IoMdCall } from "react-icons/io";
-import { IoMdMail } from "react-icons/io";
-import axios from 'axios';
-import { FaFacebookF } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { AiFillInstagram } from "react-icons/ai";
-import { FaYoutube } from "react-icons/fa";
+import { companyLogo } from '../../../../../../Recoil/atom';
+import { useRecoilValue } from 'recoil';
+
 
 export default function Footer() {
-    const [storeInitData, setStoreInitData] = useState();
-    const [email, setEmail] = useState();
-    const [selectedFooteVal, setSelectedVal] = useState(0);
-    const navigation = useNavigate();
-
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    };
-
-    const handleSubmitNewlater = async () => {
-        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
-        const newslater = storeInit?.newslatter;
-        console.log('newsletter', newslater);
-        if (newslater) {
-            const requestOptions = {
-                method: "GET",
-                redirect: "follow"
-            };
-            const newsletterUrl = `${newslater}${email}`;
-            fetch(newsletterUrl, requestOptions)
-                .then((response) => response.text())
-                .then((result) => console.log(result))
-                .catch((error) => console.error(error));
-        }
-
-    };
-    const handleNavigte = (navigateUrl) => {
-        navigation(navigateUrl)
-    }
-
-    useEffect(() => {
-        const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
-        setStoreInitData(storeInit);
-    }, [])
-    
+    const titleImg = useRecoilValue(companyLogo);
     return (
         <div>
-            <div className='ElveFooterMain'>
-                <div className='ElveFooter1'>
-                    <p className='elveBox1Title'>Sign Up For Newslatter</p>
-                    <div className='ElveFooter1Input' style={{ marginTop: '10px', display: 'flex' }}>
-                        <input type='text' placeholder='Enter Your Email' className='eleBox1InputBox' value={email} onChange={handleEmailChange} />
-                        <button className='elevBox1Btn' onClick={handleSubmitNewlater}>Subscribe</button>
+            <div className='daimondFooterMain'>
+                <div style={{ paddingTop: '30px', paddingInline: '20%' }}>
+                    <div className='subScriMain'>
+                        <p className='subScriMainTitle'>GET 5% OFF YOUR FIRST ORDER</p>
+                        <p className='subScriMainSubTitle'>and stay in the loop with us</p> b
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: '20px' }}>
+                            <input type='text' className='footerInputBox' placeholder='Your email here'/>
+                            <button className='FooterSubBtn'>SUBSCRIBE</button>
+                        </div>
                     </div>
-                    <div className='footerIconMain'>
-                        {/* <a href="#"> */}
-                            <div className='footerSocialIcon'>
-                                <FaTwitter style={{ fontSize: '20px', color: '#7d7f85' }} />
-                            </div>
-                        {/* </a> */}
-                        {/* <a href="#"> */}
-                            <div className='footerSocialIcon'>
-                                <FaFacebookF style={{ fontSize: '20px', color: '#7d7f85' }} />
-                            </div>
-                        {/* </a> */}
-                        {/* <a href="#"> */}
-                            <div className='footerSocialIcon'>
-                                <FaYoutube style={{ fontSize: '20px', color: '#7d7f85' }} />
-                            </div>
-                        {/* </a> */}
-                        {/* <a href="#"> */}
-                            <div className='footerSocialIcon'>
-                                <AiFillInstagram style={{ fontSize: '20px', color: '#7d7f85' }} />
-                            </div>
-                        {/* </a> */}
+                </div>
+                <div>
+                    <div className='FooterLinkMain'>
+                        <div className='FooterLinkMainBox'>
+                            <p className='footerMoteText'>ABOUT DIAMONDTINE</p>
+                            <p className='FoooterText'>We are a contemporary diamond and gold jewellery brand selling exquisite pieces for the woman of today.
+                                Learn More</p>
+                        </div>
+                        <div className='FooterLinkMainBox'>
+                            <p className='footerMoteText'>QUICK LINKS</p>
+                            <p className='FoooterTextLink'>FAQs</p>
+                            <p className='FoooterTextLink'>Size Guide</p>
+                            <p className='FoooterTextLink'>Gift Cards</p>
+                            <p className='FoooterTextLink'>Material & Care</p>
+                            <p className='FoooterTextLink'>Terms & Conditions</p>
+                            <p className='FoooterTextLink'>Privacy Policy</p>
+                        </div>
+                        <div className='FooterLinkMainBox'>
+                            <p className='footerMoteText'>CUSTOMER SERVICE</p>
+                            <p className='FoooterTextLink'>Shipping & Returns</p>
+                            <p className='FoooterTextLink'>Exchange & Buyback</p>
+                            <p className='FoooterTextLink'>Loyalty Program</p>
+                            <p className='FoooterTextLink'>Material & Care</p>
+                            <p className='FoooterTextLink'>Try at Home</p>
+                            <p className='FoooterTextLink'>Contact us</p>
+                        </div>
+                        <div className='FooterLinkMainBox'>
+                            <p className='footerMoteText'>MY ACCOUNT</p>
+                            <p className='FoooterTextLink'>Sign In</p>
+                            <p className='FoooterTextLink'>Track Your Order</p>
+                            <p className='FoooterTextLink'>Help</p>
+                        </div>
                     </div>
-
                 </div>
-                <div className='ElveFooter2'>
-                    <p className='ElevFooterBoxTitle'>Our Company</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/aboutUs')}>About Us</p>
-                    <p className='ElveFooterDesc'>Careers</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/history')}>History</p>
-                    <p className='ElveFooterDesc'>Contact Us</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/term&condition')}>Terms and Conditions</p>
-                </div>
-                <div className='ElveFooter3'>
-                    <p className='ElevFooterBoxTitle'>Customer Care</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/customerServices')}>Customer Services</p>
-                    <p className='ElveFooterDesc'>Book an Appoinment</p>
-                    <p className='ElveFooterDesc' onClick={() => handleNavigte('/customize')}>Customize</p>
-                    <p className='ElveFooterDesc'>FAQ</p>
-                </div>
-                <div className='ElveFooter4'>
-                    <p className='ElevFooterBoxTitle'>Office</p>
-                    <div style={{ display: 'flex' }}>
-                        <p className='ElevBox4Title' onClick={() => setSelectedVal(0)} style={{ textDecoration: selectedFooteVal === 0 && 'underline' }}>INDIA</p>
-                        {/* <p className='ElevBox4Title' onClick={() => setSelectedVal(1)} style={{ textDecoration: selectedFooteVal === 1 && 'underline', marginLeft: '50px' }}>USA</p> */}
-                    </div>
-                    {
-                        selectedFooteVal === 0 ?
-                            <div style={{maxWidth: '300px'}}>
-                                <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif', height: '70px' }}>
-                                    <IoLocationOutline style={{ width: '50px', height: 'fit-content' }} />
-                                    <span>Plot No. – M1 To M6, Gujarat Hira Bourse Gem & Jewellery Park, Pal-Hazira Road, Ichchhapore, Surat - 394510</span>
-                                </p>
-                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdCall />
-                                    +91 2616105100  
-                                </p>
-                                <p className='footerOfficeDesc' style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdMail />
-                                    <span style={{ marginLeft: '5px' }}>info@elvee.in</span>
-                                </p>
-                            </div>
-                            :
-                            <div style={{maxWidth: '300px'}}>
-                                <p className='footerOfficeDesc' style={{ display: 'flex', fontFamily: 'PT Sans, sans-serif', height: '70px' }}>
-                                    <IoLocationOutline style={{ width: '22px', height: '22px' }} />
-                                    <span>1177 6th Avenue, Suite 5099, New York,NY 10036.</span>
-                                </p>
-                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdCall />
-                                    (646) 284-4466
-                                </p>
-                                <p className="footerOfficeDesc" style={{ fontFamily: 'PT Sans, sans-serif' }}>
-                                    <IoMdMail />
-                                    <span style={{ marginLeft: '5px' }}>Contact.usa@elveepromise.com</span>
-                                </p>
-                            </div>
-
-                    }
+                <div className='footerBottom'>
+                    <img src='https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/38/2020/09/payments.png' className='newImgFooter'/>
+                    <img src={titleImg} className='logoImgFooter'/>
+                    <p className='FooterBottomText'>Copyright © 2023 Diamondtine. All Rights Reserved.</p>
                 </div>
             </div>
         </div>
