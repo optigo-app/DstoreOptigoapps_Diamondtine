@@ -5,7 +5,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { Badge, ButtonBase, Dialog, Divider, Drawer, Skeleton, SwipeableDrawer, Tabs, TextField, useMediaQuery } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { PiStarThin } from "react-icons/pi";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoCallOutline, IoSearchOutline } from "react-icons/io5";
 import { ABOUT_US, ACCOUNT, BLOG, CELEBRITY, CUSTERM_SERVICES, ETERNITY_BANDS, FINE_JEWELLERY_GIFTS, FOR_HIM, FREE_INTERNATIONAL_SHIPPING, IMPACT, LAB_GROWN, LIFETIME_WARRANTY, LOGIN, LOGOUT_MESSAGE, LOOK_BOOK, MONEY_BACK_GUARANTEE, PRESS, SHOP } from "../../../../lib/consts/Strings";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { PiStarFourThin } from "react-icons/pi";
@@ -461,35 +461,35 @@ export default function Header() {
 
 
   const setGSearch = useSetRecoilState(searchData);
-  
+
   async function searchDataFucn(e) {
     if (e.key === 'Enter') {
       let finalData = JSON.parse(localStorage.getItem("menuparams"))
       let searchVar = e.target.value.toLowerCase()
 
-    if (finalData) {
-      await SearchProductDataAPI(searchVar).then((res) => {
-        if (res) {
-          localStorage.setItem("allproductlist", JSON.stringify(res))
-          // localStorage.setItem("finalAllData", JSON.stringify(res))
-        }
-        return res
-      }).then(async (res) => {
-        if (res) {
-          let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
-          await SearchPriceDataAPI(autoCodeList,searchVar)
-          // .then((res)=>{
-          //     if(res){
-          //     localStorage.setItem("getSearchPriceData", JSON.stringify(res))
-          //     }
-          // })
-          navigation("/productpage",{state:{"search":true}})
-          toggleOverlay();
-        }
-      }).catch((err) => {
-        if (err) toast.error("Something Went Wrong!!!")
-      })
-    }
+      if (finalData) {
+        await SearchProductDataAPI(searchVar).then((res) => {
+          if (res) {
+            localStorage.setItem("allproductlist", JSON.stringify(res))
+            // localStorage.setItem("finalAllData", JSON.stringify(res))
+          }
+          return res
+        }).then(async (res) => {
+          if (res) {
+            let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
+            await SearchPriceDataAPI(autoCodeList, searchVar)
+            // .then((res)=>{
+            //     if(res){
+            //     localStorage.setItem("getSearchPriceData", JSON.stringify(res))
+            //     }
+            // })
+            navigation("/productpage", { state: { "search": true } })
+            toggleOverlay();
+          }
+        }).catch((err) => {
+          if (err) toast.error("Something Went Wrong!!!")
+        })
+      }
     }
   }
   // function searchDataFucn(e) {
@@ -622,7 +622,7 @@ export default function Header() {
     console.log('finalData', finalData);
     // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
 
-    navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData }})
+    navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
     setTimeout(() => {
       setDrawerOpen(false);
       handleMouseLeave();
@@ -648,7 +648,7 @@ export default function Header() {
               localStorage.setItem("getPriceData", JSON.stringify(res))
               // navigation(`/productpage/?${finalData?.FilterKey}=${finalData?.FilterVal}/${finalData?.FilterKey1}=${finalData?.FilterVal1}/${finalData?.FilterKey2}=${finalData?.FilterVal2}`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
             }
-            
+
           })
         }
       }).catch((err) => {
@@ -865,65 +865,65 @@ export default function Header() {
               onClose={() => setDrawerOpen(false)}
               PaperProps={{ style: { width: drawerWidth, padding: '0px 10px 0px 10px' } }}
             >
-              <div className="smilingMobileSubDivDrawr" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' , marginTop: '3px' }}>
-                <div  className="mobileViewFirstDiv1" style={{display:'flex', alignItems:'center',width: '33.33%'}}>
-                <IconButton onClick={() => setDrawerOpen(false)}>
-                  <CloseIcon />
-                </IconButton>
+              <div className="smilingMobileSubDivDrawr" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '3px' }}>
+                <div className="mobileViewFirstDiv1" style={{ display: 'flex', alignItems: 'center', width: '33.33%' }}>
+                  <IconButton onClick={() => setDrawerOpen(false)}>
+                    <CloseIcon />
+                  </IconButton>
                 </div>
-                <div className="mobileViewFirstDiv2Drawer" style={{display:'flex', alignItems:'center',width: '33.33%'}}>
+                <div className="mobileViewFirstDiv2Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%' }}>
                   <a className="mobileViewFirstDiv2Drawer" href="/">
-                  {titleImg && <img src={titleImg} className="MainlogogMobileImageDrawer" style={islogin == 'true' ? containerStyle : alternateStyle} /> }
+                    {titleImg && <img src={titleImg} className="MainlogogMobileImageDrawer" style={islogin == 'true' ? containerStyle : alternateStyle} />}
                   </a>
                 </div>
-                <div className="mobileViewFirstDiv3Drawer" style={{display:'flex', alignItems:'center',width: '33.33%' , justifyContent: 'flex-end'}}>
-                <Badge
-                  badgeContent={getWishListCount}
-                  max={1000}
-                  overlap={"rectangular"}
-                  color="secondary"
-                  style={{ marginInline: '15px' }}
-                >
-                  <li
-                    onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
-                    style={{
-                      marginLeft: "-10px",
-                      cursor: "pointer",
-                      listStyle: 'none',
-                      marginTop: "0px",
-                    }}
+                <div className="mobileViewFirstDiv3Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%', justifyContent: 'flex-end' }}>
+                  <Badge
+                    badgeContent={getWishListCount}
+                    max={1000}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    style={{ marginInline: '15px' }}
+                  >
+                    <li
+                      onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
+                      style={{
+                        marginLeft: "-10px",
+                        cursor: "pointer",
+                        listStyle: 'none',
+                        marginTop: "0px",
+                      }}
+                      sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
+                    >
+                      <GoHeart color="#7D7F85" fontSize='20px' />
+                    </li>
+                  </Badge>
+                  <Badge
+                    badgeContent={getCartListCount}
+                    max={1000}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    style={{ marginInline: '15px' }}
                     sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
                   >
-                    <GoHeart color="#7D7F85" fontSize='20px' />
-                  </li>
-                </Badge>
-                <Badge
-                  badgeContent={getCartListCount}
-                  max={1000}
-                  overlap={"rectangular"}
-                  color="secondary"
-                  style={{ marginInline: '15px' }}
-                  sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
-                >
+                    <li
+                      onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}
+                      style={{
+                        marginLeft: "-10px",
+                        cursor: "pointer",
+                        listStyle: 'none',
+                        marginTop: "0px",
+                      }}
+                    >
+                      <HiOutlineShoppingBag fontSize='20px' />
+                    </li>
+                  </Badge>
                   <li
-                    onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}
-                    style={{
-                      marginLeft: "-10px",
-                      cursor: "pointer",
-                      listStyle: 'none',
-                      marginTop: "0px",
-                    }}
+                    className="nav-li-smining"
+                    style={{ cursor: "pointer", marginTop: "0" }}
+                    onClick={handleLogout}
                   >
-                    <HiOutlineShoppingBag fontSize='20px' />
+                    <FaPowerOff style={{ fontSize: '20px' }} />
                   </li>
-                </Badge>
-                <li
-                  className="nav-li-smining"
-                  style={{ cursor: "pointer", marginTop: "0" }}
-                  onClick={handleLogout}
-                >
-                  <FaPowerOff style={{ fontSize: '20px' }} />
-                </li>
                 </div>
               </div>
               <List sx={{ paddingTop: '0', marginBottom: '20px' }}>
@@ -1004,7 +1004,7 @@ export default function Header() {
                   <CloseIcon />
                 </IconButton>
                 <Link to="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {titleImg && <img src={titleImg} alt="Title" className="logoImage1" style={{ marginTop: '-32px' }} />}
+                  {titleImg && <img src={titleImg} alt="Title" className="logoImage1" style={{ marginTop: '-32px' }} />}
                 </Link>
                 <List>
                   <ListItem onClick={() => { setDrawerOpen(false); navigation('/LoginOption') }}>
@@ -1042,6 +1042,12 @@ export default function Header() {
 
       {!serachsShowOverlay &&
         <div className="sminingHeaderWeb ">
+         <div className="gorjanaTopHeader">
+          <IoCallOutline style={{ height: "20px", width: "40px" }} />
+          <a href="/pages/store-locator" className="FontFamilySet" style={{ fontSize: "12px", color: 'black', textDecoration: 'none' }}>
+            Call: +91-9810876359
+          </a>
+        </div>
           {islogin == 'false' ?
             <div className="Smining-Top-Header ">
               <div
@@ -1074,8 +1080,8 @@ export default function Header() {
                   >
                     Our Craftsmanship
                   </li>
-                  <a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: lodingLogo ? '-5px' : '-25px'  }}>
-                      {titleImg && <img src={titleImg} alt="Title" className="logoImage1" />}
+                  <a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: lodingLogo ? '-5px' : '-25px' }}>
+                    {titleImg && <img src={titleImg} alt="Title" className="logoImage1" />}
                   </a>
                   <li
                     className="nav-li-smining"
@@ -1125,7 +1131,7 @@ export default function Header() {
                 className="HeaderMenuItemMainDiv"
               >
                 <a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '-25px' }}>
-                {titleImg && <img src={titleImg} alt="Title" className="logoImage1" />}
+                  {titleImg && <img src={titleImg} alt="Title" className="logoImage1" />}
                 </a>
                 <ul className="nav-ul-shop" style={{ height: '100%', display: 'flex', alignItems: 'center', listStyle: "none", padding: 0 }}>
                   {menuItems.map((item, index) => (
@@ -1290,7 +1296,7 @@ export default function Header() {
             className="mobileViewFirstDiv2"
           >
             <a href="/" className="mobileViewFirstDiv2">
-            {titleImg && <img src={titleImg} className="MainlogogMobileImage" style={islogin == 'true' ? containerStyle : alternateStyle} /> }
+              {titleImg && <img src={titleImg} className="MainlogogMobileImage" style={islogin == 'true' ? containerStyle : alternateStyle} />}
             </a>
           </div>
           <div
