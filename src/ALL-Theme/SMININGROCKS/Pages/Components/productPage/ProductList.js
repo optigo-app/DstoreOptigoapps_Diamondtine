@@ -141,6 +141,7 @@ const ProductList = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [ListReloadData, setListReloadData] = useState()
   const [menuParamsState,setMenuParamsState] = useState();
+  const [pageSize,setPageSize] = useState(1);
 
   const getMenuTransData = useRecoilValue(menuTransfData)
 
@@ -428,78 +429,80 @@ const ProductList = () => {
       // const storeInit = JSON.parse(localStorage.getItem('storeInit'));
 
       // console.log("priceDataApi",priceDataApi);
-
-      const updatedData = await Promise?.all(data?.map(async (product) => {
-        // debugger
-
-        const newPriceData = priceDataApi?.rd?.find((pda) => pda.A == product.autocode)
-
-        const newPriceData1 = priceDataApi?.rd1?.filter((pda) => pda.A == product.autocode).reduce((acc, obj) => acc + obj.S, 0)
-
-        const newPriceData2 = priceDataApi?.rd2?.filter((pda) => pda.A == product.autocode).reduce((acc, obj) => acc + obj.S, 0)
-
-
-        let price = 0;
-        let markup = 0;
-        let metalrd = 0;
-        let diard1 = 0;
-        let csrd2 = 0;
-        let updNWT = 0;
-        let updGWT = 0;
-        let updDWT = 0;
-        let updDPCS = 0;
-        let updCWT = 0;
-        let updCPCS = 0;
-        let updMT = "";
-        let updMC = "";
-        let diaQ = "";
-        let diaQid = "";
-        let diaC = "";
-        let diaCid = "";
-        let csQ = "";
-        let csQid = "";
-        let csC = "";
-        let csCid = "";
-        let ismrpbase;
-        let mrpbaseprice;
-
-        console.log("newPriceData", newPriceData)
-        console.log("Listprice",product.autocode,newPriceData,newPriceData1,newPriceData2);
-
-
-        if (newPriceData || newPriceData1 || newPriceData2) {
-          price = (((newPriceData?.V ?? 0) / currData?.CurrencyRate ?? 0) + (newPriceData?.W ?? 0) + (newPriceData?.X ?? 0)) + (newPriceData1 ?? 0) + (newPriceData2 ?? 0);
-          metalrd = (((newPriceData?.V ?? 0) / currData?.CurrencyRate ?? 0) + (newPriceData?.W ?? 0) + (newPriceData?.X ?? 0))
-          diard1 = newPriceData1 ?? 0
-          csrd2 = newPriceData2 ?? 0
-          markup = newPriceData?.AB
-          updNWT = newPriceData?.I ?? 0
-          updGWT = newPriceData?.N ?? 0
-          updDWT = newPriceData?.K ?? 0
-          updDPCS = newPriceData?.J ?? 0
-          updCWT = newPriceData?.M ?? 0
-          updCPCS = newPriceData?.L ?? 0
-          updMT = findMetalType(newPriceData?.C ?? product?.MetalTypeid)[0]?.metaltype ?? ""
-          updMC = findMetalColor(product?.MetalColorid)[0]?.metalcolorname ?? ""
-          diaQ = ""
-          diaQid = ""
-          diaC = ""
-          diaCid = ""
-          csQ = ""
-          csQid = ""
-          csC = ""
-          csCid = ""
-          ismrpbase = newPriceData?.U
-          mrpbaseprice = newPriceData?.Z
-        }
-        // console.log("priceprod", product?.designno, metalrd, diard1, csrd2);
-        return {
-          ...product, price, markup, metalrd, diard1, csrd2, updNWT, updGWT,
-          updDWT, updDPCS, updCWT, updCPCS, updMT, updMC,
-          diaQ, diaQid,
-          diaC, diaCid, csQ, csQid, csC, csCid, ismrpbase, mrpbaseprice
-        }
-      }));
+      let updatedData
+      if(data){
+        updatedData = await Promise?.all(data?.map(async (product) => {
+          // debugger
+  
+          const newPriceData = priceDataApi?.rd?.find((pda) => pda.A == product.autocode)
+  
+          const newPriceData1 = priceDataApi?.rd1?.filter((pda) => pda.A == product.autocode).reduce((acc, obj) => acc + obj.S, 0)
+  
+          const newPriceData2 = priceDataApi?.rd2?.filter((pda) => pda.A == product.autocode).reduce((acc, obj) => acc + obj.S, 0)
+  
+  
+          let price = 0;
+          let markup = 0;
+          let metalrd = 0;
+          let diard1 = 0;
+          let csrd2 = 0;
+          let updNWT = 0;
+          let updGWT = 0;
+          let updDWT = 0;
+          let updDPCS = 0;
+          let updCWT = 0;
+          let updCPCS = 0;
+          let updMT = "";
+          let updMC = "";
+          let diaQ = "";
+          let diaQid = "";
+          let diaC = "";
+          let diaCid = "";
+          let csQ = "";
+          let csQid = "";
+          let csC = "";
+          let csCid = "";
+          let ismrpbase;
+          let mrpbaseprice;
+  
+          console.log("newPriceData", newPriceData)
+          console.log("Listprice",product.autocode,newPriceData,newPriceData1,newPriceData2);
+  
+  
+          if (newPriceData || newPriceData1 || newPriceData2) {
+            price = (((newPriceData?.V ?? 0) / currData?.CurrencyRate ?? 0) + (newPriceData?.W ?? 0) + (newPriceData?.X ?? 0)) + (newPriceData1 ?? 0) + (newPriceData2 ?? 0);
+            metalrd = (((newPriceData?.V ?? 0) / currData?.CurrencyRate ?? 0) + (newPriceData?.W ?? 0) + (newPriceData?.X ?? 0))
+            diard1 = newPriceData1 ?? 0
+            csrd2 = newPriceData2 ?? 0
+            markup = newPriceData?.AB
+            updNWT = newPriceData?.I ?? 0
+            updGWT = newPriceData?.N ?? 0
+            updDWT = newPriceData?.K ?? 0
+            updDPCS = newPriceData?.J ?? 0
+            updCWT = newPriceData?.M ?? 0
+            updCPCS = newPriceData?.L ?? 0
+            updMT = findMetalType(newPriceData?.C ?? product?.MetalTypeid)[0]?.metaltype ?? ""
+            updMC = findMetalColor(product?.MetalColorid)[0]?.metalcolorname ?? ""
+            diaQ = ""
+            diaQid = ""
+            diaC = ""
+            diaCid = ""
+            csQ = ""
+            csQid = ""
+            csC = ""
+            csCid = ""
+            ismrpbase = newPriceData?.U
+            mrpbaseprice = newPriceData?.Z
+          }
+          // console.log("priceprod", product?.designno, metalrd, diard1, csrd2);
+          return {
+            ...product, price, markup, metalrd, diard1, csrd2, updNWT, updGWT,
+            updDWT, updDPCS, updCWT, updCPCS, updMT, updMC,
+            diaQ, diaQid,
+            diaC, diaCid, csQ, csQid, csC, csCid, ismrpbase, mrpbaseprice
+          }
+        }))
+      }
 
       localStorage.setItem("allproductlist", JSON.stringify(updatedData));
       setProductApiData2(updatedData);
@@ -509,11 +512,12 @@ const ProductList = () => {
     console.log("productPrice",ProductApiData2?.price);
 
     // console.log("calling");
-    fetchData().then((res) => {
-      if (res) {
-        setFilterProdLoding(false);
-      }
-    });
+    fetchData()
+    //.then((res) => {
+    //   if (res) {
+    //     setFilterProdLoding(false);
+    //   }
+    // });
 
   }, [priceDataApi, mtTypeOption, diaQColOpt, cSQopt]);
 
@@ -2172,9 +2176,9 @@ const ProductList = () => {
       setIsProdLoading(true)
     } else {
       if (newProData?.length == 0 || ProductApiData2?.length == 0) {
-        setTimeout(() => {
+        // setTimeout(() => {
           setIsProdLoading(true);
-        }, 1000);
+        // }, 1000);
       } else {
         setIsProdLoading(false);
       }
@@ -2294,6 +2298,8 @@ const ProductList = () => {
 
 
   const handlePageChange = async (event, value) => {
+    // console.log("event",typeof(event.target.innerText));
+    setPageSize(event.target.innerText)
     const activeFilters = Object.values(filterChecked).filter(ele => ele.checked);
 
     const output = {};
@@ -2477,6 +2483,24 @@ const ProductList = () => {
         {!IsProdLoading ? (
           <ProductListSkeleton />
         ) :
+        <>
+        <div class="bg-image">
+                <div className="overlay"></div>
+                <div className="text-container">
+                  <div className='textContainerData'>
+                    <div style={{ display: 'flex', alignItems: 'center'}}>
+                      <p className="designCounttext">
+                        {/* {location?.state?.filtervalue?.FilterVal2 ? location?.state?.filtervalue?.FilterVal2 : location?.state?.filtervalue?.FilterVal1 ? location?.state?.filtervalue?.FilterVal1 : location?.state?.filtervalue?.menuname} */}
+                        {menuParamsState?.FilterVal2 ? menuParamsState?.FilterVal2 : menuParamsState?.FilterVal1 ? menuParamsState?.FilterVal1 : menuParamsState?.menuname}
+                        {/* &nbsp;{newProData?.length != 0 || ProductApiData2?.length != 0 ? prodCount : 0} <span style={{ textTransform: 'capitalize' }}>Designs</span>
+                        <br />
+                        <span style={{ fontSize: '10px' }}>{`${menuParamsState?.menuname || ''}${menuParamsState?.FilterVal1 ? ` > ${menuParamsState?.FilterVal1}` : ''}${menuParamsState?.FilterVal2 ? ` > ${menuParamsState?.FilterVal2}` : ''}`}</span> */}
+                      </p>
+                    </div>
+                    {/* <img src={`${storImagePath()}/images/HomePage/MainBanner/image/featuresImage.png`} className='featherImage' /> */}
+                  </div>
+                </div>
+              </div>
           <div
             style={{
               display: "flex",
@@ -2487,24 +2511,7 @@ const ProductList = () => {
             }}
             className='paddingTopMobileSet mainProduct'
           >
-            <div style={{ width: '100%' }}>
-              <div class="bg-image">
-                <div class="overlay"></div>
-                <div class="text-container">
-                  <div className='textContainerData'>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <p className="designCounttext" style={{ fontSize: '20px', fontWeight: '500', letterSpacing: '1px', textTransform: 'uppercase' }}>
-                        {/* {location?.state?.filtervalue?.FilterVal2 ? location?.state?.filtervalue?.FilterVal2 : location?.state?.filtervalue?.FilterVal1 ? location?.state?.filtervalue?.FilterVal1 : location?.state?.filtervalue?.menuname} */}
-                        {menuParamsState?.FilterVal2 ? menuParamsState?.FilterVal2 : menuParamsState?.FilterVal1 ? menuParamsState?.FilterVal1 : menuParamsState?.menuname}
-                        &nbsp;{newProData?.length != 0 || ProductApiData2?.length != 0 ? prodCount : 0} <span style={{ textTransform: 'capitalize' }}>Designs</span>
-                        <br />
-                        <span style={{ fontSize: '10px' }}>{`${menuParamsState?.menuname || ''}${menuParamsState?.FilterVal1 ? ` > ${menuParamsState?.FilterVal1}` : ''}${menuParamsState?.FilterVal2 ? ` > ${menuParamsState?.FilterVal2}` : ''}`}</span>
-                      </p>
-                    </div>
-                    <img src={`${storImagePath()}/images/HomePage/MainBanner/image/featuresImage.png`} className='featherImage' />
-                  </div>
-                </div>
-              </div>
+            <div style={{ width: '100%',display:'flex',justifyContent:'center'}}>
               <div className="filterDivcontainer">
                 <div className="part" style={{ flex: '20%' }}>
                   <div className="part-content" onClick={handleFilterShow} style={{ fontSize: '12px' }}>
@@ -2644,33 +2651,34 @@ const ProductList = () => {
               <div className="smilingProductMain" id="smilingProductMain">
                 <div
                   className="smilingProductSubMain"
-                  style={{ width: "100%", display: "flex", position: "relative" }}
+                  style={{ width: "100%", display: "flex", position: "relative",gap:'14px'}}
                 >
                   <div className="smilingWebProductListSideBar" style={{ transition: "1s ease", width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: newProData?.length != 0 || ProductApiData2?.length != 0 && "absolute" }}>
-                    <ul className="d-flex" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '0px 20px 0px 0px' }}>
-                      <li className="finejwelery me-4" id="finejwelery" style={{ fontSize: '14px' }}>
-                        Filters
+                    <ul className="d-flex" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '0px 20px 0px 0px',marginTop:'10px'}}>
+                      <li className="finejwelery me-4" id="finejwelery" style={{ fontSize: '14px',marginTop:'5px'}}>
+                        Filters:
                         {/* {newProData.length > 0 ? ` (${newProData.length}/${ProductApiData2?.length}) ` : null} */}
                       </li>
-                      <li className="finejwelery" id="finejwelery"
+                      <li 
+                      // className="finejwelery" id="finejwelery"
                         onClick={() => handlePageReload()}
-                        style={{ cursor: 'pointer', fontSize: '14px' }}>
+                        style={{ cursor: 'pointer', fontSize: '12px',listStyle:'none',color:'#a8807c',fontFamily:'Poppins, sans-serif'}}>
                         {
                           (Object.values(filterChecked)).filter(fc => fc.checked !== false).filter(fc => fc.checked !== undefined).length ?
-                            "Clear All"
+                            "Clean All"
                             :
                             // `Product: ${ProductApiData2?.length}`
                             null
                         }
                       </li>
                     </ul>
-                    <div>
+                    <div style={{borderTop:'1px solid #e1e1e1'}}>
                       {NewFilterData1().map((ele, index) => (
                         <>
                           <Accordion
                             elevation={0}
                             sx={{
-                              borderBottom: "1px solid #c7c8c9",
+                              // borderBottom: "1px solid #c7c8c9",
                               borderRadius: 0,
                               "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
                                 borderBottomLeftRadius: "0px",
@@ -2800,6 +2808,7 @@ const ProductList = () => {
                                     alignItems: "center",
                                     justifyContent: 'space-between',
                                     gap: "12px",
+                                    fontFamily:'Poppins, sans-serif'
                                   }}
                                   key={i}
                                 >
@@ -2939,12 +2948,42 @@ const ProductList = () => {
                       width: isShowfilter ? "80%" : "100%",
                       display: "flex",
                       flexDirection: 'column',
-                      transition: "1s ease"
+                      transition: "1s ease",
+                      // marginTop:'45px'
                       // margin: "40px 0px 0px 0px",
                     }}
                     className="smilingProductImageMain"
                     id="smilingProductImageMain"
                   >
+                    <div className="productheader">
+                      <div className="productheader part" >
+                      <div>
+                          {/* <p style={{display:'flex',color:'#ccc'}}>Showing &nbsp; <span>{(ProductApiData2?.length*Number(pageSize)-prodPageSize)+1}</span>-<span>{ProductApiData2?.length*Number(pageSize)}</span> &nbsp; of &nbsp; <span>{prodCount} </span> &nbsp;Products</p> */}
+                          <p style={{display:'flex',color:'#ccc',fontFamily:'Poppins, sans-serif',fontSize:'14px'}}>Showing &nbsp; <span style={{color:'#666'}}>{ProductApiData2?.length} of </span> &nbsp; <span style={{color:'#666'}}>{prodCount} </span> &nbsp;Products</p>
+                      </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            // width: '95%',
+                            gap: '12px'
+                          }}
+                        >
+                          <label style={{marginTop:'5px',color:'#333333',fontSize:'13px',fontFamily:'Poppins, sans-serif'}}>sort by:</label>
+                          <select
+                            className='sortMenuSelection'
+                            onChange={handleSortChange}
+                            value={selectedSortOption}
+                          >
+                            {sortOptions?.map((option, index) => (
+                              <option key={index} value={option.label}>
+                                {(option.label).toUpperCase()}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
                     {/* <div
                     style={{
                       width: "100%",
@@ -2978,10 +3017,12 @@ const ProductList = () => {
                       <ProductFilterSkelton />
                     ) :
                       <>
-                        {newProData?.length != 0 || ProductApiData2?.length != 0 ? (
+                        {(newProData?.length != 0 || ProductApiData2?.length != 0) ? (
                           <div className={`smilingAllProductDataMainMobile
                                     ${show2ImagesView ? "smilingAllProductDataMainMobileShow2Image" : ""}
-                                    ${show4ImagesView ? "smilingAllProductDataMainMobileShow4Image" : ""}`}>
+                                    ${show4ImagesView ? "smilingAllProductDataMainMobileShow4Image" : ""}`}
+                                    // style={{backgroundColor:'#fbfbfb'}}
+                                    >
                             {/* RollOverImageName */}
                             {/* {(newProData.length ? newProData : finalDataOfDisplaying())?.map((products, i) => ( */}
                             {(rangeProData.length ? rangeProData : (newProData?.length ? newProData : ProductApiData2))?.map((products, i) =>
@@ -3030,7 +3071,7 @@ const ProductList = () => {
                                         }}
                                         onClick={() => handelProductSubmit(products)}
                                       />
-                                      <Button className="cart-icon">
+                                      <Button className="cart-icon" style={{display:'none'}}>
                                         <Checkbox
                                           icon={
                                             <LocalMallOutlinedIcon
@@ -3049,7 +3090,7 @@ const ProductList = () => {
                                           onChange={(e) => handelCartList(e, products)}
                                         />
                                       </Button>
-                                      <Button className="wishlist-icon">
+                                      <Button className="wishlist-icon" >
                                         <Checkbox
                                           icon={
                                             <FavoriteBorderIcon
@@ -3071,11 +3112,14 @@ const ProductList = () => {
                                     </div>
                                   </div>
                                   <div className={show4ImagesView ? 'listing4-details' : "listing-details"} onClick={() => handelProductSubmit(products)}>
-                                    <p className={show4ImagesView ? "productDetails property4-type" : "productDetails property-type"} style={{ textAlign: 'center', margin: '0px 5px 0px 5px' }}>
+                                    {/* <p className={show4ImagesView ? "productDetails property4-type" : "productDetails property-type"} style={{ textAlign: 'center', margin: '0px 5px 0px 5px' }}>
+                                      {products?.TitleLine}{products?.designno === 'NG101005' && 'cxxxxxxxxx cxzzzzzzzzzzz dssssssssssssss dffsfsfsfffsfs'}
+                                    </p> */}
+                                    <p className="prodTitle" style={{ textAlign: 'center', margin: '0px 5px 0px 5px' }}>
                                       {products?.TitleLine}{products?.designno === 'NG101005' && 'cxxxxxxxxx cxzzzzzzzzzzz dssssssssssssss dffsfsfsfffsfs'}
                                     </p>
                                     <div>
-                                      <p className="property-type" style={{ margin: '0px' , textAlign: 'center' }}>
+                                      <p className="property-type" style={{ margin: '0px' , textAlign: 'center' ,display:'none'}}>
                                         {isMetalTCShow === 1 && <span style={{fontSize: '12px'}}>
                                           {products?.updMC} -
                                           {products?.updMT}
@@ -3083,8 +3127,8 @@ const ProductList = () => {
                                       </p>
                                     </div>
                                   </div>
-                                  <div className={show4ImagesView ? "listing-features4" : "listing-features"} style={{ marginLeft: '2px' }}>
-                                    <div>
+                                  <div className={show4ImagesView ? "listing-features4" : "listing-features"} style={{ marginLeft: '2px',display:'flex',justifyContent:'center'}}>
+                                    <div style={{display:'none'}}> 
                                       {ismetalWShow === 1 &&
                                         <div className={show4ImagesView ? "feature4" : 'feature'}>
                                           <p style={{margin: '0px'}}>
@@ -3133,11 +3177,11 @@ const ProductList = () => {
                                     {/* </div> */}
 
                                     <div>
-                                      <div className={show4ImagesView ? "feature4" : 'feature'}>
+                                      {/* <div className={show4ImagesView ? "feature4" : 'feature'}>
                                         <p style={{margin: '0px' , fontSize: '15px'}}>
                                           <span className="feature-count">{products?.designno}</span>
                                         </p>
-                                      </div>
+                                      </div> */}
 
                                       <p style={{ display: 'flex', margin: '0px' }}>
                                         {/* {products?.MetalTypeName} - */}
@@ -3147,10 +3191,13 @@ const ProductList = () => {
                                 </span>} */}
                                         {isPriceShow === 1 &&
                                           <div className={show4ImagesView ? "feature4" : 'feature'}>
-                                            <p style={{margin: '0px', fontSize: '15px'}}>
-                                              <span className="property-type" style={{ display: 'flex' ,fontSize: '15px', fontWeight: 600 }}>
+                                            <p style={{margin: '0px', fontSize: '15px',display:'flex'}}>
+                                            <label className="from">From:</label>
+                                              &nbsp; <span className="property-type" style={{ display: 'flex',color:"#333",fontSize: '14px', fontWeight: 400}}>
                                                 <div className="currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currData?.Currencysymbol) }} />
-                                                {products?.ismrpbase === 1 ? products?.mrpbaseprice : PriceWithMarkupFunction(products?.markup, products?.price, currData?.CurrencyRate)?.toFixed(2)}
+                                                <div style={{fontFamily:'Roboto, sans-serif',fontSize:'18px'}}>
+                                                  {products?.ismrpbase === 1 ? products?.mrpbaseprice : PriceWithMarkupFunction(products?.markup, products?.price, currData?.CurrencyRate)?.toFixed(2)}
+                                                </div>
                                               </span>
                                             </p>
                                           </div>
@@ -3186,6 +3233,7 @@ const ProductList = () => {
               </div>
             </div>
           </div>
+        </>
         }
       </div>
       <Footer />

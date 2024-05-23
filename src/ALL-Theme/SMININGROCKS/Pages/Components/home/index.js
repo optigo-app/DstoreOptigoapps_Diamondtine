@@ -47,13 +47,13 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       // const APIURL = 'http://zen/api/';
-      const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
-      // const APIURL = 'https://api.optigoapps.com/test/store.aspx';
+      // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
+      const APIURL = 'https://api.optigoapps.com/test/store.aspx';
 
 
       const header = {
         Authorization: 'Bearer optigo_json_api',
-        domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'estore.orail.co.in' : window.location.hostname,
+        domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'dstore.optigoapps.com' : window.location.hostname,
         // domain: 'estore.orail.co.in',
         version: 'Live',
         sp: "1"
