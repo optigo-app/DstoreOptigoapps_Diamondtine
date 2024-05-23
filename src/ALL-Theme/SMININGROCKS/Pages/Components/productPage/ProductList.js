@@ -3021,7 +3021,7 @@ const ProductList = () => {
                           <div className={`smilingAllProductDataMainMobile
                                     ${show2ImagesView ? "smilingAllProductDataMainMobileShow2Image" : ""}
                                     ${show4ImagesView ? "smilingAllProductDataMainMobileShow4Image" : ""}`}
-                                    style={{backgroundColor:'#fbfbfb'}}
+                                    // style={{backgroundColor:'#fbfbfb'}}
                                     >
                             {/* RollOverImageName */}
                             {/* {(newProData.length ? newProData : finalDataOfDisplaying())?.map((products, i) => ( */}

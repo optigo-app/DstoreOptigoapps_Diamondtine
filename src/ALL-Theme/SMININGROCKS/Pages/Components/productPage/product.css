@@ -391,7 +391,7 @@
 .bg-image {
     position: relative;
     height: 140px;
-    /* background-image: url("https://t4.ftcdn.net/jpg/02/92/56/91/360_F_292569116_Phht4uRj1YIuLFgBhrLu8171npBOcJcr.jpg"); */
+    background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png");
     background-size: cover;
     background-position: center;
     /* z-index: -1; */
@@ -405,7 +405,7 @@
     width: 100%;
     height: 100%;
     /* background-color: #d4dbe7; */
-    background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png");
+    /* background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png"); */
     z-index: -1;
 }
 
