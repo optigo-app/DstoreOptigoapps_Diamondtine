@@ -1,0 +1,277 @@
+.smilingDelivery {
+    background-color: white;
+}
+
+.smilingOrderMain {
+    display: flex;
+    margin-inline: 13%;
+    padding-top: 30px;
+}
+
+.smilingdeliverBox1 {
+    width: 100%;
+}
+
+.smilingdeliverBox2 {
+    width: 40%;
+    margin-top: 8%;
+
+}
+
+.smilingDeliverImg {
+    height: 200px;
+    width: 200px;
+}
+
+.AddressMain {
+    border: 1px solid #ccc;
+    width: 350px;
+    word-wrap: break-word;
+    margin-right: 5px;
+    padding: 22px;
+    cursor: pointer;
+    border-radius: 5px;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.addressData {
+    margin: 0px;
+    font-family: "PT Sans", sans-serif;
+    color: rgb(125, 127, 133);
+    text-transform: capitalize;
+    font-size: 14px;
+    /* font-family: "FreightDisp Pro Medium"; */
+}
+
+.deliveryAddressEdit {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    margin-inline: 2px;
+    cursor: pointer;
+}
+
+.deliveryAddressEdit:hover {
+    background-color: lightgray;
+}
+
+
+.deliveryAddressDelete {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    margin-inline: 2px;
+    cursor: pointer;
+}
+
+.deliveryAddressDelete:hover {
+    background-color: lightgray;
+
+}
+
+.smilingAddToAddressBtn {
+    height: 40px;
+    width: 170px;
+    border: none;
+    outline: none;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.smilingAddToAddressBtn:hover {
+    background-color: lightgray;
+}
+
+
+.smilingAddToAddressMBtn {
+    height: 50px;
+    width: 80%;
+    border: none;
+    outline: none;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.smilingAddToAddressMBtn:hover {
+    background-color: lightgray;
+}
+
+.smilingAddressPopupMain {
+    width: 570px;
+    height: 730px;
+}
+
+.smilingDeleveryformSaveBtn {
+    /* height: 35px; */
+    width: 100px;
+    border: none;
+    background: #f6efe6;
+    color: rgba(31, 25, 25, 0.7);
+    font-family: "PT Sans", sans-serif !important;
+    font-weight: 600;
+    opacity: .8;
+    margin-inline: 5px;
+    padding: 6px 10px 6px 10px;
+    border-radius: 5px;
+}
+
+.smilingDeleveryformSaveBtn:hover {
+    background-color: white;
+    border: 1px solid lightgray;
+}
+
+.smilingDeleveryformCansleBtn {
+    /* height: 35px; */
+    width: 100px;
+    border: none;
+    background: #f6efe6;
+    color: rgba(31, 25, 25, 0.7);
+    opacity: .8;
+    font-family: "PT Sans", sans-serif !important;
+    font-weight: 600;
+    padding: 6px 10px 6px 10px;
+    border-radius: 5px;
+}
+
+.smilingDeleveryformCansleBtn:hover {
+    background-color: white;
+    border: 1px solid lightgray;
+}
+
+.smilingDeliverDelerePopu {
+    height: 130px;
+    width: 400px;
+    padding: 10px;
+}
+
+
+.smilingMobileDeliveryBtnMain {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 140px;
+    margin-top: 20px;
+}
+
+
+.filterDivcontainerDelivery {
+    display: flex;
+    border: 1px solid #d9d9d9;
+    overflow: hidden;
+    justify-content: center;
+    margin-block: 20px;
+    /* margin: 0px 100px 0px 100px; */
+}
+
+
+@media screen and (max-width: 1600px) {
+    .smilingOrderMain {
+        margin-inline: 1% !important;
+    }
+}
+
+@media screen and (max-width: 1450px) {
+    .smilingOrderMain {
+        padding-top: 10px !important;
+    }
+}
+
+@media screen and (max-width: 1070px) {
+    .ContiuBtnAddress {
+        display: none!important;
+    }
+}
+
+@media screen and (min-width: 700px) {
+
+    .smilingMobileDeliveryBtnMainMobile {
+        display: none;
+    }
+
+    .smilingMobileDeliveryBtnMainMobilee {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 699px) {
+    .smilingAddToAddressBtn {
+        display: none;
+    }
+
+    .smilingMobileDeliveryBtnMainMobilee {
+        margin-bottom: 10px;
+        margin-top: -20px;
+    }
+
+    .smilingMobileDeliveryBtnMain {
+        display: none;
+    }
+
+    .smilingMobileDeliveryBtnMainMobile {
+        display: flex;
+        position: fixed;
+        justify-content: center;
+        background-color: #ebdcc3;
+        bottom: 0px;
+        width: 100%;
+    }
+
+    .smilingAddressPopupMain {
+        max-width: 100% !important;
+        width: 100% !important;
+
+    }
+
+    .neeeeeeeeeeeeeee .MuiPaper-root {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .smilingOrderMain {
+        margin-inline: 2% !important;
+    }
+
+    .showAddressTotal {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 900px) {
+
+    .BlackBoxTopHeader {
+        display: none !important;
+    }
+
+    .smilingdeliverBox1 {
+        width: 100% !important;
+    }
+
+    .smilingDeliveyAddressMain {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center !important;
+    }
+
+    .smilingMobileDeliveryBtnMain {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .smilingAddressPopupMain {
+        width: 100% !important;
+    }
+}

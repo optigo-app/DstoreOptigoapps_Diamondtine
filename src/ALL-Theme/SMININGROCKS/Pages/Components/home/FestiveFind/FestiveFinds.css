@@ -1,0 +1,300 @@
+/* .FestiveMainImage {
+    position: relative;
+}
+
+.FestiveBannerImage {
+    width: 100%;
+}
+
+.festiveBox {
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 20px;
+}
+
+.DiscoverBtn {
+    margin-top: 30px;
+    height: 60px;
+    width: 200px;
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.DiscoverBtn:hover {
+    border: 1px solid gray;
+    color: gray;
+    background-color: transparent;
+}
+
+@media screen and (max-width: 1024px) {
+    .FestiveMainImage {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .festiveBox {
+        position: static !important;
+        background-color: #c0bbb1;
+        top: 0;
+        left: 0;
+        transform: translate(0%, 0%) !important;
+        text-align: center;
+    }
+
+    .smilingFestiMainTitle1 {
+        font-size: 12px !important;
+        font-weight: 500;
+        margin: 0px;
+        color: white !important;
+    }
+
+    .festiveBox {
+        padding-top: 35px !important;
+    }
+
+    .smilingFestiMainTitle2 {
+        font-size: 30px !important;
+        color: white !important;
+        
+    }
+
+    .smilingFestiMainTitle3 {
+        color: white !important;
+    }
+
+    .DiscoverBtn {
+        width: 200px !important;
+        height: 50px !important;
+        color: white;
+        background-color: gray;
+        font-weight: 500;
+        font-size: 13px;
+    }
+} */
+
+
+.gorGiftMain {
+    display: flex;
+    margin-inline: 12%;
+    color: rgba(29, 50, 88, 0.8)!important;
+    text-align: center;
+    font-size: 22px;
+}
+
+.gorGiftBox1 {
+    width: 45%;
+    margin-top: 13%;
+    margin-inline: 5%;
+
+}
+
+.gorGiftBox1Images {
+    width: 100%;
+}
+
+
+.gorGiftBox2 {
+    width: 55%;
+    margin-top: 7%;
+}
+
+.gorGiftBox2Images {
+    width: 95%;
+    height: 690px;
+}
+
+.gorGiftBoxDesc {
+    font-size: 22px;
+    margin: 0px;
+    font-weight: 300;
+    line-height: 1.25;
+    font-family: "PT Sans", sans-serif;
+}
+
+.gorViewLookBookimg {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.gorViewLookBookDesc {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 50px;
+}
+
+.gorViewLookBookImage {
+    width: 68%;
+}
+
+.gorGiftBoxMainTitleWeb {
+    font-size: 31px;
+    font-weight: 300;
+    font-family:"PT Sans, sans-serif";
+    line-height: 1.25;
+    margin: 0px;
+}
+
+.gorGiftBox1Sub1 {
+    margin-top: 60px;
+}
+
+.gorGiftBox2Sub1 {
+    margin-top: 50px;
+}
+
+@media screen and (max-width: 1550px) {
+
+    .gorGiftBox2Images {
+        width: 95%;
+        height: 100%;
+    }
+
+    .gorGiftMain {
+        display: flex;
+        margin-inline: 3%;
+    }
+
+}
+
+@media screen and (min-width: 751px) {
+    .gorGiftBoxMainTitleMobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 750px) {
+
+    .gorGiftBoxMainTitleWeb {
+        display: none;
+    }
+
+
+    .gorGiftBoxMainTitleMobile {
+        font-size: 31px;
+        font-weight: 300;
+        font-family:"PT Sans, sans-serif";
+        line-height: 1.25px;
+        margin: 30px;
+    }
+
+
+    .gorGiftMain {
+        display: flex;
+        margin-inline: 3%;
+    }
+
+    .gorGiftBox1 {
+        width: 50%;
+        margin-top: 1%;
+        margin-inline: 2%;
+    }
+
+    .gorGiftBox1Images {
+        width: 100%;
+    }
+
+
+    .gorGiftBox2Images {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .gorGiftBox2 {
+        width: 50%;
+        margin-top: 5px !important;
+    }
+
+    .gorGiftBoxDesc {
+        font-size: 15px;
+    }
+
+    .gorGiftBox1Sub1 {
+        margin-top: 0px;
+    }
+
+    .gorGiftBox2Sub1 {
+        margin-top: 0px;
+    }
+
+
+}
+
+@media screen and (max-width: 1100px) {
+    .gorViewLookBookimg{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .gorViewLookBookDesc{
+        width: 75%;
+    }
+}
+
+
+@media screen and (max-width: 750px) {
+    .gorLookBookMain{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .gorViewLookBookImage{
+        width: 100%;
+    }   
+    
+    .gorViewLookBookDesc{
+        width: 100%;
+        margin-left: 0px;
+    }
+}
+
+
+
+
+.gorjanaTrade1Web{
+    cursor: pointer;
+    position: relative;
+}
+
+.gorjanaTrideBox {
+    position: absolute;
+    right: 20%;
+    margin-top: -20%;
+}
+
+
+
+@media screen and (min-width:751px) {
+    .gorjanaTrade1Mobile {
+        display: none;
+    }
+
+ 
+}
+
+@media screen and (max-width:750px) {
+
+    .gorjanaTrade1Web{
+        display: none;
+    }
+
+    .gorjanaTrade1Mobile{
+        cursor: pointer;
+        position: relative;
+    }
+
+    .gorjanaTrideBoxMobile{
+        position: absolute;
+        bottom: 20%;
+        text-align: center;
+        width: 100%;
+    }
+}
