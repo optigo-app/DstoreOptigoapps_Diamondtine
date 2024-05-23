@@ -2,3 +2,17 @@
     opacity: 1;
     visibility: visible;
 }
+
+.image-container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.centered-image {
+    width: 50%;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  

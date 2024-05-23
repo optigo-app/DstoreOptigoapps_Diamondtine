@@ -32,6 +32,10 @@ import SocialMedia from './Gallery/SocialMediaSlider';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { companyLogo, loginState } from '../../../../../Recoil/atom';
 import { Helmet } from 'react-helmet';
+import Topbanner from './topVideo/Topbanner';
+import NewArrivalProduct from './NewArrival/NewArrivalProduct';
+import WidgetsComponents from './Widgets/WidgetsComponents';
+import SocialMediaWidgets from './Widgets/SocialMediaWidgets';
 
 export default function Home() {
   const islogin = useRecoilValue(loginState);
@@ -331,24 +335,22 @@ export default function Home() {
           <title>{title}</title>
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
         </Helmet>
-        {islogin == 'true' ? (
           <>
-            <Video />
-            <Footer />
-          </>
-        ) :
-          <>
-            <Video />
+          <Topbanner/>
+          <NewArrivalProduct/>
+          <WidgetsComponents/>
+          <SocialMediaWidgets/>
+            {/* <Video /> */}
             {/* <SmilingRock /> */}
-            <PromoComponent1 />
-            <BrandsComponent />
-            <PromoComponent2 />
-            <FestiveFinds />
-            <OurCraftmanShip />
-            <GallerySlider />
-            <CompanyData />
-            <AffiliationData />
-            <SocialMedia />
+            {/* <PromoComponent1 /> */}
+            {/* <BrandsComponent /> */}
+            {/* <PromoComponent2 /> */}
+            {/* <FestiveFinds /> */}
+            {/* <OurCraftmanShip /> */}
+            {/* <GallerySlider /> */}
+            {/* <CompanyData /> */}
+            {/* <AffiliationData /> */}
+            {/* <SocialMedia /> */}
             {/* <DaimondEveyone /> */}
             {/* <ShopByCategory /> */}
             {/* <SmilingBrides /> */}
@@ -360,7 +362,6 @@ export default function Home() {
             {/* <ShopOurInstagram /> */}
             <Footer />
           </>
-        }
       </div>
     </div>
   )
