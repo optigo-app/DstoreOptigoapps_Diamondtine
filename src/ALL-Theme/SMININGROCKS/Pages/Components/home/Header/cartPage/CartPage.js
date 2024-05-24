@@ -39,10 +39,11 @@ import noFoundImage from "../../../../assets/image-not-found.png"
 import { FullProInfoAPI } from "../../../../../Utils/API/FullProInfoAPI";
 import { findCsQcIdDiff, findDiaQcId, findMetalType, findMetalTypeId, findValueFromId, storImagePath } from "../../../../../Utils/globalFunctions/GlobalFunction";
 import { SingleProductAPI } from "../../../../../Utils/API/SingleProductAPI";
-import { IoArrowBackOutline } from "react-icons/io5";
+import { IoArrowBackOutline, IoClose } from "react-icons/io5";
 import { getDesignPriceList } from "../../../../../Utils/API/PriceDataApi";
 import { productListApiCall } from "../../../../../Utils/API/ProductListAPI";
 import { FilterListAPI } from "../../../../../Utils/API/FilterListAPI";
+import notFound from "../../../../assets/image-not-found.png";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -341,7 +342,7 @@ export default function CartPage() {
         ele?.A == cartSelectData?.autocode
     );
 
-    console.log("cartmtrd",mtrd)
+    console.log("cartmtrd", mtrd)
 
     let showPrice = 0;
     if (mtrd && mtrd.length > 0) {
@@ -383,7 +384,7 @@ export default function CartPage() {
       let totalPrice = diaqcprice?.reduce((acc, obj) => acc + obj.S, 0)
       let diaRate = diaqcprice?.reduce((acc, obj) => acc + obj.O, 0)
       let diaSettRate = diaqcprice?.reduce((acc, obj) => acc + obj.Q, 0)
-      console.log("cartdiaqcprice",totalPrice)
+      console.log("cartdiaqcprice", totalPrice)
       setDqcRate(diaRate ?? 0)
       setDqcSettRate(diaSettRate ?? 0)
       setDqcData(totalPrice ?? 0)
@@ -419,8 +420,8 @@ export default function CartPage() {
 
     );
 
-    console.log("cartcsqcpirce",csqcpirce)
-    
+    console.log("cartcsqcpirce", csqcpirce)
+
     let showPrice2 = 0;
     if (csqcpirce && csqcpirce.length > 0) {
       // showPrice2 = srProductsData?.price - ((srProductsData?.price - srProductsData?.csrd2) + (csqcpirce[0]?.S ?? 0));
@@ -688,7 +689,7 @@ export default function CartPage() {
   };
 
 
-  
+
   const [remakrAutuCode, setRemarkAutoCodr] = useState(false);
   const [reamkrDesignNumber, setDesignNumebr] = useState(false);
 
@@ -732,10 +733,7 @@ export default function CartPage() {
     }
   };
 
-  const [lastEnteredQuantity, setLastEnteredQuantity] = useState(cartSelectData?.Quantity || "");
-  useEffect(() => {
-    setLastEnteredQuantity(cartSelectData?.Quantity || "");
-  }, [cartSelectData]);
+  const [lastEnteredQuantity, setLastEnteredQuantity] = useState({});
 
   const handleInputChange = (event) => {
     let { value } = event.target;
@@ -746,14 +744,14 @@ export default function CartPage() {
   };
 
 
-  const handleUpdateQuantity = async (num) => {
+  const handleUpdateQuantity = async (designNo, updatedQuantity) => {
     setQtyUpdateWaiting(true);
     try {
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const { FrontEnd_RegNo } = storeInit;
       const combinedValue = JSON.stringify({
-        designno: `${num}`,
-        Quantity: `${lastEnteredQuantity}`,
+        designno: `${designNo}`,
+        Quantity: `${updatedQuantity}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
         Customerid: `${customerID}`,
       });
@@ -763,25 +761,24 @@ export default function CartPage() {
         f: "header (handleUpdateQuantity)",
         p: encodedCombinedValue,
       };
-      if (lastEnteredQuantity !== "") {
+      if (updatedQuantity !== "") {
         const response = await CommonAPI(body);
         if (response.Data.rd[0].stat === 1) {
           await getCartData()
           toast.success("QTY change successfully");
-          setQtyUpdateWaiting(false);
         } else {
           alert("Error");
         }
       } else {
         toast.error("ERROR !!!,Please Check QTY");
-        // setLastEnteredQuantity((prev)=>prev)
       }
     } catch (error) {
       console.error("Error:", error);
     } finally {
-
+      setQtyUpdateWaiting(false);
     }
   };
+  
 
   const [value, setValue] = useState(0);
 
@@ -868,7 +865,7 @@ export default function CartPage() {
   useEffect(() => {
     const selectedSize = sizeData.find((size) => size.sizename === (sizeOption))
 
-    console.log("selectedSize",selectedSize);
+    console.log("selectedSize", selectedSize);
 
     if (selectedSize) {
       setSizeMarkup(selectedSize?.MarkUp)
@@ -1169,14 +1166,14 @@ export default function CartPage() {
   }, [catSizeData, mtrdData, dqcData, currData, csqcData, sizeMarkup, metalUpdatedPrice, diaUpdatedPrice, colUpdatedPrice])
 
   console.log("breckupprice",
-     (((mtrdData?.V ?? 0) / currData?.CurrencyRate) + (mtrdData?.W ?? 0) + (mtrdData?.X ?? 0)),
-     (dqcData ?? 0),
-     (csqcData ?? 0),
-     ((sizeMarkup ?? 0) / (currData?.CurrencyRate) ?? 0),
-     (metalUpdatedPrice() ?? 0),
-     (diaUpdatedPrice() ?? 0),
-     (colUpdatedPrice() ?? 0)
-    );
+    (((mtrdData?.V ?? 0) / currData?.CurrencyRate) + (mtrdData?.W ?? 0) + (mtrdData?.X ?? 0)),
+    (dqcData ?? 0),
+    (csqcData ?? 0),
+    ((sizeMarkup ?? 0) / (currData?.CurrencyRate) ?? 0),
+    (metalUpdatedPrice() ?? 0),
+    (diaUpdatedPrice() ?? 0),
+    (colUpdatedPrice() ?? 0)
+  );
 
 
   function FinalPrice() {
@@ -1221,7 +1218,7 @@ export default function CartPage() {
 
   const [openItemRemark, setOpenItemRemark] = useState(false);
 
-  const handleClickOpenItemRemark = (autoCode , designNumbder) => {
+  const handleClickOpenItemRemark = (autoCode, designNumbder) => {
     setOpenItemRemark(true);
     setRemarkAutoCodr(autoCode);
     setDesignNumebr(designNumbder);
@@ -1279,1560 +1276,229 @@ export default function CartPage() {
 
   const [qtyUpdateWaiting, setQtyUpdateWaiting] = useState(false);
 
-  const handleIncrementQuantity = () => {
-    const incrementedQuantity = parseInt(lastEnteredQuantity) + 1; // Increment quantity by 1
-    setLastEnteredQuantity(incrementedQuantity.toString()); // Update comment quantity state
-    handleUpdateQuantity(prodSelectData?.designno); // Call handleUpdateQuantity with the incremented quantity
+  const handleIncrementQuantity = (designNo,q) => {
+    setLastEnteredQuantity({designNo: q+1, d:designNo,Q:q+1});
+    handleUpdateQuantity(designNo, q+1 );
   };
-
-  const handleDecrementQuantity = () => {
-    if (parseInt(lastEnteredQuantity) > 1) { // Prevent quantity from going below 1
-      const decrementedQuantity = parseInt(lastEnteredQuantity) - 1; // Decrement quantity by 1
-      setLastEnteredQuantity(decrementedQuantity.toString());
-      handleUpdateQuantity(prodSelectData?.designno); // Call handleUpdateQuantity with the decremented quantity
+  
+  const handleDecrementQuantity = (designNo, q) => {
+    if (q > 1) {
+      setLastEnteredQuantity({ designNo: q - 1, d: designNo, Q: q - 1 });
+      handleUpdateQuantity(designNo, q - 1);
     }
   };
 
+
+console.log('lastequantity', lastEnteredQuantity);
   console.log('FinalPrice()', FinalPrice());
   console.log('FinalPrice() * lastEnteredQuantityFinalPrice() * lastEnteredQuantity', FinalPrice() * lastEnteredQuantity);
+
+  const items = [
+    { title: 'Subtotal', price: '₹3,01,500.00' },
+    { title: 'Shipping', price: 'Free Shipping' },
+    { title: 'Total', price: '₹3,01,500.00' },
+  ];
+
   return (
     <>
       <div
         className="paddingTopMobileSet"
       >
-        {isLoading && (
-          <div className="loader-overlay">
-            <CircularProgress className="loadingBarManage" />
-          </div>
-        )}
-        <ToastContainer />
-        <Dialog open={open} onClose={handleClose}>
-          <p style={{ padding: '15px 15px 0px 15px', fontWeight: 500 }}>Are You Sure To Delete Alll This Item?</p>
-
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
-            <Button onClick={handleClose} color="primary">
-              NO
-            </Button>
-            <Button onClick={handleRemoveAllWishList} color="primary">
-              YES
-            </Button>
-          </div>
-        </Dialog>
-
-        <Dialog open={openItemRemark} onClose={handleCloseItemRemark} >
-          <div className="ItemRemarkMain">
-
-            <p style={{ padding: '15px 15px 0px 15px', fontWeight: 500 }} >Add The Item Remark..</p>
-            <div className="d-flex flex-row align-items-start">
-              <textarea
-                className="form-control ml-1 shadow-none textarea"
-                defaultValue={""}
-                value={remarks}
-                style={{
-                  height: '160px',
-                  fontSize: '13px',
-                  marginInline: '10px'
-                }}
-                onChange={(event) =>
-                  handleInputChangeRemarks(event)
-                }
-              />
-            </div>
-            <div className="mt-2 text-right" style={{display: 'flex' , justifyContent: 'flex-end'}}>
-              <Button
-                className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                type="button"
-                onClick={() => handleSubmit(cartSelectData)}
-              >
-                Save
-              </Button>
-              <Button
-                className="btn btn-outline-primary btn-sm cancelremarkbtn ml-1 shadow-none"
-                type="button"
-                onClick={handleCloseItemRemark}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </Dialog>
-
-
-        <Dialog open={openOrderRemark} onClose={handleCloseOrderRemark} >
-          <div className="ItemRemarkMain">
-
-            <p style={{ padding: '15px 15px 0px 15px', fontWeight: 500 }} >Add The Order Remark..</p>
-
-            <div className="d-flex flex-row align-items-start">
-              <textarea
-                className="form-control ml-1 shadow-none textarea"
-                defaultValue={""}
-                value={Mainremarks}
-                style={{
-                  height: '160px',
-                  fontSize: '13px',
-                  marginInline: '10px'
-                }}
-                onChange={(e) => handleInputChangeMainRemarks(e)}
-              />
-            </div>
-            <div className="mt-2 text-right Orderremarkbtn">
-              <Button
-                className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                type="button"
-                onClick={submitMainRemrks}
-              >
-                Save
-              </Button>
-              <Button
-                className="btn btn-outline-primary btn-sm cancelremarkbtn ml-1 shadow-none"
-                type="button"
-                onClick={handleCloseOrderRemark}
-              >
-                Cancel
-              </Button>
-            </div>
-
-            {/* <div className="d-flex flex-row align-items-start">
-              <textarea
-                className="form-control ml-1 shadow-none textarea"
-                defaultValue={""}
-                value={remarks}
-                style={{
-                  height: '100px',
-                  fontSize: '13px',
-                  marginInline: '10px'
-                }}
-                onChange={(event) =>
-                  handleInputChangeRemarks(event)
-                }
-              />
-            </div>
-            <div className="mt-2 text-right">
-              <Button
-                className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                type="button"
-                onClick={() => handleSubmit(cartSelectData)}
-              >
-                Save
-              </Button>
-              <Button
-                className="btn btn-outline-primary btn-sm cancelremarkbtn ml-1 shadow-none"
-                type="button"
-                onClick={handleCloseOrderRemark}
-              >
-                Cancel
-              </Button>
-            </div> */}
-          </div>
-        </Dialog>
-        <div className="smilingCartPageMain">
-          <div
-            style={{
-              width: "-webkit-fill-available",
-              backgroundColor: "white",
-              zIndex: "111",
-            }}
-          >
-            {cartListData?.length !== 0 && !isLoading &&
-              <div class="bg-imageCart">
-                <div class="overlay"></div>
-                <div class="text-container">
-                  <div className='textContainerData'>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <p className="designCounttext" style={{ fontSize: '30px', fontWeight: '500', letterSpacing: '1px', textTransform: 'uppercase' }}>
-                        My Cart
-                      </p>
-                    </div>
-                    <img src={`${storImagePath()}/images/HomePage/MainBanner/image/featuresImage.png`} className='featherImage' />
-                  </div>
+        {cartListData?.length !== 0 && !isLoading &&
+          <div class="bg-imageCart">
+            <div class="overlay"></div>
+            <div class="text-container">
+              <div className='textContainerData'>
+                <div style={{ textAlign: 'center' }}>
+                  <p className="designCounttext" style={{ fontSize: '30px', fontWeight: '400', letterSpacing: '1px', textTransform: 'capitalize' }}>
+                    Shopping Cart <br />
+                  </p>
+                  <span style={{ color: '#AF8538', fontSize: '18px' }}>Shop</span>
                 </div>
               </div>
-            }
-
-            {/* <div className="backErrorMobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              {cartListData?.length !== 0 && (
-                <div className="backErrorMobile">
-                  <IoArrowBackOutline style={{ height: '30px', marginLeft: '5px', width: '30px', color: 'rgb(192 182 182)' }} onClick={() => navigation("/productpage")} />
-                </div>)}
-              <p className="SmiCartTitle" style={{ paddingTop: "30px" }}>
-                My Cart
-              </p>
-              {cartListData?.length !== 0 && (
-                <div className="ClreareAllMobilee">
-                  <p style={{ fontWeight: 600, margin: '0px', textDecoration: 'underline', width: '80px', cursor: 'pointer', color: 'rgb(192 182 182)' }} onClick={handleClickOpen}>Clear All</p>
-                </div>)}
-            </div> */}
-
-            {/* <div
-              className="smilingListCartTopButtonNew"
-              style={{ marginTop: "0px" }}
-
-            >
-
-            </div> */}
-            <div>
-              {cartListData?.length !== 0 && !isLoading &&
-                <div
-                  className="smilingListCartTopButton"
-                  style={{ marginTop: "0px" }}
-                >
-                  <div className="filterDivcontainerCartPage" style={{ width: '100%', height: '60px' }}>
-                    <div className="partCart totalPriceTopMain" style={{ flex: '20%' }}>
-                      <div style={{ display: 'flex' }}>
-                        <span style={{ color: '#7d7f85', fontSize: '16px', marginRight: '3px' }}>Total Price: </span>
-                        <div style={{ display: 'flex' }}>
-                          <div className="currencyFont" style={{ color: '#7d7f85', fontSize: '18px' }} dangerouslySetInnerHTML={{ __html: decodeEntities(currData?.Currencysymbol) }} />
-                          <span style={{ color: '#7d7f85', fontSize: '16px', fontWeight: '500', }}>{cartListData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="divider totalPriceTopMain"></div>
-
-                    <div className="partCart showTotalItemTop" style={{ flex: '20%' }}>
-                      <span style={{ color: '#7d7f85', fontWeight: '500', fontSize: '16px', }}>{cartListData?.length} Items</span>
-
-                    </div>
-
-                    <div className="divider showTotalItemTop"></div>
-
-                    <div className="partCart" style={{ flex: '20%' }}>
-                      <div style={{ display: 'flex', }}>
-                        <p
-                          className="cartPageTopLink"
-                          onClick={handleClickOpen}
-                        >
-                          Clear All
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="divider"></div>
-
-                    <div className="partCart" style={{ flex: '20%' }}>
-                      <p style={{ margin: '0px 10px', fontSize: '16px', fontWeight: 600, cursor: 'prodTitleLine', color: '#7d7f85', textDecoration: 'underline' }} onClick={handleClickOpenOrderRemark}>{cartSelectData?.OrderRemarks ? 'View & Edit Remark' : 'Add Order Remark'}</p>
-                    </div>
-                    <div className="divider"></div>
-
-                    <div className="partCart topPlcaeOrderBtn" style={{ flex: '20%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Button
-                        className="cartPageTopBtn"
-                        onClick={handlePlaceOrder}
-                      // style={{ position: 'absolute', right: '0px', height: '50px' }}
-                      >
-                        Place Order
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              }
-              {cartListData?.length !== 0 && (
-                <>
-                  <button
-                    className="placeOrderCartPageBtnMobile"
-                    onClick={handlePlaceOrder}
-                  >
-                    Place Order
-                  </button>
-                </>
-              )}
-
             </div>
           </div>
+        }
+        <div className="MyCartPageMainDiv">
+          <div className="myCartMainContainer">
+            <div className={cartListData?.length != 0 ? "myCartComponents" : "myCartComponentsNoData"}>
+              <table className="table table-vertical-border table-custom">
+                <thead className="thead-dark table-customThead">
+                  <tr className="table-customTr">
+                    <th style={{ padding: '15px 0px 15px 0px' }}>Product</th>
+                    <th style={{ padding: '15px 0px 15px 0px' }}>Price</th>
+                    <th style={{ padding: '15px 0px 15px 0px' }}>Quantity</th>
+                    <th style={{ padding: '15px 0px 15px 0px' }}>Total</th>
+                    <th style={{ padding: '15px 0px 15px 0px' }}></th>
+                  </tr>
+                </thead>
+                {cartListData?.length == 0
+                  ? !isLoading && (
+                    <tbody className="table-customTbody">
+                      <tr className="table-customTr">
+                        <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}>No products added to the wishlist</td>
+                        <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}></td>
+                        <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}></td>
+                      </tr>
+                    </tbody>
 
-          <CustomTabPanel value={value} index={0}>
-            <div
-              style={{
-                display: "flex",
-                marginTop: '5px'
-              }}
-              className="cartPageMobileSet"
-            >
-              <div className="smilingCartDeatilSub2">
-                {cartListData?.length === 0 ? (
-                  !isLoading && (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginBlock: "90px",
-                      }}
-                    >
-                      <p
-                        style={{
-                          margin: "0px",
-                          fontSize: "20px",
-                          fontWeight: 500,
-                        }}
-                      >
-                        No Data Available
-                      </p>
-                      <p>Please First Add To Cart Data</p>
-                      <button
-                        className="browseBtnMore"
-                        onClick={() => handelBrowse()}
-                      >
-                        BROWSE OUR COLLECTION
-                      </button>
-                    </div>
-                  )
-                ) : (
-                  <div className="mainCartContainer">
-                    {!isLoading && (
-                      <div className="cartProdSection resCon" style={{ scrollbarWidth: cartListData?.length <= 2 && 'none' }}>
-
-                        <div className="cartProdpart" >
-                          {cartListData?.map((item, index) => (
-                            <div
-                              key={item.id}
-                              className={`smiling-cartPageBoxMain ${cartSelectData && cartSelectData.id === item.id ? 'selected' : ''}`}
-                              // onClick={async () => {
-                              //   setCartSelectData(item);
-                              //   setProdFullInfo(item.designno);
-                              //   getSizeData(item.autocode);
-                              //   window.innerWidth <= 1080 &&
-                              //     setDialogOpen(true);
-
-                              //   await SingleProductAPI(item?.designno).then((res) => {
-                              //     let data = res[0]
-                              //     setSingleProdData(data)
-                              //   })
-                              // }}
-                            >
-                              <img
-                                src={item.DefaultImageName != '' ? `${imageURL}/${yKey}/${item.DefaultImageName}` : noFoundImage}
-                                alt="#"
-                                className="cartImageShow"
-                                onError={(e) => {
-                                  e.target.src = noFoundImage;
-                                }}
-                                onClick={async () => {
-                                  setCartSelectData(item);
-                                  setProdFullInfo(item.designno);
-                                  getSizeData(item.autocode);
-                                  window.innerWidth <= 1080 &&
-                                    setDialogOpen(true);
-  
-                                  await SingleProductAPI(item?.designno).then((res) => {
-                                    let data = res[0]
-                                    setSingleProdData(data)
-                                  })
-                                }}
-                              />
-                              <div className="listing-featuresN" style={{ marginTop: '30px' }}>
-                                <p className="designNo">{item.designno}</p>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', margin: '5px 10px 0px 0px' }}>
-                                  <div>
-                                    <div className='feature'>
-                                      <p>
-                                        <span className="feature-count">NWT :{" "} </span> {item?.MetalWeight}
-                                      </p>
-                                    </div>
-                                    <div className='feature'>
-                                      <p style={{ margin: '0px' }}>
-                                        <span className="feature-count">DWT :{" "} </span>  {(item?.Rec_DiamondWeight).toFixed(3)} /{" "}
-                                        {item?.totaldiamondpcs}
-                                      </p>
-                                    </div>
-                                    <div className='feature'>
-                                      <p>
-                                        {/* <span className="feature-count">{item?.designno}</span> */}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <div className='feature'>
-                                      <p>
-                                        <span className="feature-count">CWT :{" "} </span>  {item?.Rec_CSWeight} /{" "}
-                                        {item?.totalcolorstonepcs}
-                                      </p>
-                                    </div>
-                                    <div className='feature'>
-                                      <p style={{ margin: '0px' }}>
-                                        <span className="feature-count">GWT :{" "}  </span>   {(item?.grossweight).toFixed(3)}
-                                      </p>
-                                    </div>
-                                    {/* <div className='feature'>
-                                    <p>
-                                      <span className="feature-count" style={{ display: 'flex' }}>
-                                        <div className="currencyFont" dangerouslySetInnerHTML={{ __html: decodeEntities(currData?.Currencysymbol) }} />
-                                        {(
-                                      (((mtrdData?.V ?? 0) / currData?.CurrencyRate) + (mtrdData?.W ?? 0)) +
-                                      (dqcData ?? 0) +
-                                      (csqcData ?? 0) +
-                                      (sizeMarkup ?? 0) +
-                                      (metalUpdatedPrice() ?? 0) +
-                                      (diaUpdatedPrice() ?? 0) +
-                                      (colUpdatedPrice() ?? 0)
-                                    ).toFixed(2)}
-                                    </span>
-                                    </p>
-                                  </div> */}
-                                  </div>
-                                </div>
-
-                                <p style={{ position: 'absolute', bottom: '12px' }}>{item?.Remarks ? 'Remark : ' + item?.Remarks : ''}</p>
-                                <div className="bottomBtnCart" style={{ display: 'flex', justifyContent: 'space-between', position: 'absolute', bottom: '10px', width: '35%' }}>
-                                  <p onClick={() => handleClickOpenItemRemark(item.autocode , item.designno)} style={{ margin: '0px', fontSize: '13px', cursor: 'pointer', color: '#7d7f85', textDecoration: 'underline' }}>Item Remark</p>
-                                  <p style={{ margin: '0px', fontSize: '13px', cursor: 'pointer', color: '#7d7f85', textDecoration: 'underline' }}
-                                    onClick={() => handleRemove(item)}
-                                  >Remove</p>
-                                </div>
-
-                                {/* <div
-                                style={{
-                                  cursor: "pointer",
-                                  position: "absolute",
-                                  right: "0px",
-                                  top: "0px",
-                                  backgroundColor: "black",
-                                  borderRadius: "2px",
-                                  opacity: "0.8",
-                                }}
-                                onClick={() => handleRemove(item)}
-                              >
-                                <CloseIcon
-                                  sx={{ color: "white", fontSize: "22px" }}
-                                />
-                              </div> */}
-
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        {/* <div className="">
-                          <div className="container-fluid mainOrderRenarkConatiner m-3" style={{ border: MainremarksApires != '' && '1px solid rgb(225, 225, 225)', borderRadius: '12px' }}>
-                            <div className="d-flex justify-content-center row">
-                              <div className="col-md-12">
-                                <div className="d-flex flex-column comment-section">
-                                  {MainremarksApires != '' ?
-                                    <>
-                                      <div className="bg-white p-2">
-                                        <div className="d-flex flex-row user-info">
-                                          <h6 className="remarkText">Order Remark</h6>
-                                        </div>
-                                        <div className="mt-2">
-                                          <p className="comment-text remarkText w-100" style={{ wordWrap: 'break-word' }}>
-                                            {MainremarksApires != '' ? MainremarksApires : cartSelectData?.OrderRemarks}
-                                          </p>
-                                        </div>
-                                      </div>
-                                      {!showOrderRemarkFields &&
-                                        <div className="mt-2 mb-2 text-right Orderremarkbtn">
-                                          <button
-                                            className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                                            type="button"
-                                            onClick={handleShowOrderReamrkFields}
-                                          >
-                                            Add Order Remark
-                                          </button>
-                                        </div>
-                                      }
-                                    </>
-                                    :
-                                    <p onClick={handleShowOrderReamrkFields} style={{ margin: '10px 0px', textAlign: 'end', fontSize: '18px', cursor: 'pointer', color: '#7d7f85', textDecoration: 'underline' }}>Add Order Remark</p>
-                                  }
-                                  {showOrderRemarkFields &&
-                                    <div className={`p-2 remark-fields ${showOrderRemarkFields ? 'active' : ''}`}>
-                                      <div className="d-flex flex-row align-items-start">
-                                        <textarea
-                                          className="form-control ml-1 shadow-none textarea"
-                                          defaultValue={""}
-                                          value={Mainremarks}
-                                          style={{
-                                            height: '100px',
-                                            fontSize: '13px'
-                                          }}
-                                          onChange={(e) => handleInputChangeMainRemarks(e)}
-                                        />
-                                      </div>
-                                      <div className="mt-2 text-right Orderremarkbtn">
-                                        <button
-                                          className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                                          type="button"
-                                          onClick={submitMainRemrks}
-                                        >
-                                          Save
-                                        </button>
-                                        <button
-                                          className="btn btn-outline-primary btn-sm cancelremarkbtn ml-1 shadow-none"
-                                          type="button"
-                                          onClick={() => setShowOrderRemarkFields(!showOrderRemarkFields)}
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
-                                    </div>
-                                  }
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div> */}
-                      </div>
-                    )}
-                    {!isLoading && (
-                      <div className="resproDet">
-                        <div
-                          className="smilingCartDeatilSub1"
-                          style={{
-                            display:
-                              !prodSelectData && !cartSelectData && "none",
-                          }}
-                        >
-                          <div className="popUpcontainer">
-                            <div style={{ display: 'flex', justifyContent: 'end' }}>
-                              <div
-                                style={{
-                                  borderRadius: "12px",
-                                  width: "90%",
-                                  height: "410px",
-                                  border: "1px solid #e1e1e1",
-                                  overflow: 'hidden',
-                                  position: 'relative'
-                                }}
-                                className="CartPageMainImageShowMobile"
-                              >
-                                <img
-                                  src={
-                                    storeInitData?.DesignImageFol +
-                                    cartSelectData?.DefaultImageName?.slice(13)
-                                  }
-                                  style={{
-                                    borderRadius: "12px",
-                                    width: "100%",
-                                    height: "100%"
-                                  }}
-                                  onError={(e) => {
-                                    e.target.src = noFoundImage;
-                                  }}
-                                />
-                                <p style={{ position: 'absolute', top: '5px', left: '5px', fontSize: '14px' }}>{cartSelectData?.designno}</p>
-                              </div>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'end' }} className="cartCustomizationMainMobileMain">
-                              <div style={{ width: "90%" }} className="cartCustomizationMainMobile">
-                                <div
-                                  style={{
-                                    width: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                  }}
-                                  className="srcolorsizecarat"
-                                >
-                                  {isProductCuFlag === 1 && (
-                                    <div
-                                      style={{
-                                        // borderTop: "1px solid #e1e1e1",
-                                        marginInline: "-10px",
-                                        padding: "10px",
-                                      }}
-                                    >
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "space-between",
-                                          flexWrap: "wrap",
-                                          // marginTop: "50px",
-                                        }}
-                                      >
-                                        {isMetalCutoMizeFlag == 1 && (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              flexDirection: "column",
-                                              width: "45%",
-                                            }}
-                                          >
-                                            <label
-                                              style={{
-                                                fontSize: "12.5px",
-                                                color: "#7d7f85",
-                                              }}
-                                            >
-                                              METAL TYPE :
-                                            </label>
-                                            <select
-                                              style={{
-                                                border: "none",
-                                                outline: "none",
-                                                color: "#7d7f85",
-                                                backgroundColor: 'rgb(244 244 244)',
-                                                fontSize: "12.5px",
-                                                height: '30px'
-                                              }}
-                                              // value={mtTypeOption ?? cartSelectData?.metal}
-                                              value={mtTypeOption}
-                                              onChange={(e) =>
-                                                setmtTypeOption(e.target.value)
-                                              }
-                                            >
-                                              {metalType.map((data, index) => (
-                                                <option
-                                                  key={index}
-                                                  value={data.metalType}
-                                                >
-                                                  {data.metaltype}
-                                                </option>
-                                              ))}
-                                            </select>
-                                          </div>
-                                        )}
-
-                                        {isMetalCutoMizeFlag == 1 && (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              flexDirection: "column",
-                                              width: "45%",
-                                            }}
-                                          >
-                                            <label
-                                              style={{
-                                                fontSize: "12.5px",
-                                                color: "#7d7f85",
-                                              }}
-                                            >
-                                              METAL COLOR :
-                                            </label>
-                                            <select
-                                              style={{
-                                                border: "none",
-                                                outline: "none",
-                                                backgroundColor: 'rgb(244 244 244)',
-                                                color: "#7d7f85",
-                                                fontSize: "12.5px",
-                                                height: '30px'
-
-                                              }}
-                                              value={selectedColor}
-                                              onChange={(e) =>
-                                                setSelectedColor(e.target.value)
-                                              }
-                                            >
-                                              {metalColorData.map((colorItem) => (
-                                                <option
-                                                  key={colorItem.ColorId}
-                                                  value={colorItem.metalcolorname}
-                                                >
-                                                  {colorItem.metalcolorname}
-                                                </option>
-                                              ))}
-                                            </select>
-                                          </div>
-                                        )}
-
-                                        {isDaimondCstoFlag == 1 && (cartSelectData?.totalDiaWt !== 0 || cartSelectData?.totaldiamondpcs !== 0) && (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              flexDirection: "column",
-                                              width: "45%",
-                                              marginTop: "20px",
-                                            }}
-                                          >
-                                            <label
-                                              style={{
-                                                fontSize: "12.5px",
-                                                color: "#7d7f85",
-                                              }}
-                                            >
-                                              DIAMOND :
-                                            </label>
-                                            <select
-                                              style={{
-                                                border: "none",
-                                                outline: "none",
-                                                color: "#7d7f85",
-                                                backgroundColor: 'rgb(244 244 244)',
-                                                fontSize: "12.5px",
-                                                height: '30px'
-                                              }}
-                                              value={diaQColOpt}
-                                              onChange={(e) =>
-                                                setDiaQColOpt(e.target.value)
-                                              }
-                                            >
-                                              {colorData?.map((colorItem) => (
-                                                <option
-                                                  key={colorItem.ColorId}
-                                                  value={`${colorItem.Quality}#${colorItem.color}`}
-                                                >
-                                                  {`${colorItem.Quality}#${colorItem.color}`}
-                                                </option>
-                                              ))}
-                                            </select>
-                                          </div>
-                                        )}
-
-                                        {isCColrStoneCustFlag == 1 &&
-                                          (cartSelectData?.totalcolorstonepcs !== 0 ||
-                                            cartSelectData?.totalCSWt !== 0) && (
-                                            <div
-                                              style={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                width: "45%",
-                                                marginTop: "20px",
-                                              }}
-                                            >
-                                              <label
-                                                style={{
-                                                  fontSize: "12.5px",
-                                                  color: "#7d7f85",
-                                                }}
-                                              >
-                                                COLOR STONE :
-                                              </label>
-                                              <select
-                                                style={{
-                                                  border: "none",
-                                                  outline: "none",
-                                                  backgroundColor: 'rgb(244 244 244)',
-                                                  color: "#7d7f85",
-                                                  fontSize: "12.5px",
-                                                  height: '30px'
-                                                }}
-                                                value={cSQopt}
-                                                onChange={(e) =>
-                                                  setCSQOpt(e.target.value)
-                                                }
-                                              >
-                                                {DaimondQualityColor.map(
-                                                  (data, index) => (
-                                                    <option
-                                                      key={index}
-                                                      value={`${data.Quality}_${data.color}`}
-                                                    >
-                                                      {`${data.Quality}_${data.color}`}
-                                                    </option>
-                                                  )
-                                                )}
-                                              </select>
-                                            </div>
-                                          )}
-
-                                        {(sizeData?.length !== 0 && (productData?.DefaultSize && productData.DefaultSize.length !== 0)) && (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              flexDirection: "column",
-                                              width: "45%",
-                                              marginTop: "20px",
-                                            }}
-                                          >
-                                            <label
-                                              style={{
-                                                fontSize: "12.5px",
-                                                color: "#7d7f85",
-                                              }}
-                                            >
-                                              SIZE :
-                                            </label>
-                                            <select
-                                              style={{
-                                                border: "none",
-                                                outline: "none",
-                                                backgroundColor: 'rgb(244 244 244)',
-                                                color: "#7d7f85",
-                                                fontSize: "12.5px",
-                                                height: '30px'
-                                              }}
-                                              onChange={(e) =>
-                                                handelSize(e.target.value)
-                                              }
-                                              value={sizeOption
-                                                // ??
-                                                // (productData && productData.DefaultSize
-                                                //   ? productData.DefaultSize
-                                                //   : sizeData.find(
-                                                //     (size) =>
-                                                //       size.IsDefaultSize === 1
-                                                //   )?.id)
-                                              }
-                                            >
-                                              {sizeData?.map((size) => (
-                                                <option
-                                                  key={size.id}
-                                                  // value={cartSelectData?.detail_ringsize ?? size.sizename} // Pass sizename as value
-                                                  value={size.sizename} // Pass sizename as value
-                                                // selected={
-                                                //   productData &&
-                                                //   productData.DefaultSize ===
-                                                //   size.sizename
-                                                // }
-                                                >
-                                                  {size.sizename}
-                                                </option>
-                                              ))}
-                                            </select>
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                                <div
-                                  style={{
-                                    marginTop: "20px",
-                                    color: "#7d7f85",
-                                    fontSize: "14px",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  {/* <div
-                                    className="smilingQualityMain"
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <input
-                                      type="number"
-                                      style={{
-                                        border: "0px",
-                                        textAlign: "center",
-                                        outline: "none",
-                                        width: "80px",
-                                        height: "35px",
-                                        border: "1px solid #7d7f85",
-                                      }}
-                                      maxLength={2}
-                                      className="simlingQualityBox"
-                                      inputMode="numeric"
-                                      onClick={(event) => event.target.select()}
-                                      value={lastEnteredQuantity}
-                                      onChange={(event) =>
-                                        handleInputChange(event)
-                                      }
-                                    />
-                                    <button
-                                      className="SmilingUpdateQuantityBtn"
-                                      onClick={() =>
-                                        handleUpdateQuantity(
-                                          prodSelectData?.designno
-                                        )
-                                      }
-                                    >
-                                      QTY
-                                    </button>
-                                  </div> */}
-
-                                  <div className="QTYUpateMain">
-                                    <div>
-                                      <Button className="QtyLess" disabled={qtyUpdateWaiting && true} onClick={handleDecrementQuantity}>-</Button>
-                                    </div>
-                                    <p className="QTYvalue">
-                                      {lastEnteredQuantity}
-                                    </p>
-                                    <div>
-                                      <Button className='QtyAdd' disabled={qtyUpdateWaiting && true} onClick={handleIncrementQuantity}>+</Button>
-                                    </div>
-                                  </div>
-                                  <span>
-                                    <span
-                                      style={{
-                                        fontWeight: "500",
-                                        fontSize: "18px",
-                                        color: "black",
-                                        display: 'flex'
-                                      }}
-                                    >
-                                      <div
-                                        dangerouslySetInnerHTML={{
-                                          __html: decodeEntities(
-                                            currData?.Currencysymbol
-                                          ),
-                                        }}
-                                        style={{ fontFamily: "sans-serif" }}
-                                      />
-                                      {(FinalPrice() * lastEnteredQuantity).toFixed(2)}
-                                    </span>
-                                  </span>
-                                </div>
-                                <div className="similingCartPageBotttomMain">
-                                  <div style={{ textAlign: 'right' }}>
-                                    <button
-                                      style={{
-                                        border: 'none',
-                                        outline: 'none',
-                                        backgroundColor: '#e1e1e1',
-                                        padding: '6px 17px',
-                                        borderRadius: '4px',
-                                      }}
-
-                                      onClick={handleCartUpdate}
-                                    >
-                                      {!isLodingSave ?
-                                        <span
-                                          style={{
-                                            fontSize: "16px",
-                                            fontWeight: "500",
-                                          }}
-                                          className="SaveBtnCart"
-                                          onClick={handleCartUpdate}
-                                        >
-                                          Apply
-                                        </span>
-                                        :
-                                        <span
-                                          className="SaveBtnCart"
-                                          style={{ display: 'flex' }}
-                                        >
-                                          <CircularProgress style={{ height: '20px', width: '20px' }} />
-                                        </span>
-
-                                      }
-                                    </button>
-                                    {/*   <div className="mt-3">
-                                      <div className="container-fluid mainRenarkConatiner" style={{ border: remarksApires != '' && '1px solid rgb(225, 225, 225)', borderRadius: '12px' }}>
-                                        <div className="d-flex justify-content-center row">
-                                          <div className="col-md-12">
-                                            <div className="d-flex flex-column comment-section">
-                                            {remarksApires != '' ?
-                                              <>
-                                                <div className="bg-white p-2">
-                                                  <div className="d-flex flex-row user-info">
-                                                    <h6 className="remarkText">Product Remark</h6>
-                                                  </div>
-                                                  <div className="mt-2">
-                                                    <p className="comment-text remarkText w-100" style={{ wordWrap: 'break-word' }}>
-                                                      {remarksApires != '' ? remarksApires : cartSelectData?.Remarks}
-                                                    </p>
-                                                  </div>
-                                                </div>
-                                                {!showRemarkFields &&
-                                                  <div className="mt-2 mb-2 text-right">
-                                                    <button
-                                                      className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                                                      type="button"
-                                                      onClick={handleShowReamrkFields}
-                                                    >
-                                                      Add Remark
-                                                    </button>
-                                                  </div>
-                                                }
-                                              </>
-                                              :
-                                              <p onClick={handleShowReamrkFields} style={{ margin: '0px', fontSize: '18px', cursor: 'pointer', color: '#7d7f85', textDecoration: 'underline' }}>Add Product Remark</p>
-                                            } 
-
-
-                                              {showRemarkFields &&
-                                                <div className={`p-2 remark-fields ${showRemarkFields ? 'active' : ''}`}>
-                                                  <div className="d-flex flex-row align-items-start">
-                                                    <textarea
-                                                      className="form-control ml-1 shadow-none textarea"
-                                                      defaultValue={""}
-                                                      value={remarks}
-                                                      style={{
-                                                        height: '100px',
-                                                        fontSize: '13px'
-                                                      }}
-                                                      onChange={(event) =>
-                                                        handleInputChangeRemarks(event)
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="mt-2 text-right">
-                                                    <button
-                                                      className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                                                      type="button"
-                                                      onClick={() => handleSubmit(cartSelectData)}
-                                                    >
-                                                      Save
-                                                    </button>
-                                                    <button
-                                                      className="btn btn-outline-primary btn-sm cancelremarkbtn ml-1 shadow-none"
-                                                      type="button"
-                                                      onClick={() => setShowRemarkFields(!showRemarkFields)}
-                                                    >
-                                                      Cancel
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              }
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                    </div> */}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                  </div>
-                )}
-              </div>
-            </div>
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            <div style={{ paddingBottom: "150px", marginTop: "10px" }}>
-              {cartListData?.length === 0 ? (
-                !isLoading && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "200px",
-                    }}
-                  >
-                    <p
-                      style={{
-                        margin: "0px",
-                        fontSize: "20px",
-                        fontWeight: 500,
-                      }}
-                    >
-                      No Data Available
-                    </p>
-                    <p>Please First Add To Cart Data</p>
-                    {/* <button
-                      className="browseBtnMore"
-                      onClick={() => navigation("/productpage")}
-                    >
-                      BROWSE OUR COLLECTION
-                    </button> */}
-                  </div>
-                )
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    padding: '0px 20px 0px 20px'
-                  }}
-                >
-                  <Grid container spacing={2}>
-                    {cartListData.map((item, index) => (
-                      <Grid item xs={12} sm={6} md={3} key={index}>
-                        <Card>
-                          <CardContent>
-                            <Typography variant="body1" component="p" className="ImageViewdesignNo" style={{ position: 'absolute' }}>
-                              {item.designno}
-                            </Typography>
-                            <CardMedia
-                              component="img"
-                              src={item.DefaultImageName !== '' ? `${imageURL}/${yKey}/${item.DefaultImageName}` : noFoundImage}
-                              onError={(e) => {
-                                e.target.src = noFoundImage;
+                  ) :
+                  <tbody className="table-customTbody">
+                    {cartListData?.map((product, index) => (
+                      <tr className="table-customTr" key={product.id}>
+                        <td className="align-middle">
+                          <img
+                            src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
+                            className=""
+                            style={{ cursor: "pointer", maxWidth: '180px', maxHeight: '180px' }}
+                            alt="Wishlist item"
+                            // onClick={() => handelProductSubmit(product)}
+                            onError={(e) => {
+                              e.target.src = notFound;
+                            }}
+                          />
+                          {product.TitleLine}
+                        </td>
+                        <td className="align-middle">
+                          <span>
+                            <span
+                              style={{
+                                fontWeight: "500",
+                                fontSize: "18px",
+                                display: 'flex'
                               }}
-                            />
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </div>
-              )}
-              {/* {cartListData.length > 0 &&
-                <div className="mt-2" style={{ display: 'flex', justifyContent: 'end', margin: '0px 10px 0px 0px' }}>
-                  <div className="container-fluid mainOrderRenarkConatiner" style={{ border: '1px solid rgb(225, 225, 225)', borderRadius: '12px' }}>
-                    <div className="d-flex justify-content-center row">
-                      <div className="col-md-12">
-                        <div className="d-flex flex-column comment-section">
-                          <div className="bg-white p-2">
-                            <div className="d-flex flex-row user-info">
-                              <h6 className="remarkText">Order Remark</h6>
+                            >
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    currData?.Currencysymbol
+                                  ),
+                                }}
+                                style={{ fontFamily: "sans-serif" }}
+                              />
+                              {FinalPrice()}
+                            </span>
+                          </span>
+                        </td>
+                        <td className="align-middle">
+                          <div className="QTYUpateMain">
+                            <div>
+                            <Button className="QtyLess" disabled={qtyUpdateWaiting} onClick={() => handleDecrementQuantity(product?.designno, product?.Quantity)}>-</Button>
                             </div>
-                            <div className="mt-2">
-                              <p className="comment-text remarkText w-100" style={{ wordWrap: 'break-word' }}>
-                                {MainremarksApires != '' ? MainremarksApires : cartSelectData?.OrderRemarks}
-                              </p>
+                            <p className="QTYvalue">
+                              {lastEnteredQuantity.d == product?.designno ? lastEnteredQuantity.Q : product?.Quantity}
+                            </p>
+                            <div>
+                            <Button className='QtyAdd' disabled={qtyUpdateWaiting} onClick={() => handleIncrementQuantity(product?.designno, product?.Quantity)}>+</Button>
                             </div>
                           </div>
+                        </td>
+                        <td className="align-middle">
+                          <span>
+                            <span
+                              style={{
+                                fontWeight: "500",
+                                fontSize: "18px",
+                                color: "#A8807c",
+                                display: 'flex'
+                              }}
+                            >
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: decodeEntities(
+                                    currData?.Currencysymbol
+                                  ),
+                                }}
+                                style={{ fontFamily: "sans-serif" }}
+                              />
+                              {(FinalPrice() * (lastEnteredQuantity?.Q ?? 1)).toFixed(2)}
+                            </span>
+                            </span>
+                            </td>
+                        <td className="align-middle">
+                          <IoClose
+                            style={{
+                              height: "30px",
+                              width: "30px",
+                              cursor: "pointer",
+                              color: "rgba(210,212,215,1)",
+                            }}
+                            onClick={() => handleRemove(product)}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                }
+              </table>
+            </div>
+          </div >
+          <div className="CartPagePaymentDiv">
+            <div className="card cartcardPayment">
+              <div className="card-body">
+                <h5 className="card-title">Card totals</h5>
+                <hr className="border-line" />
 
-                          {!showOrderRemarkFields &&
-                            <div className="mt-2 mb-2 text-right Orderremarkbtn">
-                              <button
-                                className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                                type="button"
-                                onClick={handleShowOrderReamrkFields}
-                              >
-                                Add Order Remark
-                              </button>
-                            </div>
-                          }
-                          {showOrderRemarkFields &&
-                            <div className={`p-2 remark-fields ${showOrderRemarkFields ? 'active' : ''}`}>
-                              <div className="d-flex flex-row align-items-start">
-                                <textarea
-                                  className="form-control ml-1 shadow-none textarea"
-                                  defaultValue={""}
-                                  value={Mainremarks}
-                                  style={{
-                                    height: '100px',
-                                    fontSize: '13px'
-                                  }}
-                                  onChange={(e) => handleInputChangeMainRemarks(e)}
-                                />
-                              </div>
-                              <div className="mt-2 text-right Orderremarkbtn">
-                                <button
-                                  className="btn btn-primary btn-sm shadow-none showremarkbtn me-2"
-                                  type="button"
-                                  onClick={submitMainRemrks}
-                                >
-                                  Save
-                                </button>
-                                <button
-                                  className="btn btn-outline-primary btn-sm cancelremarkbtn ml-1 shadow-none"
-                                  type="button"
-                                  onClick={() => setShowOrderRemarkFields(!showOrderRemarkFields)}
-                                >
-                                  Cancel
-                                </button>
-                              </div>
-                            </div>
-                          }
-                        </div>
-                      </div>
+                <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+                  <p className="card-subtitle">Subtotal</p>
+                  <p className="card-subtitle" style={{ fontWeight: "500", fontSize: "18px" }}>
+                    <span style={{ fontFamily: "sans-serif" }}>
+                      {decodeEntities(currData?.Currencysymbol)}
+                    </span>
+                    {cartListData.reduce((total, product) => total + parseFloat(product?.FinalUnitCost || 0), 0).toFixed(2)}
+                  </p>
+                </div>
+
+                <hr className="border-lines" />
+
+                <div>
+                  <p className="">Shipping</p>
+                  <p className="addinfotext">Free Shipping</p>
+                  <p className="addinfotext">Shipping to <span style={{color:'black', fontWeight:'500'}}>Delhi</span><br />
+                    Estimate for Your Country
+                  </p>
+                  <a href="/Delivery" class="btn btn-link addressLink" role="button">Change address</a>
+                </div>
+
+                <hr className="border-lines" />
+
+                <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+                  <p className="card-total">Total</p>
+                  <p className="card-total" style={{ fontWeight: "500", fontSize: "18px" }}>
+                    <span className="card-totalspan" style={{ fontFamily: "sans-serif" }}>
+                      {decodeEntities(currData?.Currencysymbol)}
+                    </span>
+                    {cartListData.reduce((total, product) => total + parseFloat(product?.FinalUnitCost || 0), 0).toFixed(2)}
+                  </p>
+                </div>
+
+                <div>
+                  <h4>Have a gift card?</h4>
+                  <div>
+                    <input style={{width:'100%', border:'1px solid rgb(239 239 239)', padding:'10px', background:'#f9f9f9'}} type="text" placeholder="Enter your code..."/>
+                    <div>
+                    <button style={{border:'1px solid #a5a5a5',padding:'5px'}}>Apply</button>
                     </div>
                   </div>
-
                 </div>
-              } */}
+                <div className="btn-checkout my-3">
+                  <button className="CheckoutBtn"  onClick={handlePlaceOrder}>PROCEED TO CHECKOUT</button>
+                </div>
+              </div>
             </div>
-          </CustomTabPanel>
-        </div >
-
-        <div
-          style={{
-            position: cartListData?.length === 0 || isLoading ? 'absolute' : 'static',
-            bottom: cartListData?.length === 0 || isLoading ? '0px' : 'auto',
-            width: '100%'
-          }}
-          className="mobileFootreCs"
-        >
-          <Footer />
+          </div>
         </div>
       </div >
-      <Dialog
-        onClose={() => setDialogOpen(false)}
-        open={dialogOpen}
-        // fullWidth
-        // maxWidth={"xl"}
-        fullScreen
+      <div
+        style={{
+          position: cartListData?.length === 0 || isLoading ? 'absolute' : 'static',
+          bottom: cartListData?.length === 0 || isLoading ? '0px' : 'auto',
+          width: '100%'
+        }}
+        className="mobileFootreCs"
       >
-        {!isLoading && (
-          <div style={{ marginTop: "35px" }}>
-            <div>
-              <div
-                style={{
-                  cursor: "pointer",
-                  position: "absolute",
-                  right: "12px",
-                  top: "12px",
-                  borderRadius: "12px",
-                }}
-                onClick={() => setDialogOpen(false)}
-              >
-                <CloseIcon sx={{ color: "black", fontSize: "30px" }} />
-              </div>
-            </div>
-            <div
-              className="smilingCartDeatilSub11"
-              style={{ display: !prodSelectData && !cartSelectData && "none" }}
-            >
-              <div className="popUpcontainer">
-                <img
-                  src={
-                    storeInitData?.DesignImageFol +
-                    cartSelectData?.DefaultImageName?.slice(13)
-                  }
-                  style={{
-                    border: "1px solid #e1e1e1",
-                    borderRadius: "12px",
-                    width: "100%",
-                  }}
-                />
-
-                <div style={{ width: '100%' }}>
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                    className="srcolorsizecarat"
-                  >
-                    <div
-                      style={{
-                        fontSize: "40px",
-                        fontFamily: "FreightDisp Pro Medium",
-                        color: "#7d7f85",
-                        lineHeight: "40px",
-                        marginBottom: "14px",
-                      }}
-                      className="prodTitleLine"
-                    >
-                      {prodSelectData?.TitleLine}
-                    </div>
-
-                    {/* <Divider
-                    sx={{
-                        margin: "12px",
-                        backgroundColor: "#e1e1e1",
-                        marginLeft: "-5px",
-                    }}
-                    /> */}
-                    {isProductCuFlag === 1 && (
-                      <div
-                        style={{
-                          borderTop: "1px solid #e1e1e1",
-                          marginInline: "-10px",
-                          padding: "10px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          {isMetalCutoMizeFlag == 1 && (
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "49%",
-                              }}
-                            >
-                              <label
-                                style={{ fontSize: "12.5px", color: "#7d7f85" }}
-                              >
-                                METAL COLOR:
-                              </label>
-                              <select
-                                style={{
-                                  border: "none",
-                                  outline: "none",
-                                  color: "#7d7f85",
-                                  fontSize: "12.5px",
-                                  height: '25px'
-                                }}
-                                value={selectedColor}
-                                onChange={(e) =>
-                                  setSelectedColor(e.target.value)
-                                }
-                              >
-                                {metalColorData.map((colorItem) => (
-                                  <option
-                                    key={colorItem.ColorId}
-                                    value={colorItem.metalcolorname}
-                                  >
-                                    {colorItem.metalcolorname}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          )}
-
-                          {isMetalCutoMizeFlag == 1 && (
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "49%",
-                              }}
-                            >
-                              <label
-                                style={{ fontSize: "12.5px", color: "#7d7f85" }}
-                              >
-                                METAL TYPE:
-                              </label>
-                              <select
-                                style={{
-                                  border: "none",
-                                  outline: "none",
-                                  color: "#7d7f85",
-                                  fontSize: "12.5px",
-                                  height: '25px'
-
-                                }}
-                                // value={mtTypeOption ?? cartSelectData?.metal}
-                                value={mtTypeOption}
-                                onChange={(e) =>
-                                  setmtTypeOption(e.target.value)
-                                }
-                              >
-                                {metalType.map((data, index) => (
-                                  <option key={index} value={data.metalType}>
-                                    {data.metaltype}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          )}
-                        </div>
-
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            flexWrap: 'wrap',
-                            marginTop: '5px'
-                          }}
-                        >
-                          {isDaimondCstoFlag == 1 && (
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "49%",
-                                marginTop: "10px",
-                              }}
-                            >
-                              <label
-                                style={{ fontSize: "12.5px", color: "#7d7f85" }}
-                              >
-                                DAIMOND :
-                              </label>
-                              <select
-                                style={{
-                                  border: "none",
-                                  outline: "none",
-                                  color: "#7d7f85",
-                                  fontSize: "12.5px",
-                                  height: '25px'
-                                }}
-                                value={diaQColOpt}
-                                onChange={(e) => setDiaQColOpt(e.target.value)}
-                              >
-                                {colorData?.map((colorItem) => (
-                                  <option
-                                    key={colorItem.ColorId}
-                                    value={`${colorItem.Quality}#${colorItem.color}`}
-                                  >
-                                    {`${colorItem.Quality}#${colorItem.color}`}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          )}
-
-                          {isCColrStoneCustFlag == 1 && (
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "49%",
-                              }}
-                            >
-                              <label
-                                style={{
-                                  fontSize: "12.5px",
-                                  color: "#7d7f85",
-                                  marginTop: "10px",
-                                }}
-                              >
-                                COLOR STONE:
-                              </label>
-                              <select
-                                style={{
-                                  border: "none",
-                                  outline: "none",
-                                  color: "#7d7f85",
-                                  fontSize: "12.5px",
-                                  height: '25px'
-                                }}
-                                value={cSQopt}
-                                onChange={(e) => setCSQOpt(e.target.value)}
-                              >
-                                {DaimondQualityColor.map((data, index) => (
-                                  <option
-                                    key={index}
-                                    value={`${data.Quality}-${data.color}`}
-                                  >
-                                    {`${data.Quality}-${data.color}`}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          )}
-
-                          {(sizeData?.length !== 0 ||
-                            (productData?.DefaultSize &&
-                              productData.DefaultSize.length !== 0)) && (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  width: "49%",
-                                  marginTop: "10px",
-                                }}
-                              >
-                                <label
-                                  style={{ fontSize: "12.5px", color: "#7d7f85" }}
-                                >
-                                  SIZE:
-                                </label>
-                                <select
-                                  style={{
-                                    border: "none",
-                                    outline: "none",
-                                    color: "#7d7f85",
-                                    fontSize: "12.5px",
-                                    height: '25px'
-                                  }}
-                                  onChange={(e) => handelSize(e.target.value)}
-                                  defaultValue={
-                                    productData && productData.DefaultSize
-                                      ? productData.DefaultSize
-                                      : sizeData.find(
-                                        (size) => size.IsDefaultSize === 1
-                                      )?.id
-                                  }
-                                >
-                                  {sizeData?.map((size) => (
-                                    <option
-                                      key={size.id}
-                                      value={sizeOption} // Pass sizename as value
-                                      selected={
-                                        productData &&
-                                        productData.DefaultSize === size.sizename
-                                      }
-                                    >
-                                      {size.sizename}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                            )}
-                        </div>
-
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      color: "#7d7f85",
-                      fontSize: "14px",
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
-                    }}
-                  >
-                    {/* <div
-                      className="smilingQualityMain"
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <input
-                        type="text"
-                        style={{
-                          border: "0px",
-                          textAlign: "center",
-                          outline: "none",
-                          width: "80px",
-                          height: "35px",
-                          border: "1px solid #7d7f85",
-                        }}
-                        maxLength={2}
-                        className="simlingQualityBox"
-                        inputMode="numeric"
-                        onClick={(event) => event.target.select()}
-                        value={lastEnteredQuantity}
-                        onChange={(event) => handleInputChange(event)}
-                      />
-                      <button
-                        className="SmilingUpdateQuantityBtn"
-                        onClick={() =>
-                          handleUpdateQuantity(prodSelectData?.designno)
-                        }
-                      >
-                        QTY
-                      </button>
-                    </div> */}
-
-                    <div className="QTYUpateMain">
-                      <div>
-                        <Button className="QtyLess" disabled={qtyUpdateWaiting && true} onClick={handleDecrementQuantity}>-</Button>
-                      </div>
-                      <p className="QTYvalue">
-                        {lastEnteredQuantity}
-                      </p>
-                      <div>
-                        <Button className='QtyAdd' disabled={qtyUpdateWaiting && true} onClick={handleIncrementQuantity}>+</Button>
-                      </div>
-                    </div>
-
-                    <span>
-                      Price :
-                      <span
-                        style={{
-                          fontWeight: "500",
-                          fontSize: "18px",
-                          color: "black",
-                          marginLeft: '3px'
-                        }}
-                      >
-                        {currencySymbol?.Currencysymbol}
-                        {(
-                          ((((mtrdData?.V ?? 0) / currData?.CurrencyRate) + (mtrdData?.W ?? 0) + (mtrdData?.X ?? 0)) +
-                            (dqcData ?? 0) +
-                            (csqcData ?? 0) +
-                            (sizeMarkup ?? 0) +
-                            (metalUpdatedPrice() ?? 0) +
-                            (diaUpdatedPrice() ?? 0) +
-                            (colUpdatedPrice() ?? 0)) *
-                          lastEnteredQuantity
-                        ).toFixed(2)}
-                      </span>
-                    </span>
-                  </div>
-                  <div className="similingCartPageBotttomMain">
-                    <div style={{ width: '100%', textAlign: 'right' }}>
-                      <button
-                        style={{
-                          border: "none",
-                          outline: "none",
-                          backgroundColor: "#e1e1e1",
-                          padding: "6px 17px",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        {!isLodingSave ?
-                          <span
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: "500",
-                            }}
-                            className="SaveBtnCart"
-                            onClick={handleCartUpdate}
-                          >
-                            Save
-                          </span>
-                          :
-                          <span
-                            className="SaveBtnCart"
-                            style={{ display: 'flex' }}
-                          >
-                            <CircularProgress style={{ height: '20px', width: '20px' }} />
-                          </span>
-
-                        }
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </Dialog>
+        <Footer />
+      </div>
     </>
   );
 }

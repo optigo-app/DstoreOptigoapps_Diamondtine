@@ -1266,7 +1266,7 @@ export default function Header() {
                 width: 'fit-content',
                 margin: '0 auto',
                 backgroundColor: 'white',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.9)',
+                boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
               }}
                 className="menuDropdownData"
               >

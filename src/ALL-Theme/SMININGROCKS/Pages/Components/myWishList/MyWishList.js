@@ -5,7 +5,7 @@ import Footer from "../home/Footer/Footer";
 import { CommonAPI } from "../../../Utils/API/CommonAPI";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
-import { Button, CircularProgress, Dialog, DialogTitle } from "@mui/material";
+import { Button, CircularProgress, Dialog, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useSetRecoilState } from "recoil";
 import { CartListCounts, WishListCounts } from "../../../../../Recoil/atom";
 import { GetCount } from "../../../Utils/API/GetCount";
@@ -29,6 +29,18 @@ export default function MyWishList() {
   const setWishCount = useSetRecoilState(WishListCounts);
   const navigation = useNavigate();
   const [currData, setCurrData] = useState()
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
 
   //   const handelCurrencyData = () =>{
   //     let currencyData = JSON.parse(localStorage.getItem('CURRENCYCOMBO'));
@@ -380,9 +392,9 @@ export default function MyWishList() {
         <div className="smiling-wishlist">
           <p className="SmiWishListTitle">My Wishlist</p>
 
-          {wishlistData?.length !== 0 && (
+          {/* {wishlistData?.length !== 0 && (
             <div className="smilingListTopButton">
-              {/* <button className='smiTopShareBtn'>SHARE WISHLIST</button> */}
+              <button className='smiTopShareBtn'>SHARE WISHLIST</button>
               <Button
                 className="smiTopAddAllBtn"
                 onClick={handleClickOpen}
@@ -392,16 +404,16 @@ export default function MyWishList() {
               <Button className="smiTopAddAllBtn" onClick={handleAddAll}>
                 Add To Cart All
               </Button>
-              {/* <button
+              <button
                 className="smiTopAddAllBtn"
                 onClick={() => navigation("/productpage")}
               >
                 Show ProductList
-              </button> */}
+              </button>
             </div>
-          )}
+          )} */}
 
-          <div className="smiWishLsitBoxMain">
+          {/* <div className="smiWishLsitBoxMain">
             {wishlistDataNew?.length === 0
               ? !isLoading && (
                 <div
@@ -550,10 +562,108 @@ export default function MyWishList() {
                   }
                 </div>
               ))}
-          </div>
+          </div> */}
         </div>
       </div>
-      <div className="mobileFootreCs" style={{ position: wishlistData?.length === 0 && 'absolute', bottom: '0px', width: '100%' }}>
+
+      <div className="myWishlistMainContainer">
+        <div className={wishlistDataNew?.length != 0 ? "mywislistComponents" : "mywislistComponentsNoData"}>
+          <table className="table table-vertical-border table-custom">
+            <thead className="thead-dark table-customThead">
+              <tr className="table-customTr">
+                <th style={{ padding: '15px 0px 15px 0px' }}>Product</th>
+                <th style={{ padding: '15px 0px 15px 0px' }}>Price</th>
+                {/* <th style={{padding:'15px 0px 15px 0px'}}>Stock Status</th> */}
+                <th style={{ padding: '15px 0px 15px 0px' }}></th>
+                <th style={{ padding: '15px 0px 15px 0px' }}></th>
+              </tr>
+            </thead>
+            {wishlistDataNew?.length === 0
+              ? !isLoading && (
+                <tbody className="table-customTbody">
+                  <tr className="table-customTr">
+                    <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}>No products added to the wishlist</td>
+                    <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}></td>
+                    <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}></td>
+                  </tr>
+                </tbody>
+
+              ) :
+              <tbody className="table-customTbody">
+                {wishlistDataNew.map((product) => (
+                  <tr className="table-customTr" key={product.id}>
+                    <td className="align-middle">
+                      <img
+                        src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
+                        className=""
+                        style={{ cursor: "pointer", maxWidth: '180px', maxHeight: '180px' }}
+                        alt="Wishlist item"
+                        onClick={() => handelProductSubmit(product)}
+                        onError={(e) => {
+                          e.target.src = notFound;
+                        }}
+                      />
+                      {product.TitleLine}
+                    </td>
+                    <td className="align-middle">
+                      {isPriseShow === 1 && (
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span style={{ marginRight: '5px' }}>From: </span>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: decodeEntities(currData?.Currencysymbol),
+                            }}
+                            style={{
+                              fontFamily: "serif",
+                              marginRight: "1px",
+                            }}
+                          />
+                          {product.TotalUnitCost}
+                        </div>
+                      )}
+                    </td>
+                    {/* <td className="align-middle">{product.stockStatus}</td> */}
+                    <td className="align-middle">
+                      <Button
+                       onClick={() => handleAddToCart(product.autocode)}
+                        disableRipple={false}
+                        sx={{
+                          border: 'none',
+                          backgroundColor: 'transparent',
+                          cursor: 'pointer',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          color:'#Af8238',
+                          '&:hover': { backgroundColor: 'transparent' },
+                          '& .MuiTouchRipple-root': {
+                            backgroundColor: 'transparent',
+                          },
+                        }}
+                      >
+                        {product.match === 'true' ? 'ITEM IN CART' : 'ADD TO CART +'}
+                      </Button>
+                    </td>
+                    <td className="align-middle">
+                      <IoClose
+                        style={{
+                          height: "30px",
+                          width: "30px",
+                          cursor: "pointer",
+                          color: "rgba(210,212,215,1)",
+                        }}
+                        onClick={() => handleRemoveWichList(product)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            }
+          </table>
+        </div>
+      </div>
+
+
+      <div className="mobileFootreCs" style={{ width: '100%' }}>
         <Footer />
       </div>
     </div>
