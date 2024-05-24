@@ -3,7 +3,7 @@ import './proddetail.css'
 import Header from '../home/Header/Header'
 import Footer from '../home/Footer/Footer'
 import SmilingRock from '../home/smiling_Rock/SmilingRock'
-import { Checkbox, Divider, Skeleton } from '@mui/material'
+import { Checkbox, Divider, FormControlLabel, Skeleton } from '@mui/material'
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import filterData from '../../jsonFile/M_4_95oztttesi0o50vr.json'
@@ -104,6 +104,7 @@ const ProdDetail = () => {
   const [productThumImg, setProductThumImg] = useState([]);
   const [srProdPriceData, setSrProdPriceData] = useState();
   const [thumFlag, setThumFlag] = useState(false);
+  const [menuParamsState,setMenuParamsState] = useState();
 
 
   useEffect(() => {
@@ -1451,6 +1452,11 @@ const ProdDetail = () => {
 
   console.log("designSetListdesignSetListdesignSetList", designSetList)
 
+  useEffect(()=>{
+    let param = JSON.parse(localStorage.getItem("menuparams"))
+    setMenuParamsState(param)
+  },[])
+
   return (
     <div
       className='paddingTopMobileSet'
@@ -1469,6 +1475,12 @@ const ProdDetail = () => {
         }}
       >
         <div className="prodDetailWhitecont">
+          <div style={{width:'100%', display:'flex', justifyContent:'center',padding:'15px'}}>
+            <div className='breadCrumb_menu'>
+            <span style={{textTransform:'uppercase  '}}>{`${menuParamsState?.menuname || ''}${menuParamsState?.FilterVal1 ? ` > ${menuParamsState?.FilterVal1}` : ''}${menuParamsState?.FilterVal2 ? ` > ${menuParamsState?.FilterVal2}` : ''}${productData?.TitleLine ? `> ${productData?.TitleLine}` : ''}`}</span> 
+            </div>
+          </div>
+          <div style={{width:'100%',display:'flex',justifyContent:'center'}} className='productDetail-container-flex'>
           <div className="product-detail-container">
             <div className="srprodetail1">
               {/* {!imgLoading */}
@@ -1521,11 +1533,12 @@ const ProdDetail = () => {
 
                   alt={""}
                   style={{
-                    width: "100%",
+                    width: "80%",
                     zindex: -1,
                     position: "relative",
                     objectFit: "cover",
-                    marginLeft: "51px",
+                    // marginLeft: "51px",
+                    height:'60%',
                     display: imgLoading ? "none" : "block",
                   }}
                   className='smilingDeatilPageMainImage'
@@ -1583,6 +1596,17 @@ const ProdDetail = () => {
                 <p className='smilingProdutDetltTitle'>
                   {productData?.TitleLine}
                 </p>
+                {isPriseShow == 1 && (
+                  <div>
+                    <p style={{ color: "#7d7f85", fontSize: "14px", display: 'flex' }}>
+                      <span className='mainpriceDeatilPage'>
+                        <text>Form:</text>
+                        <div dangerouslySetInnerHTML={{ __html: decodeEntities(currData?.Currencysymbol) }} />
+                        {mtrdData?.U === 1 ? mtrdData?.Z : FinalPrice()}
+                      </span>
+                    </p>
+                  </div>
+                )}
 
                 <p style={{ color: "#7d7f85", fontSize: "14px" }}>
                   {/* Slip this open Drizzle Ring from Smiling Rock's iconic
@@ -1594,129 +1618,7 @@ const ProdDetail = () => {
                   {productData?.description}
                 </p>
 
-                <div
-                  className="part-container"
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    borderBottom: "1px solid #e1e1e1",
-                    paddingBottom: "12px",
-                  }}
-                >
-                  <div
-                    className="part1"
-                    style={{ display: "flex", flexDirection: "column" }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 600,
-                        letterSpacing: '2px',
-                        color: "rgb(66, 66, 66)",
-                      }}
-                    >
-                      {productData?.designno}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        color: "rgb(66, 66, 66)",
-                      }}
-                    >
-                      Metal Purity :
-                      <span style={{ fontWeight: 'bold', letterSpacing: '2px' }}>
-                        <>
-                          {console.log('mtTypeOptionId', mtTypeOptionId)}
-                          {mtPurity ? mtPurity : mtTypeOption ? mtTypeOption?.split(" ")[1] : productData?.MetalPurity}
-                        </>
-                      </span>
-                    </span>
-                    <sapn
-                      style={{
-                        fontSize: "16px",
-                        color: "rgb(66, 66, 66)",
-                      }}
-                    >
-                      Metal Color : <span style={{ fontWeight: 'bold', letterSpacing: '2px' }}>{mtColorName ? mtColorName : selectedColor ? selectedColor : productData?.updMC}</span>
-                    </sapn>
-                    <sapn
-                      style={{
-                        fontSize: "16px",
-                        color: "rgb(66, 66, 66)",
-                      }}
-                    >
-                      Diamond Quality Color:{" "}
-                      <span style={{ fontWeight: 'bold', letterSpacing: '2px' }}>{diaQColOpt ? diaQColOpt : `${productData?.diamondquality}-${productData?.diamondcolorname}`}</span>
-                    </sapn>
-                    <sapn
-                      style={{
-                        fontSize: "16px",
-                        color: "rgb(66, 66, 66)",
-                      }}
-                    >
-                      Net Wt:{" "}
-                      <span style={{ fontWeight: 'bold', letterSpacing: '2px' }}>{mtrdData?.I}</span>
-                    </sapn>
-                  </div>
-                  {/* {productData?.IsColorWiseImageExists !== null && (
-                    <div
-                      style={{ display: "flex", gap: "5px" }}
-                      className="part2"
-                    >
-                      <div
-                        style={{
-                          border: "1px solid #c8c8c8",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "12px",
-                            height: "12px",
-                            backgroundColor: "#c8c8c8",
-                            borderRadius: "50%",
-                            margin: "1px",
-                          }}
-                        ></div>
-                      </div>
-                      <div
-                        style={{
-                          border: "1px solid #ffcfbc",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "12px",
-                            height: "12px",
-                            backgroundColor: "#ffcfbc",
-                            borderRadius: "50%",
-                            margin: "1px",
-                          }}
-                        ></div>
-                      </div>
-                      <div
-                        style={{
-                          border: "1px solid #e0be77",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "12px",
-                            height: "12px",
-                            backgroundColor: "#e0be77",
-                            borderRadius: "50%",
-                            margin: "1px",
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  )} */}
-
-                </div>
+                
                 {isProductCuFlag === 1 && <div
                   style={{ display: "flex", flexWrap: 'wrap', width: "100%", marginTop: "12px" }}
                   className="CustomiZationDeatilPageWeb"
@@ -1725,10 +1627,11 @@ const ProdDetail = () => {
                   {isMetalCutoMizeFlag == 1 && <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
+                      // flexDirection: "column",
                       width: '95%',
                       marginBottom: '15px',
-                      gap: '5px'
+                      gap: '5px',
+                      alignItems:'center'
                     }}
                   >
                     <label className='menuItemTimeEleveDeatil'>
@@ -1748,6 +1651,8 @@ const ProdDetail = () => {
                           console.log("findMTtypeID", findMTtypeID);
                           { setmtTypeOptionId(findMTtypeID); setmtPurity(e.target.value); setmtTypeOption(e.target.value) }
                         }}
+
+                        style={{marginLeft:'54px'}}
                       >
                         {metalType.map((data, index) => (
                           <option key={index} value={data.metalType}>
@@ -1762,12 +1667,12 @@ const ProdDetail = () => {
                     <div
                       style={{
                         display: "flex",
-                        flexDirection: "column",
+                        // flexDirection: "column",
                         width: '95%',
                         marginBottom: '15px',
                         paddingTop: '10px',
                         gap: '5px',
-                        borderTop: '1px solid rgba(66, 66, 66, 0.2)'
+                        // borderTop: '1px solid rgba(66, 66, 66, 0.2)'
                       }}
                     >
                       <label className='menuItemTimeEleveDeatil'>
@@ -1783,6 +1688,7 @@ const ProdDetail = () => {
                           className='menuitemSelectoreMain'
                           defaultValue={mtrdData?.F}
                           onChange={(e) => handleColorSelection(e.target.value)}
+                          style={{marginLeft:'40px'}}
                         >
                           {metalColorData.map((colorItem) => (
                             <option key={colorItem.ColorId} value={colorItem.metalcolorname}>
@@ -1796,12 +1702,12 @@ const ProdDetail = () => {
                   {((isDaimondCstoFlag == 1) && (productData?.diamondweight !== 0 || productData?.diamondpcs !== 0)) && <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
+                      // flexDirection: "column",
                       width: '95%',
                       paddingTop: '10px',
                       marginBottom: '15px',
                       gap: '5px',
-                      borderTop: '1px solid rgba(66, 66, 66, 0.2)'
+                      // borderTop: '1px solid rgba(66, 66, 66, 0.2)'
 
                     }}
                   >
@@ -1822,6 +1728,7 @@ const ProdDetail = () => {
                           setDiaQColOpt(e.target.value);
                           setDiaQColOptId([findDCqc[0]?.QualityId, findDCqc[0]?.ColorId])
                         }}
+                        style={{marginLeft:'65px'}}
                       >
                         {colorData?.map((colorItem) => (
                           <option key={colorItem.ColorId} value={`${colorItem.Quality}#${colorItem.color}`}>
@@ -1837,12 +1744,12 @@ const ProdDetail = () => {
                       <div
                         style={{
                           display: "flex",
-                          flexDirection: "column",
+                          // flexDirection: "column",
                           width: '95%',
                           marginBottom: '15px',
                           paddingTop: '10px',
                           gap: '5px',
-                          borderTop: '1px solid rgba(66, 66, 66, 0.2)'
+                          // borderTop: '1px solid rgba(66, 66, 66, 0.2)'
 
                         }}
                       >
@@ -1864,6 +1771,7 @@ const ProdDetail = () => {
                               setCSQOptId([fincsqc[0]?.QualityId, fincsqc[0]?.ColorId])
                             }}
                             value={cSQopt}
+                            style={{marginLeft:'40px'}}
                           >
                             {DaimondQualityColor.map((data, index) => (
                               <option
@@ -1883,12 +1791,12 @@ const ProdDetail = () => {
                     <div
                       style={{
                         display: "flex",
-                        flexDirection: "column",
+                        // flexDirection: "column",
                         width: '95%',
                         marginBottom: '15px',
                         paddingTop: '10px',
                         gap: '5px',
-                        borderTop: '1px solid rgba(66, 66, 66, 0.2)'
+                        // borderTop: '1px solid rgba(66, 66, 66, 0.2)'
                       }}
                     >
                       <label className='menuItemTimeEleveDeatil'>
@@ -1902,6 +1810,7 @@ const ProdDetail = () => {
                             ? productData.DefaultSize
                             : sizeData.find((size) => size.IsDefaultSize === 1)?.id
                         }
+                        style={{marginLeft:'109px'}}
                       >
                         {sizeData?.map((size) => (
                           <option
@@ -1945,6 +1854,7 @@ const ProdDetail = () => {
                       }}
                       value={mtTypeOption}
                       onChange={(e) => setmtTypeOption(e.target.value)}
+                      
                     >
                       {metalType.map((data, index) => (
                         <option key={index} value={data.metalType}>
@@ -2107,6 +2017,102 @@ const ProdDetail = () => {
 
                 </div>}
 
+                <div
+                  className="part-container"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "100%",
+                    // borderBottom: "1px solid #e1e1e1",
+                    paddingBottom: "12px",
+                  }}
+                >
+                  <div
+                    className="part1"
+                    style={{ display: "flex", flexDirection: "column",gap:'15px'}}
+                  >
+                    <span
+                      className='part1_key'
+                    >
+                      Metal Purity: <span className='part1_value'>{mtPurity ? mtPurity : mtTypeOption ? mtTypeOption?.split(" ")[1] : productData?.MetalPurity}</span>
+                    </span>
+                    <sapn
+                      className='part1_key'
+                    >
+                      Metal Color: <span className='part1_value'>{mtColorName ? mtColorName : selectedColor ? selectedColor : productData?.updMC}</span>
+                    </sapn>
+                    <sapn
+                      className='part1_key'
+                    >
+                      Diamond Quality Color:{" "}
+                      <span className='part1_value'>{diaQColOpt ? diaQColOpt : `${productData?.diamondquality}-${productData?.diamondcolorname}`}</span>
+                    </sapn>
+                    <sapn
+                      className='part1_key'
+                    >
+                      Net Wt:{" "}
+                      <span className='part1_value'>{mtrdData?.I}</span>
+                    </sapn>
+                  </div>
+                  {/* {productData?.IsColorWiseImageExists !== null && (
+                    <div
+                      style={{ display: "flex", gap: "5px" }}
+                      className="part2"
+                    >
+                      <div
+                        style={{
+                          border: "1px solid #c8c8c8",
+                          borderRadius: "50%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "12px",
+                            height: "12px",
+                            backgroundColor: "#c8c8c8",
+                            borderRadius: "50%",
+                            margin: "1px",
+                          }}
+                        ></div>
+                      </div>
+                      <div
+                        style={{
+                          border: "1px solid #ffcfbc",
+                          borderRadius: "50%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "12px",
+                            height: "12px",
+                            backgroundColor: "#ffcfbc",
+                            borderRadius: "50%",
+                            margin: "1px",
+                          }}
+                        ></div>
+                      </div>
+                      <div
+                        style={{
+                          border: "1px solid #e0be77",
+                          borderRadius: "50%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "12px",
+                            height: "12px",
+                            backgroundColor: "#e0be77",
+                            borderRadius: "50%",
+                            margin: "1px",
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  )} */}
+
+                </div>
+
                 {isPriseShow == 1 && (
                   <div style={{ marginTop: "23px" }}>
                     <p style={{ color: "#7d7f85", fontSize: "14px", display: 'flex' }}>
@@ -2138,7 +2144,10 @@ const ProdDetail = () => {
                   </div>
 
                   <div className='wishlistcont'>
-                    <Checkbox
+                    <FormControlLabel
+                    label={<span className='wishlist_label' style={{fontFamily:'Poppins, sans-serif',color:'#999',fontSize:'16px'}}>Browse wishlist</span>}
+                    control={
+                      <Checkbox
                       icon={
                         <StarBorderIcon
                           sx={{ fontSize: "25px", color: "#d2815f" }}
@@ -2147,10 +2156,15 @@ const ProdDetail = () => {
                       checkedIcon={
                         <StarIcon sx={{ fontSize: "25px", color: "#d2815f" }} />
                       }
-                      disableRipple={true}
+                      disableRipple={false}
                       checked={WishListFlag}
                       onChange={(e) => handelWishList(e)}
                     />
+                    }
+                    
+                    />
+                    
+                  {/* <label>Browse wishlist</label> */}
                   </div>
                 </div>
 
@@ -2257,7 +2271,33 @@ const ProdDetail = () => {
                   </p>
                 </div> */}
               </div>
+              <div style={{borderTop:'1px solid #ebebeb',paddingTop:'15px',fontSize:'13px'}}>
+              <div>
+                <label style={{color:"#999"}}>Design no:</label>
+                &nbsp;
+              <span className='designno_info'>
+                      {productData?.designno}
+              </span>
+              </div>
+              <div>
+                <label style={{color:"#999"}}>Categories:</label>
+                &nbsp;
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  letterSpacing: '2px',
+                  color: "#666",
+                }} 
+                className='cate_info'
+              >
+                {findValueFromId("cate",productData?.Categoryid)?.CategoryName}
+              </span>
+              </div>
+
+              </div>
             </div>
+          </div>
           </div>
           {(designSetList.length !== 0 && showIcateDesign === 1) &&
             <div className='smilingCompleteLookMainWeb' style={{ position: 'relative', marginInline: '10%', minHeight: '350px', display: 'flex', alignItems: 'center', marginBottom: '7%'}}>
@@ -2342,6 +2382,9 @@ const ProdDetail = () => {
             </div>
           }
 
+
+
+
           <div className="Acc-container">
             <div
               style={{
@@ -2350,20 +2393,23 @@ const ProdDetail = () => {
                 alignItems: "center",
                 width: "100%",
                 flexDirection: "column",
-                marginBottom: '60px'
+                marginBottom: '60px',
+                marginTop:'30px',
               }}
             >
               <p
                 style={{
-                  fontSize: "30px",
-                  fontFamily: "FreightDisp Pro Medium",
+                  fontSize: "18px",
+                  fontFamily: 'Poppins, sans-serif',
                   color: "#7d7f85",
+                  textDecoration:'underline',
+                  textUnderlineOffset:'11px',
+                  color:'#a8807c'
                 }}
               >
                 Product Details
               </p>
-              <div style={{ width: '60%', marginBottom: '60px' }} className='tellmeMoreMain'>
-
+              <div style={{ width: '60%', marginBottom: '60px',border:'1px solid #dadada',marginTop:'-13px',padding:'12px'}} className='tellmeMoreMain'>
                 {fullProdData?.rd1?.length !== 0 &&
                   <div className='tellmeMoreMainMobileDiv'>
                     <ul style={{
