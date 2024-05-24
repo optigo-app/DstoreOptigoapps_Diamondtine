@@ -1376,7 +1376,7 @@ console.log('lastequantity', lastEnteredQuantity);
                                 }}
                                 style={{ fontFamily: "sans-serif" }}
                               />
-                              {(FinalPrice() * lastEnteredQuantity).toFixed(2)}
+                              {FinalPrice()}
                             </span>
                           </span>
                         </td>
@@ -1411,7 +1411,7 @@ console.log('lastequantity', lastEnteredQuantity);
                                 }}
                                 style={{ fontFamily: "sans-serif" }}
                               />
-                              {(FinalPrice() * lastEnteredQuantity?.Q).toFixed(2)}
+                              {(FinalPrice() * (lastEnteredQuantity?.Q ?? 1)).toFixed(2)}
                             </span>
                             </span>
                             </td>
