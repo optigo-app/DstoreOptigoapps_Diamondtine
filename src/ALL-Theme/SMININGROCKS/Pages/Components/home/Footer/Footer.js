@@ -30,7 +30,7 @@ export default function Footer() {
                             <p className='footerMoteText'>QUICK LINKS</p>
                             <p className='FoooterTextLink'>FAQs</p>
                             <p className='FoooterTextLink'>Size Guide</p>
-                            <p className='FoooterTextLink'>Gift Cards</p>
+                            {/* <p className='FoooterTextLink'>Gift Cards</p> */}
                             <p className='FoooterTextLink'>Material & Care</p>
                             <p className='FoooterTextLink'>Terms & Conditions</p>
                             <p className='FoooterTextLink'>Privacy Policy</p>
@@ -39,21 +39,21 @@ export default function Footer() {
                             <p className='footerMoteText'>CUSTOMER SERVICE</p>
                             <p className='FoooterTextLink'>Shipping & Returns</p>
                             <p className='FoooterTextLink'>Exchange & Buyback</p>
-                            <p className='FoooterTextLink'>Loyalty Program</p>
+                            {/* <p className='FoooterTextLink'>Loyalty Program</p> */}
                             <p className='FoooterTextLink'>Material & Care</p>
-                            <p className='FoooterTextLink'>Try at Home</p>
+                            {/* <p className='FoooterTextLink'>Try at Home</p> */}
                             <p className='FoooterTextLink'>Contact us</p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>MY ACCOUNT</p>
                             <p className='FoooterTextLink'>Sign In</p>
-                            <p className='FoooterTextLink'>Track Your Order</p>
+                            {/* <p className='FoooterTextLink'>Track Your Order</p> */}
                             <p className='FoooterTextLink'>Help</p>
                         </div>
                     </div>
                 </div>
                 <div className='footerBottom'>
-                    <img src='https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/38/2020/09/payments.png' className='newImgFooter'/>
+                    {/* <img src='https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/38/2020/09/payments.png' className='newImgFooter'/> */}
                     <img src={titleImg} className='logoImgFooter'/>
                     <p className='FooterBottomText'>Copyright © 2023 Diamondtine. All Rights Reserved.</p>
                 </div>
