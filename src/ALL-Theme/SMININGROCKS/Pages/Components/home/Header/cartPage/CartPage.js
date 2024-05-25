@@ -778,7 +778,7 @@ export default function CartPage() {
       setQtyUpdateWaiting(false);
     }
   };
-  
+
 
   const [value, setValue] = useState(0);
 
@@ -1276,11 +1276,11 @@ export default function CartPage() {
 
   const [qtyUpdateWaiting, setQtyUpdateWaiting] = useState(false);
 
-  const handleIncrementQuantity = (designNo,q) => {
-    setLastEnteredQuantity({designNo: q+1, d:designNo,Q:q+1});
-    handleUpdateQuantity(designNo, q+1 );
+  const handleIncrementQuantity = (designNo, q) => {
+    setLastEnteredQuantity({ designNo: q + 1, d: designNo, Q: q + 1 });
+    handleUpdateQuantity(designNo, q + 1);
   };
-  
+
   const handleDecrementQuantity = (designNo, q) => {
     if (q > 1) {
       setLastEnteredQuantity({ designNo: q - 1, d: designNo, Q: q - 1 });
@@ -1289,214 +1289,233 @@ export default function CartPage() {
   };
 
 
-console.log('lastequantity', lastEnteredQuantity);
+  console.log('lastequantity', lastEnteredQuantity);
   console.log('FinalPrice()', FinalPrice());
   console.log('FinalPrice() * lastEnteredQuantityFinalPrice() * lastEnteredQuantity', FinalPrice() * lastEnteredQuantity);
-
-  const items = [
-    { title: 'Subtotal', price: '₹3,01,500.00' },
-    { title: 'Shipping', price: 'Free Shipping' },
-    { title: 'Total', price: '₹3,01,500.00' },
-  ];
 
   return (
     <>
       <div
         className="paddingTopMobileSet"
+        style={{height: isLoading ? '390px': '100%' }}
       >
-        {cartListData?.length !== 0 && !isLoading &&
-          <div class="bg-imageCart">
-            <div class="overlay"></div>
-            <div class="text-container">
-              <div className='textContainerData'>
-                <div style={{ textAlign: 'center' }}>
-                  <p className="designCounttext" style={{ fontSize: '30px', fontWeight: '400', letterSpacing: '1px', textTransform: 'capitalize' }}>
-                    Shopping Cart <br />
-                  </p>
-                  <span style={{ color: '#AF8538', fontSize: '18px' }}>Shop</span>
+        {cartListData?.length == 0 && !isLoading &&
+          <div>
+            <div class="bg-imageCart">
+              <div class="overlay"></div>
+              <div class="text-container">
+                <div className='textContainerData'>
+                  <div style={{ textAlign: 'center' }}>
+                    <p className="designCounttext" style={{ fontSize: '30px', fontWeight: '400', letterSpacing: '1px', textTransform: 'capitalize' }}>
+                      Shopping Cart <br />
+                    </p>
+                    <span style={{ color: '#AF8538', fontSize: '18px' }}>Shop</span>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginInline:'20%'
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 500,
+                    border:'1px dashed #d9d9d9',
+                    width:'100%',
+                    padding:'10px',
+                    color:'#a7a7a7'
+                  }}
+                  className="my-5"
+                >
+                  Your cart is currently empty.
+                </p>
+                <button
+                  className="browseBtnMore"
+                  onClick={() => handelBrowse()}
+                >
+                  Return to Shop
+                </button>
               </div>
             </div>
           </div>
         }
-        <div className="MyCartPageMainDiv">
-          <div className="myCartMainContainer">
-            <div className={cartListData?.length != 0 ? "myCartComponents" : "myCartComponentsNoData"}>
-              <table className="table table-vertical-border table-custom">
-                <thead className="thead-dark table-customThead">
-                  <tr className="table-customTr">
-                    <th style={{ padding: '15px 0px 15px 0px' }}>Product</th>
-                    <th style={{ padding: '15px 0px 15px 0px' }}>Price</th>
-                    <th style={{ padding: '15px 0px 15px 0px' }}>Quantity</th>
-                    <th style={{ padding: '15px 0px 15px 0px' }}>Total</th>
-                    <th style={{ padding: '15px 0px 15px 0px' }}></th>
-                  </tr>
-                </thead>
-                {cartListData?.length == 0
-                  ? !isLoading && (
-                    <tbody className="table-customTbody">
-                      <tr className="table-customTr">
-                        <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}>No products added to the wishlist</td>
-                        <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}></td>
-                        <td className="align-middle" style={{ padding: '20px 2px 20px 0px' }}></td>
-                      </tr>
-                    </tbody>
-
-                  ) :
-                  <tbody className="table-customTbody">
-                    {cartListData?.map((product, index) => (
-                      <tr className="table-customTr" key={product.id}>
-                        <td className="align-middle">
-                          <img
-                            src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
-                            className=""
-                            style={{ cursor: "pointer", maxWidth: '180px', maxHeight: '180px' }}
-                            alt="Wishlist item"
-                            // onClick={() => handelProductSubmit(product)}
-                            onError={(e) => {
-                              e.target.src = notFound;
-                            }}
-                          />
-                          {product.TitleLine}
-                        </td>
-                        <td className="align-middle">
-                          <span>
-                            <span
-                              style={{
-                                fontWeight: "500",
-                                fontSize: "18px",
-                                display: 'flex'
-                              }}
-                            >
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    currData?.Currencysymbol
-                                  ),
+        {cartListData?.length !== 0 &&
+          <>
+            {!isLoading ? (
+              <div className="MyCartPageMainDiv">
+                <div className="myCartMainContainer">
+                  <div className={cartListData?.length != 0 ? "myCartComponents" : "myCartComponentsNoData"}>
+                    <table className="table table-vertical-border table-custom">
+                      <thead className="thead-dark table-customThead">
+                        <tr className="table-customTr">
+                          <th style={{ padding: '15px 0px 15px 0px' }}>Product</th>
+                          <th style={{ padding: '15px 0px 15px 0px' }}>Price</th>
+                          <th style={{ padding: '15px 0px 15px 0px' }}>Quantity</th>
+                          <th style={{ padding: '15px 0px 15px 0px' }}>Total</th>
+                          <th style={{ padding: '15px 0px 15px 0px' }}></th>
+                        </tr>
+                      </thead>
+                      <tbody className="table-customTbody">
+                        {cartListData?.map((product, index) => (
+                          <tr className="table-customTr" key={product.id}>
+                            <td className="align-middle">
+                              <img
+                                src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
+                                className=""
+                                style={{ cursor: "pointer", maxWidth: '180px', maxHeight: '180px' }}
+                                alt="Wishlist item"
+                                // onClick={() => handelProductSubmit(product)}
+                                onError={(e) => {
+                                  e.target.src = notFound;
                                 }}
-                                style={{ fontFamily: "sans-serif" }}
                               />
-                              {FinalPrice()}
-                            </span>
-                          </span>
-                        </td>
-                        <td className="align-middle">
-                          <div className="QTYUpateMain">
-                            <div>
-                            <Button className="QtyLess" disabled={qtyUpdateWaiting} onClick={() => handleDecrementQuantity(product?.designno, product?.Quantity)}>-</Button>
-                            </div>
-                            <p className="QTYvalue">
-                              {lastEnteredQuantity.d == product?.designno ? lastEnteredQuantity.Q : product?.Quantity}
-                            </p>
-                            <div>
-                            <Button className='QtyAdd' disabled={qtyUpdateWaiting} onClick={() => handleIncrementQuantity(product?.designno, product?.Quantity)}>+</Button>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="align-middle">
-                          <span>
-                            <span
-                              style={{
-                                fontWeight: "500",
-                                fontSize: "18px",
-                                color: "#A8807c",
-                                display: 'flex'
-                              }}
-                            >
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: decodeEntities(
-                                    currData?.Currencysymbol
-                                  ),
-                                }}
-                                style={{ fontFamily: "sans-serif" }}
-                              />
-                              {(FinalPrice() * (lastEnteredQuantity?.Q ?? 1)).toFixed(2)}
-                            </span>
-                            </span>
+                              {product.TitleLine}
                             </td>
-                        <td className="align-middle">
-                          <IoClose
-                            style={{
-                              height: "30px",
-                              width: "30px",
-                              cursor: "pointer",
-                              color: "rgba(210,212,215,1)",
-                            }}
-                            onClick={() => handleRemove(product)}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                }
-              </table>
-            </div>
-          </div >
-          <div className="CartPagePaymentDiv">
-            <div className="card cartcardPayment">
-              <div className="card-body">
-                <h5 className="card-title">Card totals</h5>
-                <hr className="border-line" />
+                            <td className="align-middle">
+                              <span>
+                                <span
+                                  style={{
+                                    fontWeight: "500",
+                                    fontSize: "18px",
+                                    display: 'flex'
+                                  }}
+                                >
+                                  <div
+                                    dangerouslySetInnerHTML={{
+                                      __html: decodeEntities(
+                                        currData?.Currencysymbol
+                                      ),
+                                    }}
+                                    style={{ fontFamily: "sans-serif" }}
+                                  />
+                                  {FinalPrice()}
+                                </span>
+                              </span>
+                            </td>
+                            <td className="align-middle">
+                              <div className="QTYUpateMain">
+                                <div>
+                                  <Button className="QtyLess" disabled={qtyUpdateWaiting} onClick={() => handleDecrementQuantity(product?.designno, product?.Quantity)}>-</Button>
+                                </div>
+                                <p className="QTYvalue">
+                                  {lastEnteredQuantity.d == product?.designno ? lastEnteredQuantity.Q : product?.Quantity}
+                                </p>
+                                <div>
+                                  <Button className='QtyAdd' disabled={qtyUpdateWaiting} onClick={() => handleIncrementQuantity(product?.designno, product?.Quantity)}>+</Button>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="align-middle">
+                              <span>
+                                <span
+                                  style={{
+                                    fontWeight: "500",
+                                    fontSize: "18px",
+                                    color: "#A8807c",
+                                    display: 'flex'
+                                  }}
+                                >
+                                  <div
+                                    dangerouslySetInnerHTML={{
+                                      __html: decodeEntities(
+                                        currData?.Currencysymbol
+                                      ),
+                                    }}
+                                    style={{ fontFamily: "sans-serif" }}
+                                  />
+                                  {(FinalPrice() * (lastEnteredQuantity?.Q ?? 1)).toFixed(2)}
+                                </span>
+                              </span>
+                            </td>
+                            <td className="align-middle">
+                              <IoClose
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  cursor: "pointer",
+                                  color: "rgba(210,212,215,1)",
+                                }}
+                                onClick={() => handleRemove(product)}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div >
+                <div className="CartPagePaymentDiv">
+                  <div className="card cartcardPayment">
+                    <div className="card-body">
+                      <h5 className="card-title">Card totals</h5>
+                      <hr className="border-line" />
 
-                <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-                  <p className="card-subtitle">Subtotal</p>
-                  <p className="card-subtitle" style={{ fontWeight: "500", fontSize: "18px" }}>
-                    <span style={{ fontFamily: "sans-serif" }}>
-                      {decodeEntities(currData?.Currencysymbol)}
-                    </span>
-                    {cartListData.reduce((total, product) => total + parseFloat(product?.FinalUnitCost || 0), 0).toFixed(2)}
-                  </p>
-                </div>
+                      <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+                        <p className="card-subtitle">Subtotal</p>
+                        <p className="card-subtitle" style={{ fontWeight: "500", fontSize: "18px" }}>
+                          <span style={{ fontFamily: "sans-serif" }}>
+                            {decodeEntities(currData?.Currencysymbol)}
+                          </span>
+                          {cartListData.reduce((total, product) => total + parseFloat(product?.FinalUnitCost || 0), 0).toFixed(2)}
+                        </p>
+                      </div>
 
-                <hr className="border-lines" />
+                      <hr className="border-lines" />
 
-                <div>
-                  <p className="">Shipping</p>
-                  <p className="addinfotext">Free Shipping</p>
-                  <p className="addinfotext">Shipping to <span style={{color:'black', fontWeight:'500'}}>Delhi</span><br />
-                    Estimate for Your Country
-                  </p>
-                  <a href="/Delivery" class="btn btn-link addressLink" role="button">Change address</a>
-                </div>
+                      <div>
+                        <p className="">Shipping</p>
+                        <p className="addinfotext">Free Shipping</p>
+                        <p className="addinfotext">Shipping to <span style={{ color: 'black', fontWeight: '500' }}>Delhi</span><br />
+                          Estimate for Your Country
+                        </p>
+                        <a href="/Delivery" class="btn btn-link addressLink" role="button">Change address</a>
+                      </div>
 
-                <hr className="border-lines" />
+                      <hr className="border-lines" />
 
-                <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-                  <p className="card-total">Total</p>
-                  <p className="card-total" style={{ fontWeight: "500", fontSize: "18px" }}>
-                    <span className="card-totalspan" style={{ fontFamily: "sans-serif" }}>
-                      {decodeEntities(currData?.Currencysymbol)}
-                    </span>
-                    {cartListData.reduce((total, product) => total + parseFloat(product?.FinalUnitCost || 0), 0).toFixed(2)}
-                  </p>
-                </div>
+                      <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+                        <p className="card-total">Total</p>
+                        <p className="card-total" style={{ fontWeight: "500", fontSize: "18px" }}>
+                          <span className="card-totalspan" style={{ fontFamily: "sans-serif" }}>
+                            {decodeEntities(currData?.Currencysymbol)}
+                          </span>
+                          {cartListData.reduce((total, product) => total + parseFloat(product?.FinalUnitCost || 0), 0).toFixed(2)}
+                        </p>
+                      </div>
 
-                <div>
-                  <h4>Have a gift card?</h4>
-                  <div>
-                    <input style={{width:'100%', border:'1px solid rgb(239 239 239)', padding:'10px', background:'#f9f9f9'}} type="text" placeholder="Enter your code..."/>
-                    <div>
-                    <button style={{border:'1px solid #a5a5a5',padding:'5px'}}>Apply</button>
+                      <div>
+                        <h4>Have a gift card?</h4>
+                        <div>
+                          <input style={{ width: '100%', border: '1px solid rgb(239 239 239)', padding: '10px', background: '#f9f9f9' }} type="text" placeholder="Enter your code..." />
+                          <div>
+                            <button style={{ border: '1px solid #a5a5a5', padding: '5px' }}>Apply</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="btn-checkout my-3">
+                        <button className="CheckoutBtn" onClick={handlePlaceOrder}>PROCEED TO CHECKOUT</button>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="btn-checkout my-3">
-                  <button className="CheckoutBtn"  onClick={handlePlaceOrder}>PROCEED TO CHECKOUT</button>
+              </div>
+            ) :
+              <div style={{ height: isLoading ? '350px' : '100%' }}>
+                <div className="loader-overlay">
+                  <CircularProgress className="loadingBarManage" />
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            }
+          </>
+        }
       </div >
-      <div
-        style={{
-          position: cartListData?.length === 0 || isLoading ? 'absolute' : 'static',
-          bottom: cartListData?.length === 0 || isLoading ? '0px' : 'auto',
-          width: '100%'
-        }}
-        className="mobileFootreCs"
-      >
+      <div className="mobileFootreCs" style={{ width: '100%' }}>
         <Footer />
       </div>
     </>

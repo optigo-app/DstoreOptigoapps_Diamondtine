@@ -627,7 +627,7 @@ export default function Header() {
     console.log('finalData', finalData);
     // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
 
-   
+
 
     if (finalData) {
       let resData;
@@ -647,7 +647,7 @@ export default function Header() {
             if (res) {
               // console.log("test",res);
               localStorage.setItem("getPriceData", JSON.stringify(res))
-              navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData }})
+              navigation(`/productpage`, { state: { menuFlag: finalData?.menuname, filtervalue: finalData } })
               setTimeout(() => {
                 setDrawerOpen(false);
                 handleMouseLeave();
@@ -876,185 +876,144 @@ export default function Header() {
 
       {drawerOpen && (
         <>
-          {islogin == 'true' ? (
-            <Drawer
-              anchor="left"
-              open={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-              PaperProps={{ style: { width: drawerWidth, padding: '0px 10px 0px 10px' } }}
-            >
-              <div className="smilingMobileSubDivDrawr" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '3px' }}>
-                <div className="mobileViewFirstDiv1" style={{ display: 'flex', alignItems: 'center', width: '33.33%' }}>
-                  <IconButton onClick={() => setDrawerOpen(false)}>
-                    <CloseIcon />
-                  </IconButton>
-                </div>
-                <div className="mobileViewFirstDiv2Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%' }}>
-                  <a className="mobileViewFirstDiv2Drawer" href="/">
-                    {titleImg && <img src={titleImg} className="MainlogogMobileImageDrawer" style={islogin == 'true' ? containerStyle : alternateStyle} />}
-                  </a>
-                </div>
-                <div className="mobileViewFirstDiv3Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%', justifyContent: 'flex-end' }}>
-                  <Badge
-                    badgeContent={getWishListCount}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                    style={{ marginInline: '15px' }}
-                  >
-                    <li
-                      onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
-                      style={{
-                        marginLeft: "-10px",
-                        cursor: "pointer",
-                        listStyle: 'none',
-                        marginTop: "0px",
-                      }}
-                      sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
-                    >
-                      <GoHeart color="#7D7F85" fontSize='20px' />
-                    </li>
-                  </Badge>
-                  <Badge
-                    badgeContent={getCartListCount}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                    style={{ marginInline: '15px' }}
-                    sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
-                  >
-                    <li
-                      onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}
-                      style={{
-                        marginLeft: "-10px",
-                        cursor: "pointer",
-                        listStyle: 'none',
-                        marginTop: "0px",
-                      }}
-                    >
-                      <HiOutlineShoppingBag fontSize='20px' />
-                    </li>
-                  </Badge>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer", marginTop: "0" }}
-                    onClick={handleLogout}
-                  >
-                    <FaPowerOff style={{ fontSize: '20px' }} />
-                  </li>
-                </div>
-              </div>
-              <List sx={{ paddingTop: '0', marginBottom: '20px' }}>
-                {menuItems.map(menuItem => (
-                  <div key={menuItem.menuid}>
-                    <ButtonBase
-                      component="div"
-                      onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
-                      className="muilistMenutext"
-                      style={{ width: '100%' }}
-                    >
-                      <ListItem style={{ paddingBottom: '0px' }}>
-                        <ListItemText primary={menuItem.menuname} className="muilistMenutext" />
-                      </ListItem>
-                    </ButtonBase>
-                    {selectedMenu === menuItem.menuname && (
-                      <>
-                        <ButtonBase
-                          component="div"
-                          onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
-                          style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
-                        >
-                          <div style={{ paddingLeft: '10px' }}>
-                            <button class="underline-button">view all</button>
-                          </div>
-                        </ButtonBase>
-                        <List>
-                          {menuItem.param1.map(subMenuItem => (
-                            <div key={subMenuItem.param1dataid}>
-                              <ButtonBase
-                                component="div"
-                                onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
-                                style={{ width: '100%' }}
-                              >
-                                <ListItem className="muilistSubMenutext" style={{ paddingLeft: '20px', paddingTop: '0px', paddingBottom: '0px' }}>
-                                  <ListItemText primary={subMenuItem.param1dataname} />
-                                </ListItem>
-                              </ButtonBase>
-                              {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
-                              {selectedMenu === menuItem.menuname && (
-                                <>
-                                  {/* <div style={{ paddingLeft: '10px' }}>
-                                    <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
-                                  </div> */}
-                                  <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
-                                    {subMenuItem.param2.map(subSubMenuItem => (
-                                      <ButtonBase
-                                        component="div"
-                                        onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
-                                        style={{ width: '100%' }}
-                                      >
-                                        <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
-                                          <ListItemText primary={subSubMenuItem.param2dataname} className="muilist2ndSubMenutext" />
-                                        </ListItem>
-                                      </ButtonBase>
-                                    ))}
-                                  </List>
-                                </>
-                              )}
-                            </div>
-                          ))}
-                        </List>
-                      </>
-                    )}
-                  </div>
-                ))}
-              </List>
-            </Drawer>
-          ) :
-            <Drawer
-              anchor="left"
-              open={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-              PaperProps={{ style: { width: drawerWidth, padding: '0px 10px 0px 10px' } }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px' }}>
+          <Drawer
+            anchor="left"
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            PaperProps={{ style: { width: drawerWidth, padding: '0px 10px 0px 10px' } }}
+          >
+            <div className="smilingMobileSubDivDrawr" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '3px' }}>
+              <div className="mobileViewFirstDiv1" style={{ display: 'flex', alignItems: 'center', width: '33.33%' }}>
                 <IconButton onClick={() => setDrawerOpen(false)}>
                   <CloseIcon />
                 </IconButton>
-                <Link to="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  {titleImg && <img src={titleImg} alt="Title" className="logoImage1" style={{ marginTop: '-32px' }} />}
-                </Link>
-                <List>
-                  <ListItem onClick={() => { setDrawerOpen(false); navigation('/LoginOption') }}>
-                    <ListItemText primary="Log In" />
-                  </ListItem>
-                </List>
               </div>
-              <List>
-                <ListItem onClick={() => { setDrawerOpen(false); ScrollToView('brandsComponentID') }}>
-                  <ListItemText primary="Our Brands" />
-                </ListItem>
-                <ListItem onClick={() => { setDrawerOpen(false); ScrollToView('elveeGiftMainId') }}>
-                  <ListItemText primary="Product" />
-                </ListItem>
-                <ListItem onClick={() => {
-                  setDrawerOpen(false);
-                  ScrollToView('craftmenshipId');
-                }}>
-                  <ListItemText primary="Our Craftsmanship" />
-                </ListItem>
-                <ListItem onClick={() => { setDrawerOpen(false); ScrollToView('mainGalleryConatinerID') }}>
-                  <ListItemText primary="Gallery" />
-                </ListItem>
-                <ListItem onClick={() => { setDrawerOpen(false); ScrollToView('mainSocialMediaConatinerID') }}>
-                  <ListItemText primary="Social Media" />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Contact" />
-                </ListItem>
-              </List>
-            </Drawer>
-          }
+              <div className="mobileViewFirstDiv2Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%' }}>
+                <a className="mobileViewFirstDiv2Drawer" href="/">
+                  {titleImg && <img src={titleImg} className="MainlogogMobileImageDrawer" style={islogin == 'true' ? containerStyle : alternateStyle} />}
+                </a>
+              </div>
+              <div className="mobileViewFirstDiv3Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%', justifyContent: 'flex-end' }}>
+                <Badge
+                  badgeContent={getWishListCount}
+                  max={1000}
+                  overlap={"rectangular"}
+                  color="secondary"
+                  style={{ marginInline: '15px' }}
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      backgroundColor: '#a8807c',
+                    },
+                  }}
+                >
+                  <li
+                    onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
+                    style={{
+                      marginLeft: "-10px",
+                      cursor: "pointer",
+                      listStyle: 'none',
+                      marginTop: "0px",
+                    }}
+                    sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
+                  >
+                    <GoHeart color="#7D7F85" fontSize='20px' />
+                  </li>
+                </Badge>
+                <Badge
+                  badgeContent={getCartListCount}
+                  max={1000}
+                  overlap={"rectangular"}
+                  color="secondary"
+                  style={{ marginInline: '15px' }}
+                  sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20, backgroundColor: '#a8807c' } }}
+                >
+                  <li
+                    onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}
+                    style={{
+                      marginLeft: "-10px",
+                      cursor: "pointer",
+                      listStyle: 'none',
+                      marginTop: "0px",
+                    }}
+                  >
+                    <HiOutlineShoppingBag fontSize='20px' />
+                  </li>
+                </Badge>
+                <li
+                  className="nav-li-smining"
+                  style={{ cursor: "pointer", marginTop: "0" }}
+                  onClick={handleLogout}
+                >
+                  <FaPowerOff style={{ fontSize: '20px' }} />
+                </li>
+              </div>
+            </div>
+            <List sx={{ paddingTop: '0', marginBottom: '20px' }}>
+              {menuItems.map(menuItem => (
+                <div key={menuItem.menuid}>
+                  <ButtonBase
+                    component="div"
+                    onClick={() => handleLoginMenuClick(menuItem.menuname, null, "iconclicked")}
+                    className="muilistMenutext"
+                    style={{ width: '100%' }}
+                  >
+                    <ListItem style={{ paddingBottom: '0px' }}>
+                      <ListItemText primary={menuItem.menuname} className="muilistMenutext" />
+                    </ListItem>
+                  </ButtonBase>
+                  {selectedMenu === menuItem.menuname && (
+                    <>
+                      <ButtonBase
+                        component="div"
+                        onClick={() => handleLoginMenuClick(menuItem.menuname, menuItem)}
+                        style={{ width: '100%', display: 'flex', justifyContent: 'start' }}
+                      >
+                        <div style={{ paddingLeft: '10px' }}>
+                          <button class="underline-button">view all</button>
+                        </div>
+                      </ButtonBase>
+                      <List>
+                        {menuItem.param1.map(subMenuItem => (
+                          <div key={subMenuItem.param1dataid}>
+                            <ButtonBase
+                              component="div"
+                              onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}
+                              style={{ width: '100%' }}
+                            >
+                              <ListItem className="muilistSubMenutext" style={{ paddingLeft: '20px', paddingTop: '0px', paddingBottom: '0px' }}>
+                                <ListItemText primary={subMenuItem.param1dataname} />
+                              </ListItem>
+                            </ButtonBase>
+                            {/* {selectedSubMenu === subMenuItem.param1dataname && ( */}
+                            {selectedMenu === menuItem.menuname && (
+                              <>
+                                {/* <div style={{ paddingLeft: '10px' }}>
+                                    <button class="underline-button" onClick={() => handleSubMenuClick(menuItem, subMenuItem.param1dataname, subMenuItem)}>View All</button>
+                                  </div> */}
+                                <List style={{ paddingTop: '0px', paddingBottom: '0px' }}>
+                                  {subMenuItem.param2.map(subSubMenuItem => (
+                                    <ButtonBase
+                                      component="div"
+                                      onClick={() => handleSubSubMenuClick(menuItem, subMenuItem, subSubMenuItem.param2dataname, subSubMenuItem)}
+                                      style={{ width: '100%' }}
+                                    >
+                                      <ListItem key={subSubMenuItem.param2dataid} style={{ paddingLeft: '30px', paddingTop: '0px', paddingBottom: '0px' }}>
+                                        <ListItemText primary={subSubMenuItem.param2dataname} className="muilist2ndSubMenutext" />
+                                      </ListItem>
+                                    </ButtonBase>
+                                  ))}
+                                </List>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </List>
+                    </>
+                  )}
+                </div>
+              ))}
+            </List>
+          </Drawer>
         </>
       )}
 
@@ -1110,6 +1069,11 @@ export default function Header() {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
+                      sx={{
+                        '& .MuiBadge-badge': {
+                          backgroundColor: '#a8807c',
+                        },
+                      }}
                     >
                       <Tooltip title="WishList">
                         <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
@@ -1122,6 +1086,11 @@ export default function Header() {
                       max={1000}
                       overlap={"rectangular"}
                       color="secondary"
+                      sx={{
+                        '& .MuiBadge-badge': {
+                          backgroundColor: '#a8807c',
+                        },
+                      }}
                     >
                       <Tooltip title="Cart">
                         <li
@@ -1165,6 +1134,7 @@ export default function Header() {
                     <li
                       className="nav-li-smining"
                       style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase' }}
+                      onClick={() => navigation('/')}
                     >
                       Home
                     </li>
@@ -1186,7 +1156,8 @@ export default function Header() {
                     <li
                       className="nav-li-smining"
                       style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase' }}
-                    >
+                      onClick={() => navigation('/faq')}
+                    >      
                       FAQS
                     </li>
                   </ul>
@@ -1257,17 +1228,18 @@ export default function Header() {
           <>
             <div className={`shop-dropdown ${expandedMenu !== null ? "open" : ""}`} onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
               <div
-               style={{
-                display: "flex",
-                padding: "50px",
-                color: "#7d7f85",
-                gap: "50px",
-                justifyContent: 'space-between',
-                width: 'fit-content',
-                margin: '0 auto',
-                backgroundColor: 'white',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-              }}
+                style={{
+                  display: "flex",
+                  padding: "50px",
+                  color: "#7d7f85",
+                  gap: "50px",
+                  justifyContent: 'space-between',
+                  width: 'fit-content',
+                  margin: '0 auto',
+                  backgroundColor: 'white',
+                  boxShadow: '5px 10px 16px rgba(51, 51, 51, 0.05), -5px 10px 16px rgba(51, 51, 51, 0.05)',
+
+                }}
                 className="menuDropdownData"
               >
                 <div style={{}}>
@@ -1387,6 +1359,11 @@ export default function Header() {
                     color="secondary"
                     style={{ marginInline: '5px' }}
                     className="smilingHeaderWhishlistIcon"
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        backgroundColor: '#a8807c',
+                      },
+                    }}
                   >
                     <li style={{ listStyle: 'none', cursor: 'pointer' }} onClick={() => navigation("/myWishList")}>
                       <GoHeart color="#7D7F85" fontSize='30px' className="mobileViewSmilingTop1Icone" />
@@ -1400,6 +1377,11 @@ export default function Header() {
                     overlap={"rectangular"}
                     color="secondary"
                     style={{ marginInline: '10px' }}
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        backgroundColor: '#a8807c',
+                      },
+                    }}
                   >
                     <li
                       onClick={() => { setDrawerOpen(false); navigation('/CartPage') }}

@@ -16,3 +16,13 @@
     margin-right: auto;
   }
   
+
+  @media screen and (max-width: 768px) {
+    .image-container{
+        margin-top: 20px;
+    }
+    .centered-image{
+        width: 90%;
+    }
+
+  }
