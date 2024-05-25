@@ -2500,12 +2500,17 @@ const ProductList = () => {
                   </div>
                 </div>
               </div>
+              <div style={{width:'100%', display:'flex', justifyContent:'center',padding:'15px 0px',borderBottom:'1px solid #ebebeb'}}>
+                <div className='breadCrumb_menu_List'>
+                   <span style={{textTransform:'uppercase'}}>{`${menuParamsState?.menuname || ''}${menuParamsState?.FilterVal1 ? ` > ${menuParamsState?.FilterVal1}` : ''}${menuParamsState?.FilterVal2 ? ` > ${menuParamsState?.FilterVal2}` : ''}`}</span> 
+                </div>
+                </div>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              paddingTop: '30px',
+              paddingTop: '10px',
               marginInline: '13%'
             }}
             className='paddingTopMobileSet mainProduct'
@@ -2648,6 +2653,7 @@ const ProductList = () => {
                 </div>
               </div>
               <div className="smilingProductMain" id="smilingProductMain">
+                
                 <div
                   className="smilingProductSubMain"
                   style={{ width: "100%", display: "flex", position: "relative",gap:'14px'}}

@@ -1277,14 +1277,14 @@ export default function CartPage() {
   const [qtyUpdateWaiting, setQtyUpdateWaiting] = useState(false);
 
   const handleIncrementQuantity = (designNo,q) => {
-    setLastEnteredQuantity({designNo: q+1, d:designNo,Q:q+1});
-    handleUpdateQuantity(designNo, q+1 );
+    setLastEnteredQuantity({designNo:q+1, d:designNo,Q:q+1});
+    handleUpdateQuantity(designNo,q+1);
   };
   
-  const handleDecrementQuantity = (designNo, q) => {
+  const handleDecrementQuantity = (designNo,q) => {
     if (q > 1) {
-      setLastEnteredQuantity({ designNo: q - 1, d: designNo, Q: q - 1 });
-      handleUpdateQuantity(designNo, q - 1);
+      setLastEnteredQuantity({ designNo:q-1, d:designNo, Q:q-1});
+      handleUpdateQuantity(designNo,q-1);
     }
   };
 
@@ -1376,7 +1376,8 @@ console.log('lastequantity', lastEnteredQuantity);
                                 }}
                                 style={{ fontFamily: "sans-serif" }}
                               />
-                              {FinalPrice()}
+                              {/* {FinalPrice()} */}
+                              {product?.UnitCost}
                             </span>
                           </span>
                         </td>
@@ -1386,7 +1387,8 @@ console.log('lastequantity', lastEnteredQuantity);
                             <Button className="QtyLess" disabled={qtyUpdateWaiting} onClick={() => handleDecrementQuantity(product?.designno, product?.Quantity)}>-</Button>
                             </div>
                             <p className="QTYvalue">
-                              {lastEnteredQuantity.d == product?.designno ? lastEnteredQuantity.Q : product?.Quantity}
+                              {/* {lastEnteredQuantity.d == product?.designno ? lastEnteredQuantity.Q : product?.Quantity} */}
+                              {product?.Quantity ?? 1}
                             </p>
                             <div>
                             <Button className='QtyAdd' disabled={qtyUpdateWaiting} onClick={() => handleIncrementQuantity(product?.designno, product?.Quantity)}>+</Button>
@@ -1411,7 +1413,8 @@ console.log('lastequantity', lastEnteredQuantity);
                                 }}
                                 style={{ fontFamily: "sans-serif" }}
                               />
-                              {(FinalPrice() * (lastEnteredQuantity?.Q ?? 1)).toFixed(2)}
+                              {/* {(product?.UnitCost * ( lastEnteredQuantity?.d == product?.designNo ? (lastEnteredQuantity?.Q ?? 1) : 1)).toFixed(2)} */}
+                              {(product?.UnitCost * product?.Quantity).toFixed(2)}
                             </span>
                             </span>
                             </td>
