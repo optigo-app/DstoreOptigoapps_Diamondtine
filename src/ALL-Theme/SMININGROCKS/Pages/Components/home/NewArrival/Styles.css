@@ -1,6 +1,15 @@
-.titleNewArrival{
+.titleNewArrival {
     color: #A8807C;
 }
-.newArrivalPdTitle{
+
+.newArrivalPdTitle {
     color: #A8807C;
+}
+
+
+@media screen and (max-width: 768px) {
+    .NewArrMainDiv {
+        margin: 20px 0px 20px 0px !important;
+    }
+
 }

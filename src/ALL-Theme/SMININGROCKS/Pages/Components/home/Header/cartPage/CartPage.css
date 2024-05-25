@@ -165,12 +165,13 @@
 .browseBtnMore {
     height: 50px;
     width: 220px;
-    border: none;
+    border: 1px solid #7f8538;
     outline: none;
-    background-color: #7d7f85;
-    color: white;
+    color: #A8807C;
+    background: none;
     font-size: 15px;
     font-weight: 500;
+    margin-bottom: 50px;
 }
 
 .browseBtnMore:hover {

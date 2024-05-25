@@ -242,22 +242,26 @@
 }
 
 .nav-li-smining {
-    /* font-weight: 500; */
     font-size: 14px !important;
     text-transform: capitalize;
     color: white !important;
 }
 
 .nav-li-smining:hover {
-    /* font-weight: 600;
-    transform: scale(1.1);
-    transition: transform 0.4s ease; */
+    text-decoration-color: #a8807c !important;
+    text-decoration: underline;
+}
+
+.activeMenu {
+    text-decoration-color: #a8807c !important;
     text-decoration: underline;
 }
 
 .activeMenu {
     text-decoration: underline;
-}
+    text-decoration-color: #a8807c;
+} 
+
 
 .nav-li {
     font-weight: 500;
@@ -852,8 +856,7 @@
     }
 
     .MainlogogMobileImageDrawer{
-        width: 60% !important;
-        margin-left: 0px !important;
+        width: 100% !important;
     }
 }
 
@@ -875,8 +878,7 @@
 @media (min-width: 768px) and (max-width: 1440px) {
 
     .MainlogogMobileImage {
-        width: 45% !important;
-        margin-left: 0px !important;
+        width: 100% !important;
     }
 
     
@@ -927,9 +929,7 @@
 
 @media (min-width: 600px) and (max-width: 769px) {
     .MainlogogMobileImage {
-        width: 50% !important;
-        margin-top: -11px;
-        margin-left: 0px !important;
+        width: 100% !important;
     }
 }
 
@@ -1033,13 +1033,13 @@
     }
 
     .MainlogogMobileImage {
-        width: 45% !important;
-        margin-top: -12px;
+        width: 100% !important;
+        /* margin-top: -12px; */
     }
 
     .MainlogogMobileImageDrawer{
-        width: 50%!important;
-        margin-left: 20px!important;
+        width: 100%!important;
+        /* margin-left: 20px!important; */
     }
 
     .mobileViewSmilingTop2Icone {
@@ -1076,9 +1076,9 @@
 
 @media screen and (max-width: 400px) {
     .MainlogogMobileImage {
-        width: 50% !important;
+        width: 100% !important;
         /* margin-top: -11px */
-        margin-left: 0px !important;
+        /* margin-left: 0px !important; */
     }
 
     .mobileHeaderSmining {
