@@ -804,19 +804,20 @@ export default function Header() {
     drawerWidth = '25%';
   }
 
-  {islogin == 'true' &&
-  window.addEventListener('scroll', function () {
-    var topHeader = document?.querySelector('.gorjanaTopHeader');
-    var bottomHeader = document?.querySelector('.gorajanaBottomHeaderMain');
-    var fixedHeader = document?.getElementById('fixedHeader');
+  {
+    islogin == 'true' &&
+    window.addEventListener('scroll', function () {
+      var topHeader = document?.querySelector('.gorjanaTopHeader');
+      var bottomHeader = document?.querySelector('.gorajanaBottomHeaderMain');
+      var fixedHeader = document?.getElementById('fixedHeader');
 
-    if (window.pageYOffset > 100 && topHeader?.getBoundingClientRect()?.bottom <= 0 && bottomHeader?.getBoundingClientRect()?.top <= 0) {
-      fixedHeader?.classList.add('fixed');
-    } else {
-      fixedHeader?.classList.remove('fixed');
-    }
-  });
-}
+      if (window.pageYOffset > 100 && topHeader?.getBoundingClientRect()?.bottom <= 0 && bottomHeader?.getBoundingClientRect()?.top <= 0) {
+        fixedHeader?.classList.add('fixed');
+      } else {
+        fixedHeader?.classList.remove('fixed');
+      }
+    });
+  }
 
   return (
     <>
@@ -1138,12 +1139,14 @@ export default function Header() {
                       style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase' }}
                       onClick={() => navigation('/')}
                     >
-                      Home
+                      <span className="nav-li-sminingSpan">
+                        Home
+                      </span>
                     </li>
                     {menuItems.map((item, index) => (
                       <li
                         className="nav-li-smining"
-                        style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase', textDecoration: hoveredIndex === index ? 'underline' : 'none' }}
+                        style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase' }}
                         key={index}
                         label={item.menuname}
                         onMouseEnter={() => { setLeval0Data(item); handleMouseEnter(index, item) }}
@@ -1152,15 +1155,19 @@ export default function Header() {
                         }}
                         onClick={() => handleMenuClick(item)}
                       >
-                        {item.menuname}
+                        <span className="nav-li-sminingSpan">
+                          {item.menuname}
+                        </span>
                       </li>
                     ))}
                     <li
                       className="nav-li-smining"
                       style={{ height: '100%', display: 'flex', alignItems: 'center', cursor: "pointer", marginTop: '10px', textTransform: 'uppercase' }}
                       onClick={() => navigation('/faq')}
-                    >      
-                      FAQS
+                    >
+                      <span className="nav-li-sminingSpan">
+                        FAQS
+                      </span>
                     </li>
                   </ul>
                 </>
