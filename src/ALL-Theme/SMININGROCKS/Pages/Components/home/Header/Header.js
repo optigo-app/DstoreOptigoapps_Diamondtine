@@ -804,17 +804,19 @@ export default function Header() {
     drawerWidth = '25%';
   }
 
+  {islogin == 'true' &&
   window.addEventListener('scroll', function () {
-    var topHeader = document.querySelector('.gorjanaTopHeader');
-    var bottomHeader = document.querySelector('.gorajanaBottomHeaderMain');
-    var fixedHeader = document.getElementById('fixedHeader');
+    var topHeader = document?.querySelector('.gorjanaTopHeader');
+    var bottomHeader = document?.querySelector('.gorajanaBottomHeaderMain');
+    var fixedHeader = document?.getElementById('fixedHeader');
 
-    if (window.pageYOffset > 100 && topHeader.getBoundingClientRect().bottom <= 0 && bottomHeader.getBoundingClientRect().top <= 0) {
-      fixedHeader.classList.add('fixed');
+    if (window.pageYOffset > 100 && topHeader?.getBoundingClientRect()?.bottom <= 0 && bottomHeader?.getBoundingClientRect()?.top <= 0) {
+      fixedHeader?.classList.add('fixed');
     } else {
-      fixedHeader.classList.remove('fixed');
+      fixedHeader?.classList.remove('fixed');
     }
   });
+}
 
   return (
     <>
@@ -1038,8 +1040,8 @@ export default function Header() {
           </div>
           <div className="gorajanaBottomHeaderMain">
             <div className="daimondHeaderDiv1">
-              <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
-              <input
+              {/* <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} /> */}
+              {/* <input
                 type="text"
                 placeholder="Search..."
                 value={searchText}
@@ -1050,7 +1052,7 @@ export default function Header() {
                 }}
                 className="serachinputBoxOverly"
                 onKeyDown={searchDataFucn}
-              />
+              /> */}
             </div>
             <div className="daimondHeaderDiv2">
               <img

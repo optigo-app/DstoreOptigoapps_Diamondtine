@@ -573,7 +573,7 @@ export default function Delivery() {
                                         </p>
                                         <span style={{ fontSize: '10px', marginLeft: '0px' }}>My Cart &gt; Delivery</span>
                                     </div>
-                                    <img src={`${storImagePath()}/images/HomePage/MainBanner/image/featuresImage.png`} className='featherImage' />
+                                    {/* <img src={`${storImagePath()}/images/HomePage/MainBanner/image/featuresImage.png`} className='featherImage' /> */}
                                 </div>
                             </div>
                         </div>
