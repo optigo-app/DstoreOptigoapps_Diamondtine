@@ -166,7 +166,7 @@ export default function Payment() {
                                     </p>
                                     <span style={{ fontSize: '10px', marginLeft: '40px' }}>My Cart &gt; Delivery &gt; Payment</span>
                                 </div>
-                                <img src={`${storImagePath()}/images/HomePage/MainBanner/image/featuresImage.png`} className='featherImage' />
+                                {/* <img src={`${storImagePath()}/images/HomePage/MainBanner/image/featuresImage.png`} className='featherImage' /> */}
                             </div>
                         </div>
                     </div>
