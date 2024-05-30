@@ -71,6 +71,8 @@ export default function Header() {
   const [menul2data, setMenul2data] = useState([])
 
   const [leval0Data, setLeval0Data] = useState()
+  const [companyInfoData, setCompanuInfoData] = useState();
+  const [socialMediaData, setSocialMediaData] = useState([]);
 
   // const [newMenu1Data,setNewMenu1Data] = useState([])
   // const [newMenu2Data,setNewMenu2Data] = useState([])
@@ -818,6 +820,7 @@ export default function Header() {
       }
     });
   }
+
 
   return (
     <>
