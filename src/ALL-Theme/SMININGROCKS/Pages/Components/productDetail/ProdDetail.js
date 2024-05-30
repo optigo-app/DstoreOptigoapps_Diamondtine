@@ -285,7 +285,7 @@ const ProdDetail = () => {
       }
     }
 
-
+    // console.log("diaqc111",diaQColOpt);
     // let dqcc = ColorStoneQualityColor?.find((dqc) => `${dqc.Quality}-${dqc.color}` === csQualColor)
 
     // if (srProdPriceData?.cSQopt && loginInfo?.cmboCSQCid !== "0,0") {
