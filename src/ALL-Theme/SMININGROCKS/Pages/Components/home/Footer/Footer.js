@@ -1,11 +1,60 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Footer.css'
 import { companyLogo } from '../../../../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Footer() {
     const titleImg = useRecoilValue(companyLogo);
+    const [storeInitData, setStoreInitData] = useState();
+    const [companyInfoData, setCompanuInfoData] = useState();
+    const [socialMediaData, setSocialMediaData] = useState([]);
+    const [email, setEmail] = useState();
+    const [selectedFooteVal, setSelectedVal] = useState(0);
+    const navigation = useNavigate();
+
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+
+     const handleSubmitNewlater = async () => {
+        const storeInit = JSON.parse(localStorage.getItem('storeInit'));
+        const newslater = storeInit?.newslatter;
+        console.log('newsletter', newslater);
+        if (email) {
+            if (newslater) {
+                const requestOptions = {
+                    method: "GET",
+                    redirect: "follow"
+                };
+                const newsletterUrl = `${newslater}${email}`;
+                fetch(newsletterUrl, requestOptions)
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.error(error));
+            }
+        }
+
+    };
+
+    const handleNavigte = (navigateUrl) => {
+        navigation(navigateUrl)
+    }
+
+    useEffect(() => {
+        const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
+        setStoreInitData(storeInit);
+        const companyInfoData = JSON.parse(localStorage.getItem("CompanyInfoData")) ?? ""
+        if(companyInfoData){
+            setCompanuInfoData(companyInfoData)
+            const parsedSocilaMediaUrlData = (companyInfoData?.SocialLinkObj);
+            setSocialMediaData(parsedSocilaMediaUrlData)
+        }
+    }, [])
+
+
     return (
         <div>
             <div className='daimondFooterMain'>
@@ -14,8 +63,8 @@ export default function Footer() {
                         <p className='subScriMainTitle'>GET 5% OFF YOUR FIRST ORDER</p>
                         <p className='subScriMainSubTitle'>and stay in the loop with us</p> b
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: '20px' }}>
-                            <input type='text' className='footerInputBox' placeholder='Your email here'/>
-                            <button className='FooterSubBtn'>SUBSCRIBE</button>
+                            <input type='text' className='footerInputBox' placeholder='Your email here' value={email} onChange={handleEmailChange} required/>
+                            <button className='FooterSubBtn' onClick={handleSubmitNewlater}>SUBSCRIBE</button>
                         </div>
                     </div>
                 </div>
