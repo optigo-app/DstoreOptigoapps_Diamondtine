@@ -30,15 +30,18 @@ import CountdownTimer from './CountDownTimer/CountDownTimer';
 import AffiliationData from './PromoComponent/BrandsComponent/AffiliationData';
 import SocialMedia from './Gallery/SocialMediaSlider';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { companyLogo, designSet, isB2CFlag, loginState } from '../../../../../Recoil/atom';
+import { companyLogo, designSet, isB2CFlag, loginState, visiterCookieId } from '../../../../../Recoil/atom';
 import { Helmet } from 'react-helmet';
 import Topbanner from './topVideo/Topbanner';
 import NewArrivalProduct from './NewArrival/NewArrivalProduct';
 import WidgetsComponents from './Widgets/WidgetsComponents';
 import SocialMediaWidgets from './Widgets/SocialMediaWidgets';
 import { DesignSet } from '../../../Utils/API/DesignSet';
+import { useCookies } from 'react-cookie';
 
 export default function Home() {
+  const [cookies, setCookie, removeCookie] = useCookies(['visiterId']);
+  const [visitorCookie, setVisitorCookie] = useRecoilState(visiterCookieId)
   const islogin = useRecoilValue(loginState);
   const setDesignList = useSetRecoilState(designSet)
   const [isb2cflag, setisb2cflg] = useRecoilState(isB2CFlag)
@@ -90,6 +93,12 @@ export default function Home() {
             let isb2cflag = response?.data?.Data?.rd[0]?.IsB2BWebsite
             setisb2cflg(isb2cflag)
           }
+          let visiterId = response?.data?.Data?.rd2[0]?.VisitorId
+          if(!cookies?.visiterId){
+            setCookie('visiterId', visiterId);
+          }
+          console.log('visitor--', visiterId);
+          setVisitorCookie(visiterId);
           setTitle(title);
           setFavIcon(favIcon)
           setCompanyTitleLogo(companyLogo);
@@ -103,8 +112,10 @@ export default function Home() {
         console.error('Error:', error);
       }
     }
-
-    fetchData();
+    // const storeInit = localStorage.getItem('storeInit');
+    // if(storeInit){
+      fetchData();
+    // }
 
   }, [])
 
