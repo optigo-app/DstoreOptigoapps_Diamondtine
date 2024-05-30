@@ -938,9 +938,9 @@ const ProductList = () => {
   const handelProductSubmit = (product) => {
     console.log("clickedsss",mtTypeOption, diaQColOpt, cSQopt)
     localStorage.setItem("srProductsData", JSON.stringify(product));
-    // if (mtTypeOption && diaQColOpt && cSQopt) {
+    if (mtTypeOption && diaQColOpt && cSQopt) {
       localStorage.setItem("srProdPriceInfo", JSON.stringify({ mtTypeOption, diaQColOpt, cSQopt }))
-    // }
+    }
     navigate("/productdetail");
   };
 
