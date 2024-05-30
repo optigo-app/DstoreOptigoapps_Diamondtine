@@ -11,7 +11,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { PiStarFourThin } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { CartListCounts, HeaderData, HeaderData2, WishListCounts, companyLogo, loginState, menuTransfData, newMenuData, openSignInModal, searchData } from "../../../../../../Recoil/atom";
+import { CartListCounts, HeaderData, HeaderData2, WishListCounts, companyLogo, isB2CFlag, loginState, menuTransfData, newMenuData, openSignInModal, searchData } from "../../../../../../Recoil/atom";
 import { CommonAPI } from "../../../../Utils/API/CommonAPI";
 import Cart from "./Cart";
 // import titleImg from "../../../assets/title/sonasons.png"
@@ -42,9 +42,11 @@ import { AiFillInstagram } from "react-icons/ai";
 
 export default function Header() {
   // const [titleImg, setTitleImg ] = useState() 
+  const isb2cflag = useRecoilValue(isB2CFlag);
   const navigation = useNavigate();
   const location = useLocation();
   const dropdownRef = useRef(null);
+  const [storeInit, setStoreInit] = useState();
   const [lodingLogo, setLodingLogo] = useState(true);
   const [inputValue, setInputValue] = useState(1);
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
@@ -390,7 +392,7 @@ export default function Header() {
     let pEnc = btoa(pData)
 
     const body = {
-      con: "{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"nimesh@ymail.in\"}",
+      con: "{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"\"}",
       f: "onload (GETMENU)",
       p: pEnc
     }
@@ -406,14 +408,15 @@ export default function Header() {
   }
 
   useEffect(() => {
-    if (islogin === 'true') {
+    const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
+    setStoreInit(storeInit)
+    if (storeInit?.IsB2BWebsite == 0) {
       getMenuApi()
-      const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
-      const { IsB2BWebsite } = storeInit;
-      setIsB2BFlag(1);
-      // setIsB2BFlag(IsB2BWebsite);
+
+    } else if (storeInit?.IsB2BWebsite == 1 && islogin == 'true') {
+      getMenuApi()
     }
-  }, [islogin])
+  }, [islogin, isb2cflag])
 
   const toggleList = () => {
     setIsOpen(!isOpen);
@@ -807,18 +810,18 @@ export default function Header() {
   }
 
   {
-    islogin == 'true' &&
-    window.addEventListener('scroll', function () {
-      var topHeader = document?.querySelector('.gorjanaTopHeader');
-      var bottomHeader = document?.querySelector('.gorajanaBottomHeaderMain');
-      var fixedHeader = document?.getElementById('fixedHeader');
+    ((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
+      window.addEventListener('scroll', function () {
+        var topHeader = document?.querySelector('.gorjanaTopHeader');
+        var bottomHeader = document?.querySelector('.gorajanaBottomHeaderMain');
+        var fixedHeader = document?.getElementById('fixedHeader');
 
-      if (window.pageYOffset > 100 && topHeader?.getBoundingClientRect()?.bottom <= 0 && bottomHeader?.getBoundingClientRect()?.top <= 0) {
-        fixedHeader?.classList.add('fixed');
-      } else {
-        fixedHeader?.classList.remove('fixed');
-      }
-    });
+        if (window.pageYOffset > 100 && topHeader?.getBoundingClientRect()?.bottom <= 0 && bottomHeader?.getBoundingClientRect()?.top <= 0) {
+          fixedHeader?.classList.add('fixed');
+        } else {
+          fixedHeader?.classList.remove('fixed');
+        }
+      });
   }
 
 
@@ -1024,7 +1027,7 @@ export default function Header() {
       )}
 
       {!serachsShowOverlay &&
-        <div className="sminingHeaderWeb" style={{ height: islogin == 'true' ? '190px' : '150px' }}>
+        <div className="sminingHeaderWeb" style={{ height: ((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) ? '190px' : '150px' }}>
           <div className="gorjanaTopHeader">
             <div className="contact-info">
               <IoCallOutline style={{ height: "20px", width: "40px" }} />
@@ -1067,7 +1070,7 @@ export default function Header() {
               />
             </div>
             <div className="daimondHeaderDiv3">
-              {islogin === "true" &&
+              {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
                 <ul className="nav-ul-shop" style={{ marginTop: '24px' }}>
                   <>
                     <Badge
@@ -1119,18 +1122,20 @@ export default function Header() {
                       <IoPersonOutline color="#7D7F85" fontSize='25px' />
                     </li>
                   </Tooltip>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer", marginTop: "0" }}
-                    onClick={handleLogout}
-                  >
-                    <FaPowerOff color="#7D7F85" style={{ fontSize: '25px' }} />
-                  </li>
+                  {islogin == 'true' &&
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", marginTop: "0" }}
+                      onClick={handleLogout}
+                    >
+                      <FaPowerOff color="#7D7F85" style={{ fontSize: '25px' }} />
+                    </li>
+                  }
                 </ul>
               }
             </div>
           </div>
-          {islogin == 'true' &&
+          {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
             <div id="fixedHeader" className="Smining-Top-LoginHeader">
               <div
                 className="HeaderMenuItemMainDiv"
@@ -1319,7 +1324,7 @@ export default function Header() {
             className="mobileViewFirstDiv2"
           >
             <a href="/" className="mobileViewFirstDiv2">
-              {titleImg && <img src={titleImg} className="MainlogogMobileImage" style={islogin == 'true' ? containerStyle : alternateStyle} />}
+              {titleImg && <img src={titleImg} className="MainlogogMobileImage" style={((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) ? containerStyle : alternateStyle} />}
             </a>
           </div>
           <div
@@ -1332,7 +1337,7 @@ export default function Header() {
             className="mobileViewFirstDiv3"
           >
 
-            {islogin === "false" ? (
+            {((storeInit?.IsB2BWebsite != 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) ? (
               <li
                 className="nav-li-smining"
                 style={{ cursor: "pointer", color: 'black', marginRight: '15px' }}
@@ -1407,20 +1412,32 @@ export default function Header() {
                       <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' className="mobileViewSmilingTop2Icone" />
                     </li>
                   </Badge>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer", textDecoration: 'none' }}
-                    onClick={() => navigation("/account")}
-                  >
-                    <IoPersonOutline color="#7D7F85" fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop3Icone" />
-                  </li>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer", marginTop: "0" }}
-                    onClick={handleLogout}
-                  >
-                    <FaPowerOff fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop4Icone" />
-                  </li>
+                  {islogin == 'true' &&
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", textDecoration: 'none' }}
+                      onClick={() => navigation("/account")}
+                    >
+                      <IoPersonOutline color="#7D7F85" fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop3Icone" />
+                    </li>
+                  }
+                  {islogin == 'true' ? (
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", marginTop: "0" }}
+                      onClick={handleLogout}
+                    >
+                      <FaPowerOff fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop4Icone" />
+                    </li>
+                  ) :
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", marginTop: "0" }}
+                      onClick={() => navigation('/LoginOption')}
+                    >
+                     <span style={{display:'block', width:'50px'}}>Log In</span>
+                    </li>
+                  }
                   {/* <li
                       className="nav-li-smining"
                       style={{ cursor: "pointer", marginTop: "0" }}

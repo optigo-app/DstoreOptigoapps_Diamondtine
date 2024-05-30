@@ -1,7 +1,8 @@
 import { CommonAPI } from "./CommonAPI";
 
 export const getDesignPriceList = async (param,page=1,obj={},filterObj={},autocodeList) => {
-
+  let storeinit = JSON.parse(localStorage.getItem("storeInit"));
+  
   const storeInit = JSON.parse(localStorage.getItem("storeInit"))
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const UserEmail = localStorage.getItem("registerEmail")
@@ -51,13 +52,13 @@ export const getDesignPriceList = async (param,page=1,obj={},filterObj={},autoco
   console.log("log11",encodedFilter)
 
   const GetPriceReq = {
-    "CurrencyRate": `${loginUserDetail?.CurrencyRate}`,
+    "CurrencyRate": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.CurrencyRate : loginUserDetail?.CurrencyRate}`,
     "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-    "Customerid": `${loginUserDetail?.id}`,
-    "Laboursetid": `${loginUserDetail?.pricemanagement_laboursetid}`,
-    "diamondpricelistname": `${loginUserDetail?.diamondpricelistname}`,
-    "colorstonepricelistname": `${loginUserDetail?.colorstonepricelistname}`,
-    "SettingPriceUniqueNo": `${loginUserDetail?.SettingPriceUniqueNo}`,
+    "Customerid": `${loginUserDetail?.id ?? 0}`,
+    "Laboursetid": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
+    "diamondpricelistname": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
+    "colorstonepricelistname": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
+    "SettingPriceUniqueNo": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.SettingPriceUniqueNo : loginUserDetail?.SettingPriceUniqueNo}`,
     // "Laboursetid": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
     // "diamondpricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
     // "colorstonepricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,

@@ -193,7 +193,10 @@ const ProdDetail = () => {
   useEffect(() => {
     // handelCurrencyData();
     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
-    let obj = { "CurrencyRate": loginData?.CurrencyRate, "Currencysymbol": loginData?.Currencysymbol }
+    const storedDataAll = localStorage.getItem('storeInit');
+    const data = JSON.parse(storedDataAll);
+    
+    let obj = { "CurrencyRate": data?.IsB2BWebsite == 0 ? data?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": data?.IsB2BWebsite == 0 ? data?.Currencysymbol :loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
     }
@@ -566,7 +569,7 @@ const ProdDetail = () => {
     let localProductData = JSON.parse(localStorage.getItem('srProductsData'))
     setProductData(localProductData)
     getColorImagesData(localProductData.autocode);
-    getTheImageSetImage(localProductData.autocode);
+    getTheImageSetImage(localProductData?.autocode);
     setWishListFlag(localProductData?.wishCheck)
     setCartFlag(localProductData?.checkFlag)
     getSizeData(localProductData.autocode);
@@ -577,8 +580,8 @@ const ProdDetail = () => {
   }, [])
 
   const getTheImageSetImage = (autoCode) => {
-    const storedData = localStorage.getItem('designsetlist');
-    const jsonData = JSON.parse(storedData);
+    const storedData = localStorage?.getItem('designsetlist');
+    const jsonData = JSON?.parse(storedData);
     const filteredData = jsonData.filter(item => item.autocode === autoCode);
 
     // console.log('filteredData', filteredData);

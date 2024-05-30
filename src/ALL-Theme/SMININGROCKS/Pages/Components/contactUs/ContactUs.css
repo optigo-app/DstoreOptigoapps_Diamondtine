@@ -1,11 +1,13 @@
 .Fo-contactMain {
     background-color: white;
     margin-inline: 6%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .Fo-contactBoxMain {
     display: flex;
     margin-inline: 10%;
+    margin-bottom: 50px;
 }
 
 .Fo-contactBox1 {
@@ -13,6 +15,7 @@
     width: 50%;
     padding-left: 230px;
     margin-top: 120px;
+    margin-bottom: 120px;
     border-right: 1px solid #e1e1e1;
 }
 

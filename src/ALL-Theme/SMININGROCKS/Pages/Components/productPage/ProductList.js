@@ -304,12 +304,14 @@ const ProductList = () => {
 
     }
 
-    let obj = { "CurrencyRate": loginData?.CurrencyRate, "Currencysymbol": loginData?.Currencysymbol }
+    let obj = { "CurrencyRate": data?.IsB2BWebsite == 0 ? data?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": data?.IsB2BWebsite == 0 ? data?.Currencysymbol :loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
     }
   }, [])
 
+
+  console.log('currData--', currData);
   // useEffect(()=>{
   //   let currencyData = JSON.parse(localStorage.getItem("currencyData"))
   //   setCurrData(currencyData)
@@ -568,7 +570,7 @@ const ProductList = () => {
     }
 
     if (paramnameSetting(getnewMenuData.label) === "collection") {
-      const data = ProductApiData2.filter((pd) => pd && pd.CollectionName === paramdataSetting(getnewMenuData.label))
+      const data = ProductApiData2?.filter((pd) => pd && pd.CollectionName === paramdataSetting(getnewMenuData.label))
       if (data) {
         setNewProData(data)
       }
@@ -576,14 +578,14 @@ const ProductList = () => {
 
     if (paramnameSetting(getnewMenuData.label) === "category") {
 
-      const data = ProductApiData2.filter((pd) => pd && pd.CategoryName === paramdataSetting(getnewMenuData.label))
+      const data = ProductApiData2?.filter((pd) => pd && pd.CategoryName === paramdataSetting(getnewMenuData.label))
       if (data) {
         setNewProData(data)
       }
     }
 
     if (paramnameSetting(getnewMenuData.label) === "gender") {
-      const data = ProductApiData2.filter((pd) => pd && pd.GenderName === paramdataSetting(getnewMenuData.label))
+      const data = ProductApiData2?.filter((pd) => pd && pd.GenderName === paramdataSetting(getnewMenuData.label))
       if (data) {
         setNewProData(data)
       }
@@ -1004,38 +1006,38 @@ const ProductList = () => {
 
     const newFilter = [];
 
-    let categoryFilter = JSON.parse(localStorage.getItem("CategoryFilter"))
-    let ProductTypeFilter = JSON.parse(localStorage.getItem("ProductTypeFilter"))
-    let GenderFilter = JSON.parse(localStorage.getItem("GenderFilter"))
-    let CollectionFilter = JSON.parse(localStorage.getItem("CollectionFilter"))
-    let BrandFilter = JSON.parse(localStorage.getItem("BrandFilter"))
-    let OcassionFilter = JSON.parse(localStorage.getItem("OcassionFilter"))
-    let ThemeFilter = JSON.parse(localStorage.getItem("ThemeFilter"))
-    let SubCategoryFilter = JSON.parse(localStorage.getItem("SubCategoryFilter"))
+    let categoryFilter = JSON?.parse(localStorage.getItem("CategoryFilter"))
+    let ProductTypeFilter = JSON?.parse(localStorage.getItem("ProductTypeFilter"))
+    let GenderFilter = JSON?.parse(localStorage.getItem("GenderFilter"))
+    let CollectionFilter = JSON?.parse(localStorage.getItem("CollectionFilter"))
+    let BrandFilter = JSON?.parse(localStorage.getItem("BrandFilter"))
+    let OcassionFilter = JSON?.parse(localStorage.getItem("OcassionFilter"))
+    let ThemeFilter = JSON?.parse(localStorage.getItem("ThemeFilter"))
+    let SubCategoryFilter = JSON?.parse(localStorage.getItem("SubCategoryFilter"))
 
     if (categoryFilter) {
-      newFilter.push({ label: "CATEGORY", filterList: categoryFilter.map((res) => { return { "label": res?.CategoryName, "id": res?.Categoryid } }), listType: 'Categoryid' })
+      newFilter?.push({ label: "CATEGORY", filterList: categoryFilter.map((res) => { return { "label": res?.CategoryName, "id": res?.Categoryid } }), listType: 'Categoryid' })
     }
     if (ProductTypeFilter) {
-      newFilter.push({ label: "PRODUCT TYPE", filterList: ProductTypeFilter.map((res) => { return { "label": res?.ProducttypeName, "id": res?.Producttypeid } }), listType: 'Producttypeid' })
+      newFilter?.push({ label: "PRODUCT TYPE", filterList: ProductTypeFilter.map((res) => { return { "label": res?.ProducttypeName, "id": res?.Producttypeid } }), listType: 'Producttypeid' })
     }
     if (GenderFilter) {
-      newFilter.push({ label: "GENDER", filterList: GenderFilter.map((res) => { return { "label": res?.GenderName, "id": res?.Genderid } }), listType: 'Genderid' })
+      newFilter?.push({ label: "GENDER", filterList: GenderFilter.map((res) => { return { "label": res?.GenderName, "id": res?.Genderid } }), listType: 'Genderid' })
     }
     if (CollectionFilter) {
-      newFilter.push({ label: "COLLECTION", filterList: CollectionFilter.map((res) => { return { "label": res?.CollectionName, "id": res?.Collectionid } }), listType: 'Collectionid' })
+      newFilter?.push({ label: "COLLECTION", filterList: CollectionFilter.map((res) => { return { "label": res?.CollectionName, "id": res?.Collectionid } }), listType: 'Collectionid' })
     }
     if (BrandFilter) {
-      newFilter.push({ label: "BRAND", filterList: BrandFilter.map((res) => { return { "label": res?.BrandName, "id": res?.Brandid } }), listType: 'Brandid' })
+      newFilter?.push({ label: "BRAND", filterList: BrandFilter.map((res) => { return { "label": res?.BrandName, "id": res?.Brandid } }), listType: 'Brandid' })
     }
     if (OcassionFilter) {
-      newFilter.push({ label: "OCASSION", filterList: OcassionFilter.map((res) => { return { "label": res?.OcassionName, "id": res?.Ocassionid } }), listType: 'Ocassionid' })
+      newFilter?.push({ label: "OCASSION", filterList: OcassionFilter.map((res) => { return { "label": res?.OcassionName, "id": res?.Ocassionid } }), listType: 'Ocassionid' })
     }
     if (ThemeFilter) {
-      newFilter.push({ label: "THEME", filterList: ThemeFilter.map((res) => { return { "label": res?.ThemeName, "id": res?.Themeid } }), listType: 'Themeid' })
+      newFilter?.push({ label: "THEME", filterList: ThemeFilter.map((res) => { return { "label": res?.ThemeName, "id": res?.Themeid } }), listType: 'Themeid' })
     }
     if (SubCategoryFilter) {
-      newFilter.push({ label: "SUBCATEGORY", filterList: SubCategoryFilter.map((res) => { return { "label": res?.SubCategoryName, "id": res?.SubCategoryid } }), listType: 'SubCategoryid' })
+      newFilter?.push({ label: "SUBCATEGORY", filterList: SubCategoryFilter.map((res) => { return { "label": res?.SubCategoryName, "id": res?.SubCategoryid } }), listType: 'SubCategoryid' })
     }
 
     // newFilter.push({ label: "PRICE", filterList: [] });
@@ -2669,7 +2671,7 @@ const ProductList = () => {
                         onClick={() => handlePageReload()}
                         style={{ cursor: 'pointer', fontSize: '12px',listStyle:'none',color:'#a8807c',fontFamily:'Poppins, sans-serif'}}>
                         {
-                          (Object.values(filterChecked)).filter(fc => fc.checked !== false).filter(fc => fc.checked !== undefined).length ?
+                          (Object.values(filterChecked))?.filter(fc => fc.checked !== false)?.filter(fc => fc.checked !== undefined).length ?
                             "Clean All"
                             :
                             // `Product: ${ProductApiData2?.length}`
@@ -2678,7 +2680,7 @@ const ProductList = () => {
                       </li>
                     </ul>
                     <div style={{borderTop:'1px solid #e1e1e1'}}>
-                      {NewFilterData1().map((ele, index) => (
+                      {NewFilterData1()?.map((ele, index) => (
                         <>
                           <Accordion
                             elevation={0}

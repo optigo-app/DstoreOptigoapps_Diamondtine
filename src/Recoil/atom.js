@@ -79,3 +79,8 @@ export const companyLogo = atom({
   key:'companyLogo',
   default:[]
 })
+
+export const isB2CFlag = atom({
+  key:'isB2CFlag',
+  default:''
+})
