@@ -195,7 +195,7 @@ const ProdDetail = () => {
     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
     const storedDataAll = localStorage.getItem('storeInit');
     const data = JSON.parse(storedDataAll);
-    
+
     let obj = { "CurrencyRate": data?.IsB2BWebsite == 0 ? data?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": data?.IsB2BWebsite == 0 ? data?.Currencysymbol :loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
@@ -776,11 +776,11 @@ const ProdDetail = () => {
       const customerid = data?.id;
       let autoC = autoCode
       const combinedValue = JSON.stringify({
-        autocode: `${autoC}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid}`
+        autocode: `${autoC}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: `${customerid ?? 0}`
       });
       const encodedCombinedValue = btoa(combinedValue);
       const body = {
-        "con": `{\"id\":\"\",\"mode\":\"CATEGORYSIZECOMBO\",\"appuserid\":\"${storedEmail}\"}`,
+        "con": `{\"id\":\"\",\"mode\":\"CATEGORYSIZECOMBO\",\"appuserid\":\"${storedEmail ?? ''}\"}`,
         "f": "index (getSizeData)",
         "p": encodedCombinedValue
       }

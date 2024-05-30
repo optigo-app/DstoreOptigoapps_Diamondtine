@@ -84,3 +84,8 @@ export const isB2CFlag = atom({
   key:'isB2CFlag',
   default:''
 })
+
+export const visiterCookieId = atom({
+  key:'visiterCookieId',
+  default:''
+})
