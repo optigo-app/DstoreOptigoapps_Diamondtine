@@ -29,20 +29,24 @@ import CompanyData from './ComapnayData/CompanyData';
 import CountdownTimer from './CountDownTimer/CountDownTimer';
 import AffiliationData from './PromoComponent/BrandsComponent/AffiliationData';
 import SocialMedia from './Gallery/SocialMediaSlider';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { companyLogo, loginState } from '../../../../../Recoil/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { companyLogo, designSet, isB2CFlag, loginState } from '../../../../../Recoil/atom';
 import { Helmet } from 'react-helmet';
 import Topbanner from './topVideo/Topbanner';
 import NewArrivalProduct from './NewArrival/NewArrivalProduct';
 import WidgetsComponents from './Widgets/WidgetsComponents';
 import SocialMediaWidgets from './Widgets/SocialMediaWidgets';
+import { DesignSet } from '../../../Utils/API/DesignSet';
 
 export default function Home() {
   const islogin = useRecoilValue(loginState);
+  const setDesignList = useSetRecoilState(designSet)
+  const [isb2cflag, setisb2cflg] = useRecoilState(isB2CFlag)
   const [companyTitleLogo, setCompanyTitleLogo] = useRecoilState(companyLogo)
   const [title, setTitle] = useState();
   const [favicon, setFavIcon] = useState();
   const location = useLocation();
+  const [storeInit, setStoreInit] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,9 +82,14 @@ export default function Home() {
           localStorage.setItem('UploadLogicalPath', response.data.Data.rd[0].UploadLogicalPath);
           localStorage.setItem('storeInit', JSON.stringify(response.data.Data.rd[0]));
           localStorage.setItem('myAccountFlags', JSON.stringify(response.data.Data.rd1));
+          setStoreInit(response.data.Data.rd[0])
           let title = response?.data?.Data?.rd[0]?.companyname
           let favIcon = response?.data?.Data?.rd[0]?.favicon
           let companyLogo = response?.data?.Data?.rd[0]?.companylogo
+          if(response?.data?.Data?.rd[0]?.IsB2BWebsite == 0){
+            let isb2cflag = response?.data?.Data?.rd[0]?.IsB2BWebsite
+            setisb2cflg(isb2cflag)
+          }
           setTitle(title);
           setFavIcon(favIcon)
           setCompanyTitleLogo(companyLogo);
@@ -94,7 +103,13 @@ export default function Home() {
         console.error('Error:', error);
       }
     }
-    console.log("favicon", favicon);
+
+    fetchData();
+
+  }, [])
+
+  useEffect(() => {
+    const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
 
     const getMetalTypeData = async () => {
       try {
@@ -266,7 +281,7 @@ export default function Home() {
         const storedEmail = localStorage.getItem('registerEmail') || '';
 
         const combinedValue = JSON.stringify({
-          autocode: "", FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`, Customerid: `${loginUserDetail?.id}`
+          autocode: "", FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`, Customerid: `${loginUserDetail?.id ?? 0}`
         });
         const encodedCombinedValue = btoa(combinedValue);
 
@@ -288,8 +303,13 @@ export default function Home() {
       }
 
     }
-
-    fetchData();
+    let designDataCall = async () => {
+      await DesignSet().then((res) => {
+          setDesignList(res)
+      })
+  }
+  
+  if (storeInit?.IsB2BWebsite == 0) {
     currencyCombo();
     getColorImgData();
     getMetalTypeData();
@@ -297,8 +317,20 @@ export default function Home() {
     getColorStoneQualityData();
     getMetalColor();
     storImagePath();
+    designDataCall();
+  } else if (storeInit?.IsB2BWebsite == 1 && islogin == 'true') {
+    currencyCombo();
+    getColorImgData();
+    getMetalTypeData();
+    getQualityColor();
+    getColorStoneQualityData();
+    getMetalColor();
+    storImagePath();
+    }
 
-  }, []);
+  }, [storeInit]);
+
+
   const [isLoginStatus, setIsloginStatus] = useState();
   useEffect(() => {
     if (islogin) {
@@ -335,33 +367,33 @@ export default function Home() {
           <title>{title}</title>
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
         </Helmet>
-          <>
-          <Topbanner/>
-          <NewArrivalProduct/>
-          <WidgetsComponents/>
-          <SocialMediaWidgets/>
-            {/* <Video /> */}
-            {/* <SmilingRock /> */}
-            {/* <PromoComponent1 /> */}
-            {/* <BrandsComponent /> */}
-            {/* <PromoComponent2 /> */}
-            {/* <FestiveFinds /> */}
-            {/* <OurCraftmanShip /> */}
-            {/* <GallerySlider /> */}
-            {/* <CompanyData /> */}
-            {/* <AffiliationData /> */}
-            {/* <SocialMedia /> */}
-            {/* <DaimondEveyone /> */}
-            {/* <ShopByCategory /> */}
-            {/* <SmilingBrides /> */}
-            {/* <FeaturedCollection /> */}
-            <div style={{ marginTop: '60px' }}>
-              {/* <SustainAbility /> */}
-            </div>
-            {/* <ShopifySection /> */}
-            {/* <ShopOurInstagram /> */}
-            <Footer />
-          </>
+        <>
+          <Topbanner />
+          <NewArrivalProduct />
+          <WidgetsComponents />
+          <SocialMediaWidgets />
+          {/* <Video /> */}
+          {/* <SmilingRock /> */}
+          {/* <PromoComponent1 /> */}
+          {/* <BrandsComponent /> */}
+          {/* <PromoComponent2 /> */}
+          {/* <FestiveFinds /> */}
+          {/* <OurCraftmanShip /> */}
+          {/* <GallerySlider /> */}
+          {/* <CompanyData /> */}
+          {/* <AffiliationData /> */}
+          {/* <SocialMedia /> */}
+          {/* <DaimondEveyone /> */}
+          {/* <ShopByCategory /> */}
+          {/* <SmilingBrides /> */}
+          {/* <FeaturedCollection /> */}
+          <div style={{ marginTop: '60px' }}>
+            {/* <SustainAbility /> */}
+          </div>
+          {/* <ShopifySection /> */}
+          {/* <ShopOurInstagram /> */}
+          <Footer />
+        </>
       </div>
     </div>
   )

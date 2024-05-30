@@ -31,7 +31,7 @@ export default function ContactUs() {
         });
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errors = {};
         if (!formData.fullName) {
@@ -68,7 +68,7 @@ export default function ContactUs() {
                 p: encodedCombinedValue
             };
             const response = await CommonAPI(body);
-            if(response){
+            if (response) {
                 console.log('res', response);
                 toast.success("Got it! We've received your query. We'll be in touch shortly.")
             }
@@ -88,14 +88,14 @@ export default function ContactUs() {
 
     return (
         <div style={{
-            backgroundColor: '#c0bbb1',
-            paddingTop: '110px'
+            backgroundColor: '#fffff',
+            // paddingTop: '110px'
         }}>
             <div>
                 <div style={{ marginBlock: '20px' }}>
-                    <p style={{ fontSize: '40px', color: 'white', textAlign: 'center', fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif' }}>Contact Us</p>
+                    <p style={{ fontSize: '40px', textAlign: 'center', fontFamily: 'FreightDispProBook-Regular,Times New Roman,serif' }}>Contact Us</p>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <p style={{ color: 'white', width: '300px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or queestion? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
+                        <p style={{ width: '300px', textAlign: 'center', fontSize: '15px' }}>Have a comment, suggestion or queestion? Feel free to reach out to us and we’ll getback to you as soon as possible.</p>
                     </div>
                 </div>
 
@@ -232,16 +232,28 @@ export default function ContactUs() {
                             <p className='Fo-contactBox2Title'>Call us at xxx-xxx-xxxx</p>
                             {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
                             <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
+                            <div className='mt-4'>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.057115060303!2d77.21861737616264!3d28.568047587004962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce25b4d73ffff%3A0x5244a585d7ba2ce3!2sDiamondtine!5e0!3m2!1sen!2sin!4v1717044522982!5m2!1sen!2sin"
+                                    width={600}
+                                    height={600}
+                                    style={{ border: "1px solid #f2f2f2", filter: "grayscale(100%)" }}
+                                    allowFullScreen=""
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                />
+
+                            </div>
                         </div>
                     </div>
 
                     {/* <SmilingRock /> */}
-                    <Footer />
                 </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+            <Footer />
+            {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
                 <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-            </div>
+            </div> */}
         </div>
     )
 }

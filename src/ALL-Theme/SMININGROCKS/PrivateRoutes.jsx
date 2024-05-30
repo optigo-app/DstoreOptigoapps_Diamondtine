@@ -3,6 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const PrivateRoutes = ({ isLoginStatus }) => {
     const [isLoading, setIsLoading] = useState(true);
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'));
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -16,7 +17,7 @@ const PrivateRoutes = ({ isLoginStatus }) => {
     if (isLoading) {
         return <div></div>;
     }
-    return isLoginStatus == 'true' ? <Outlet /> : <Navigate to="/" />;
+    return ((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && isLoginStatus == 'true')) ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateRoutes;
