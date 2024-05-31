@@ -27,6 +27,7 @@ import {
   colorstoneQualityColorG,
   diamondQualityColorG,
   isB2CFlag,
+  loginState,
   metalTypeG,
   newTestProdData,
   priceData,
@@ -69,6 +70,7 @@ function CustomTabPanel(props) {
 }
 
 export default function CartPage() {
+  const islogin = useRecoilValue(loginState)
   const [cartListData, setCartListData] = useState([]);
   const [imageURL, setImageURL] = useState("");
   const [yKey, setYouKey] = useState("");
@@ -172,7 +174,7 @@ export default function CartPage() {
     // handelCurrencyData();
     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
     const storeInit = JSON.parse(localStorage.getItem('storeInit'))
-    let obj = { "CurrencyRate": storeInit?.IsB2BWebsite == 0 ? storeInit?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": storeInit?.IsB2BWebsite == 0 ? storeInit?.Currencysymbol :loginData?.Currencysymbol }
+    let obj = { "CurrencyRate": storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.Currencysymbol :loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
     }
@@ -565,13 +567,13 @@ export default function CartPage() {
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const storedData = localStorage.getItem("loginUserDetail");
       const data = JSON.parse(storedData);
-      const customerid = storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId  : data.id;
+      const customerid = storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId  : data.id;
       setIsProductCuFlag(storeInit.IsProductWebCustomization);
       setIsMetalCutoMizeFlag(storeInit.IsMetalCustomization);
       setIsDaimondCstoFlag(storeInit.IsDiamondCustomization);
       setIsCColrStoneCustFlag(storeInit.IsCsCustomization);
       setCustomerID(customerid);
-      const customerEmail = (storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : data?.userid) ?? '';
+      const customerEmail = (storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId : data?.userid) ?? '';
       setUserEmail(customerEmail);
 
       const { FrontEnd_RegNo, ukey } = storeInit;
@@ -581,7 +583,7 @@ export default function CartPage() {
         CurrentPage: "1",
         PageSize: "1000",
         ukey: `${ukey}`,
-        CurrRate: `${storeInit?.IsB2BWebsite == 0 ? storeInit?.CurrencyRate : data?.CurrencyRate}`,
+        CurrRate: `${storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.CurrencyRate : data?.CurrencyRate}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
         Customerid: `${customerid}`,
       });
