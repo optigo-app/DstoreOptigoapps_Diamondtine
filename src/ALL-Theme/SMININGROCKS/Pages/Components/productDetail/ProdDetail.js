@@ -808,7 +808,7 @@ const ProdDetail = () => {
 
   const getCountFunc = async () => {
 
-    await GetCount().then((res) => {
+    await GetCount(cookies).then((res) => {
       if (res) {
         setCartCount(res.CountCart)
         setWishCount(res.WishCount)
@@ -877,7 +877,7 @@ console.log('visiorIddddd', visitorId);
         const storeInit = JSON.parse(localStorage.getItem("storeInit"))
         const UserEmail = localStorage.getItem("registerEmail")
         const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
-
+        let customerAppUserId = storeInit?.IsB2BWebsite === 0 ? cookies?.visiterId : UserEmail
         productData.checkFlag = addToCartFlag;
         localStorage.setItem("srProductsData", JSON.stringify(productData))
         const product = productData
@@ -1081,7 +1081,7 @@ console.log('visiorIddddd', visitorId);
         const encodedCombinedValue = btoa(JSON.stringify(finalJSON));
         const wishToCartEncData1 = btoa(JSON.stringify(wishToCartEncData));
         const body = {
-          con: `{\"id\":\"\",\"mode\":\"ADDTOCART\",\"appuserid\":\"${UserEmail}\"}`,
+          con: `{\"id\":\"\",\"mode\":\"ADDTOCART\",\"appuserid\":\"${customerAppUserId}\"}`,
           f: "AddToCartIconClick (ADDTOCART)",
           p: encodedCombinedValue,
         };
@@ -1109,17 +1109,19 @@ console.log('visiorIddddd', visitorId);
         const storeInit = JSON.parse(localStorage.getItem("storeInit"))
         const UserEmail = localStorage.getItem("registerEmail")
         const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
+        let customerId = storeInit?.IsB2BWebsite === 0 ? cookies?.visiterId : Customer_id
+        let customerAppUserId = storeInit?.IsB2BWebsite === 0 ? cookies?.visiterId : UserEmail
 
         productData.wishCheck = false;
         localStorage.setItem("srProductsData", JSON.stringify(productData))
 
         let prod = productData
 
-        let Data = { "designno": `${prod?.designno}`, "autocode": `${prod?.autocode}`, "metalcolorid": 0, "isSolStockNo": 0, "is_show_stock_website": "0", "isdelete_all": 0, "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`, "Customerid": `${Customer_id?.id}`, "cartidlist": "" }
+        let Data = { "designno": `${prod?.designno}`, "autocode": `${prod?.autocode}`, "metalcolorid": 0, "isSolStockNo": 0, "is_show_stock_website": "0", "isdelete_all": 0, "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`, "Customerid": `${customerId}`, "cartidlist": "" }
 
         let encodedCombinedValue = btoa(JSON.stringify(Data))
         const body = {
-          con: `{\"id\":\"\",\"mode\":\"removeFromCartList\",\"appuserid\":\"${UserEmail}\"}`,
+          con: `{\"id\":\"\",\"mode\":\"removeFromCartList\",\"appuserid\":\"${customerAppUserId}\"}`,
           f: "RemoveFromCartIconClick (removeFromCartList)",
           p: encodedCombinedValue,
         }
@@ -2147,7 +2149,7 @@ console.log('visiorIddddd', visitorId);
                         {addToCartFlag ? "REMOVE FROM CART" : "ADD TO CART"}
                       </span>
                     </div>
-
+                    {islogin == 'true' &&
                     <div className='wishlistcont'>
                       <FormControlLabel
                         label={<span className='wishlist_label' style={{ fontFamily: 'Poppins, sans-serif', color: '#999', fontSize: '16px' }}>Browse wishlist</span>}
@@ -2171,6 +2173,7 @@ console.log('visiorIddddd', visitorId);
 
                       {/* <label>Browse wishlist</label> */}
                     </div>
+                    }
                   </div>
 
                   {/* <div
@@ -2875,12 +2878,12 @@ console.log('visiorIddddd', visitorId);
             </div>
           </div> */}
           {/* <SmilingRock /> */}
-          <Footer />
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
-        <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
-      </div>
+        {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+          <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
+        </div> */}
+          <Footer />
     </div >
   );
 }

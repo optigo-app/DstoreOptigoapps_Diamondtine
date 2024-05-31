@@ -571,7 +571,7 @@ export default function CartPage() {
       setIsDaimondCstoFlag(storeInit.IsDiamondCustomization);
       setIsCColrStoneCustFlag(storeInit.IsCsCustomization);
       setCustomerID(customerid);
-      const customerEmail = (data?.userid) ?? '';
+      const customerEmail = (storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : data?.userid) ?? '';
       setUserEmail(customerEmail);
 
       const { FrontEnd_RegNo, ukey } = storeInit;

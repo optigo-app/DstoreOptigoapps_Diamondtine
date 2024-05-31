@@ -7,7 +7,7 @@ export const FullProInfoAPI = async (prodInfo) => {
   const storeInit = JSON.parse(localStorage.getItem("storeInit"))
   const currencyCombo = JSON.parse(localStorage.getItem("CURRENCYCOMBO"))
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-  const UserEmail = localStorage.getItem("registerEmail")
+  const UserEmail = localStorage.getItem("registerEmail");
 
   
   
@@ -24,13 +24,13 @@ export const FullProInfoAPI = async (prodInfo) => {
   }
 
   const GetPriceReq = {
-    "CurrencyRate": `${loginUserDetail?.CurrencyRate}`,
+    "CurrencyRate": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.CurrencyRate : loginUserDetail?.CurrencyRate}`,
     "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-    "Customerid": `${loginUserDetail?.id}`,
-    "Laboursetid": `${loginUserDetail?.pricemanagement_laboursetid}`,
-    "diamondpricelistname": `${loginUserDetail?.diamondpricelistname}`,
-    "colorstonepricelistname": `${loginUserDetail?.colorstonepricelistname}`,
-    "SettingPriceUniqueNo": `${loginUserDetail?.SettingPriceUniqueNo}`,
+    "Customerid": `${loginUserDetail?.id ?? 0}`,
+    "Laboursetid": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
+    "diamondpricelistname": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
+    "colorstonepricelistname": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
+    "SettingPriceUniqueNo": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.SettingPriceUniqueNo : loginUserDetail?.SettingPriceUniqueNo}`,
     // "Laboursetid": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
     // "diamondpricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
     // "colorstonepricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
@@ -38,10 +38,25 @@ export const FullProInfoAPI = async (prodInfo) => {
     "Filter":btoa(JSON.stringify(encodedFilter)),
   }
 
+  // const GetPriceReq = {
+  //   "CurrencyRate": `${loginUserDetail?.CurrencyRate}`,
+  //   "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
+  //   "Customerid": `${loginUserDetail?.id}`,
+  //   "Laboursetid": `${loginUserDetail?.pricemanagement_laboursetid}`,
+  //   "diamondpricelistname": `${loginUserDetail?.diamondpricelistname}`,
+  //   "colorstonepricelistname": `${loginUserDetail?.colorstonepricelistname}`,
+  //   "SettingPriceUniqueNo": `${loginUserDetail?.SettingPriceUniqueNo}`,
+  //   // "Laboursetid": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
+  //   // "diamondpricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
+  //   // "colorstonepricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
+  //   // "SettingPriceUniqueNo": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._SettingPriceUniqueNo : loginUserDetail?.SettingPriceUniqueNo }`,
+  //   "Filter":btoa(JSON.stringify(encodedFilter)),
+  // }
+
   const encodedCombinedValue = btoa(JSON.stringify(GetPriceReq));
 
   let body = {
-    "con": `{\"id\":\"Store\",\"mode\":\"getdesignpricelist\",\"appuserid\":\"${UserEmail}\"}`,
+    "con": `{\"id\":\"Store\",\"mode\":\"getdesignpricelist\",\"appuserid\":\"${UserEmail == null ? '' : UserEmail}\"}`,
     "f": "onloadFirstTimeDetailPage (fullProdInfo)",
     "p": encodedCombinedValue
   }
