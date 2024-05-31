@@ -61,6 +61,7 @@ export default function SMININGROCKS_App() {
     const location = useLocation();
     const setCartCount = useSetRecoilState(CartListCounts)
     const setWishCount = useSetRecoilState(WishListCounts)
+    
     const getCountFunc = async () => {
         await GetCount(cookies).then((res) => {
             if (res) {

@@ -206,7 +206,7 @@ export default function CartPage() {
 
 
   const getCountFunc = async () => {
-    await GetCount().then((res) => {
+    await GetCount(cookies).then((res) => {
       if (res) {
         setCartCount(res.CountCart);
         setWishCount(res.WishCount);
@@ -525,7 +525,7 @@ export default function CartPage() {
 
       const storedData = localStorage.getItem("loginUserDetail") || "0";
       const data = JSON.parse(storedData);
-      const customerid = data?.id;
+      const customerid = storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId  : data.id;
       const combinedValue = JSON.stringify({
         autocode: `${item}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
@@ -1279,10 +1279,16 @@ export default function CartPage() {
   }
 
   const handlePlaceOrder = () => {
-    let priceData = cartListData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
-    localStorage.setItem('TotalPriceData', priceData)
-    navigation("/Delivery");
-    window.scrollTo(0, 0);
+    if(storeInitData?.IsB2BWebsite == 0 && islogin == 'false'){
+      setTimeout(() => {
+        navigation("/LoginOption");
+      }, 100);
+    }else{
+      let priceData = cartListData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
+      localStorage.setItem('TotalPriceData', priceData)
+      navigation("/Delivery");
+      window.scrollTo(0, 0);
+    }
   }
 
   const [qtyUpdateWaiting, setQtyUpdateWaiting] = useState(false);
@@ -1503,7 +1509,7 @@ export default function CartPage() {
                         </p>
                       </div>
 
-                      <div>
+                      {/* <div>
                         <h4>Have a gift card?</h4>
                         <div>
                           <input style={{ width: '100%', border: '1px solid rgb(239 239 239)', padding: '10px', background: '#f9f9f9' }} type="text" placeholder="Enter your code..." />
@@ -1511,7 +1517,7 @@ export default function CartPage() {
                             <button style={{ border: '1px solid #a5a5a5', padding: '5px' }}>Apply</button>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="btn-checkout my-3">
                         <button className="CheckoutBtn" onClick={handlePlaceOrder}>PROCEED TO CHECKOUT</button>
                       </div>
