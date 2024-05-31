@@ -7,9 +7,9 @@ export const getDesignPriceList = async (param,page=1,obj={},filterObj={},autoco
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const UserEmail = localStorage.getItem("registerEmail")
 
-  let mtid =  obj?.mt ?? loginUserDetail?.MetalId
-  let diaqcId = obj?.dqc?.length > 0  && obj?.dqc[0] !== undefined && obj?.dqc[1] !== undefined ? `${obj?.dqc[0]},${obj?.dqc[1]}` :loginUserDetail?.cmboDiaQCid
-  let csqcId = obj?.csqc?.length > 0 && obj?.csqc[0] !== undefined && obj?.csqc[1] !== undefined ? `${obj?.csqc[0]},${obj?.csqc[1]}` :loginUserDetail?.cmboCSQCid
+  let mtid =  obj?.mt ?? (loginUserDetail?.MetalId ?? storeInit?.MetalId)
+  let diaqcId = obj?.dqc?.length > 0  && obj?.dqc[0] !== undefined && obj?.dqc[1] !== undefined ? `${obj?.dqc[0]},${obj?.dqc[1]}`:(loginUserDetail?.cmboDiaQCid ?? storeInit?.cmboDiaQCid)
+  let csqcId = obj?.csqc?.length > 0 && obj?.csqc[0] !== undefined && obj?.csqc[1] !== undefined ? `${obj?.csqc[0]},${obj?.csqc[1]}`:(loginUserDetail?.cmboCSQCid ?? storeInit?.cmboCSQCid)
   
   console.log("mtid",obj?.mt,diaqcId,csqcId)
   

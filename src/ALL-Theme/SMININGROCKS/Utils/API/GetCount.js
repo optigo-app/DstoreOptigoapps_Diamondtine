@@ -3,7 +3,6 @@ import { CommonAPI } from "./CommonAPI";
 
 
 export const GetCount = async(cookies) => {
-  debugger
 
         let CountObj = {};
        
