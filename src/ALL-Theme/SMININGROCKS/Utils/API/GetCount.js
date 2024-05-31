@@ -8,15 +8,16 @@ export const GetCount = async(cookies) => {
        
             const storeInit = JSON.parse(localStorage.getItem("storeInit"))
             const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
+            const islogin = localStorage.getItem("LoginUser");
             const UserEmail = localStorage.getItem("registerEmail")
-            let customerId = storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : Customer_id?.id;
+            let customerId = storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId  != undefined ? cookies?.visiterId : Customer_id?.id : Customer_id?.id;
             let customerAppUserId = storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : UserEmail
-        let EncodeData = {FrontEnd_RegNo:`${storeInit?.FrontEnd_RegNo}`,Customerid:`${customerId}`}
+            let EncodeData = {FrontEnd_RegNo:`${storeInit?.FrontEnd_RegNo}`,Customerid:`${customerId}`}
     
         const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
     
         let body = {
-            "con":`{\"id\":\"\",\"mode\":\"Getcount\",\"appuserid\":\"${storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : UserEmail}\"}`,
+            "con":`{\"id\":\"\",\"mode\":\"Getcount\",\"appuserid\":\"${storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId != undefined ? cookies?.visiterId : UserEmail : UserEmail}\"}`,
             "f":"onAddToCart-AddToWishList-Reload (cartcount)",
             "p":encodedCombinedValue
             }

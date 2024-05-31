@@ -17,7 +17,7 @@ const PrivateRoutes = ({ isLoginStatus }) => {
     if (isLoading) {
         return <div></div>;
     }
-    return ((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && isLoginStatus == 'true')) ? <Outlet /> : <Navigate to="/" />;
+    return ((storeInit?.IsB2BWebsite == 0 ) || (storeInit?.IsB2BWebsite == 1 && isLoginStatus == 'true')) ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateRoutes;

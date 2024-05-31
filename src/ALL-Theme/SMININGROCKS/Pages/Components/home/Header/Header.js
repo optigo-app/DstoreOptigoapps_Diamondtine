@@ -39,10 +39,12 @@ import { toast } from "react-toastify";
 import { SearchProductDataAPI } from "../../../../Utils/API/SearchProductDataAPI";
 import { SearchPriceDataAPI } from "../../../../Utils/API/SearchPriceDataAPI";
 import { AiFillInstagram } from "react-icons/ai";
+import { useCookies } from "react-cookie";
 
 export default function Header() {
   // const [titleImg, setTitleImg ] = useState() 
   const isb2cflag = useRecoilValue(isB2CFlag);
+  const [, , removeCookie] = useCookies(['visiterId']);
   const navigation = useNavigate();
   const location = useLocation();
   const dropdownRef = useRef(null);
@@ -555,6 +557,7 @@ export default function Header() {
     localStorage.removeItem('UploadLogicalPath');
     localStorage.removeItem('remarks');
     localStorage.removeItem('registerMobile');
+    removeCookie('visiterId');
     navigation('/')
     window.location.reload();
   }
@@ -918,31 +921,33 @@ export default function Header() {
                 </a>
               </div>
               <div className="mobileViewFirstDiv3Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%', justifyContent: 'flex-end' }}>
-                <Badge
-                  badgeContent={getWishListCount}
-                  max={1000}
-                  overlap={"rectangular"}
-                  color="secondary"
-                  style={{ marginInline: '15px' }}
-                  sx={{
-                    '& .MuiBadge-badge': {
-                      backgroundColor: '#a8807c',
-                    },
-                  }}
-                >
-                  <li
-                    onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
-                    style={{
-                      marginLeft: "-10px",
-                      cursor: "pointer",
-                      listStyle: 'none',
-                      marginTop: "0px",
+                {storeInit?.IsB2BWebsite == 0 && islogin == 'false' &&
+                  <Badge
+                    badgeContent={getWishListCount}
+                    max={1000}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    style={{ marginInline: '15px' }}
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        backgroundColor: '#a8807c',
+                      },
                     }}
-                    sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
                   >
-                    <GoHeart color="#7D7F85" fontSize='20px' />
-                  </li>
-                </Badge>
+                    <li
+                      onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
+                      style={{
+                        marginLeft: "-10px",
+                        cursor: "pointer",
+                        listStyle: 'none',
+                        marginTop: "0px",
+                      }}
+                      sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
+                    >
+                      <GoHeart color="#7D7F85" fontSize='20px' />
+                    </li>
+                  </Badge>
+                }
                 <Badge
                   badgeContent={getCartListCount}
                   max={1000}
@@ -1088,23 +1093,25 @@ export default function Header() {
               {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
                 <ul className="nav-ul-shop" style={{ marginTop: '24px' }}>
                   <>
-                    <Badge
-                      badgeContent={getWishListCount}
-                      max={1000}
-                      overlap={"rectangular"}
-                      color="secondary"
-                      sx={{
-                        '& .MuiBadge-badge': {
-                          backgroundColor: '#a8807c',
-                        },
-                      }}
-                    >
-                      <Tooltip title="WishList">
-                        <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
-                          <GoHeart color="#7D7F85" fontSize='25px' />
-                        </li>
-                      </Tooltip>
-                    </Badge>
+                    {storeInit?.IsB2BWebsite == 0 && islogin == 'false' &&
+                      <Badge
+                        badgeContent={getWishListCount}
+                        max={1000}
+                        overlap={"rectangular"}
+                        color="secondary"
+                        sx={{
+                          '& .MuiBadge-badge': {
+                            backgroundColor: '#a8807c',
+                          },
+                        }}
+                      >
+                        <Tooltip title="WishList">
+                          <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
+                            <GoHeart color="#7D7F85" fontSize='25px' />
+                          </li>
+                        </Tooltip>
+                      </Badge>
+                    }
                     <Badge
                       badgeContent={getCartListCount}
                       max={1000}
@@ -1384,23 +1391,25 @@ export default function Header() {
                       <IoSearch color="#7D7F85" fontSize='30px' />
                     </li>
                   } */}
-                  <Badge
-                    badgeContent={getWishListCount}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                    style={{ marginInline: '5px' }}
-                    className="smilingHeaderWhishlistIcon"
-                    sx={{
-                      '& .MuiBadge-badge': {
-                        backgroundColor: '#a8807c',
-                      },
-                    }}
-                  >
-                    <li style={{ listStyle: 'none', cursor: 'pointer' }} onClick={() => navigation("/myWishList")}>
-                      <GoHeart color="#7D7F85" fontSize='30px' className="mobileViewSmilingTop1Icone" />
-                    </li>
-                  </Badge>
+                  {storeInit?.IsB2BWebsite == 0 && islogin == 'false' &&
+                    <Badge
+                      badgeContent={getWishListCount}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                      style={{ marginInline: '5px' }}
+                      className="smilingHeaderWhishlistIcon"
+                      sx={{
+                        '& .MuiBadge-badge': {
+                          backgroundColor: '#a8807c',
+                        },
+                      }}
+                    >
+                      <li style={{ listStyle: 'none', cursor: 'pointer' }} onClick={() => navigation("/myWishList")}>
+                        <GoHeart color="#7D7F85" fontSize='30px' className="mobileViewSmilingTop1Icone" />
+                      </li>
+                    </Badge>
+                  }
 
 
                   <Badge
@@ -1450,7 +1459,7 @@ export default function Header() {
                       style={{ cursor: "pointer", marginTop: "0" }}
                       onClick={() => navigation('/LoginOption')}
                     >
-                     <span style={{display:'block', width:'50px'}}>Log In</span>
+                      <span style={{ display: 'block', width: '50px' }}>Log In</span>
                     </li>
                   }
                   {/* <li
