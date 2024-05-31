@@ -80,7 +80,7 @@ export default function Cart({ open, toggleCartDrawer }) {
 
 
     useEffect(() => {
-        getCountFunc(cookies)
+        getCountFunc()
     }, [])
 
     useEffect(() => {
@@ -114,10 +114,10 @@ export default function Cart({ open, toggleCartDrawer }) {
 
 
     const getCountFunc = async () => {
-        await GetCount().then((res) => {
+        await GetCount(cookies).then((res) => {
             if (res) {
                 setCartCount(res.CountCart)
-                setWishCount(res.WishCount)
+                setWishCount(res.WishCount) 
             }
         })
 

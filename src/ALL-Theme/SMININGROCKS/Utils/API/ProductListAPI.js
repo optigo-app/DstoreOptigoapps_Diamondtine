@@ -133,7 +133,7 @@ export const productListApiCall = async(param,page=1,filterObj={}) =>{
     console.log('encodedFilter',encodedFilter);
 
     let body = {
-      "con":`{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${userEmail}\"}`,
+      "con":`{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${userEmail ?? ''}\"}`,
       "f":"onlogin (GETPRODUCTLIST)",
       "p":encData
     }
