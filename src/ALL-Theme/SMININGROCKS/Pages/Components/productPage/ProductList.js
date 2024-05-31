@@ -412,7 +412,7 @@ const ProductList = () => {
     if (!data?.length) setProductApiData2(data)
     if (!prodCount?.length) setProdCount(prodCount)
     setFilterChecked({})
-  }, [getMenuTransData])
+  }, [getMenuTransData,location?.state?.search])
 
   useEffect(() => {
     setTimeout(() => {
@@ -422,7 +422,7 @@ const ProductList = () => {
         setpriceDataApi(data)
       }
     }, 2000)
-  }, [getMenuTransData])
+  }, [getMenuTransData,location?.state?.search])
 
 
   useEffect(() => {
@@ -522,7 +522,7 @@ const ProductList = () => {
       }
     });
 
-  }, [priceDataApi, mtTypeOption, diaQColOpt, cSQopt]);
+  }, [priceDataApi, mtTypeOption, diaQColOpt, cSQopt,location?.state?.search]);
 
 
   const toggleDeatilList = () => {
