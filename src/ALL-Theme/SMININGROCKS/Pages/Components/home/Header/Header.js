@@ -488,13 +488,14 @@ export default function Header() {
           if (res) {
             let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
             await SearchPriceDataAPI(autoCodeList, searchVar)
-            // .then((res)=>{
-            //     if(res){
-            //     localStorage.setItem("getSearchPriceData", JSON.stringify(res))
-            //     }
-            // })
+            .then((res)=>{
+                if(res){
+                localStorage.setItem("getPriceData", JSON.stringify(res))
+                // localStorage.setItem("getSearchPriceData", JSON.stringify(res))
+                }
+            })
             navigation("/productpage", { state: { "search": true } })
-            toggleOverlay();
+            // toggleOverlay();
           }
         }).catch((err) => {
           if (err) toast.error("Something Went Wrong!!!")
@@ -809,17 +810,28 @@ export default function Header() {
     drawerWidth = '25%';
   }
 
+ 
+
   {
     ((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
       window.addEventListener('scroll', function () {
         var topHeader = document?.querySelector('.gorjanaTopHeader');
         var bottomHeader = document?.querySelector('.gorajanaBottomHeaderMain');
         var fixedHeader = document?.getElementById('fixedHeader');
+        var shopDropdown = document?.getElementById('shopdropdown');
 
         if (window.pageYOffset > 100 && topHeader?.getBoundingClientRect()?.bottom <= 0 && bottomHeader?.getBoundingClientRect()?.top <= 0) {
           fixedHeader?.classList.add('fixed');
+          shopDropdown?.classList.add('fixed_openMenu');
+
         } else {
           fixedHeader?.classList.remove('fixed');
+          shopDropdown?.classList.remove('fixed_openMenu');
+        }
+
+        if(document?.getElementsByClassName('Smining-Top-LoginHeader')?.fixedHeader?.classList?.contains('fixed') === true){
+          var shopDropdown = document?.getElementById('shopdropdown');
+          shopDropdown?.classList.add('fixed_openMenu')
         }
       });
   }
@@ -1243,7 +1255,7 @@ export default function Header() {
           }
           {/* } */}
           <>
-            <div className={`shop-dropdown ${expandedMenu !== null ? "open" : ""}`} onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
+            <div id='shopdropdown' className={`shop-dropdown ${expandedMenu !== null ? "open" : ""} ${((expandedMenu !== null) && (document.getElementById('fixedHeader')?.classList?.contains('fixed') === true)) ? "fixed_openMenu" : ""}`} onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
               <div
                 style={{
                   display: "flex",
