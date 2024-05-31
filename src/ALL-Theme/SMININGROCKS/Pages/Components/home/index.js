@@ -96,9 +96,9 @@ export default function Home() {
           let visiterId = response?.data?.Data?.rd2[0]?.VisitorId
           if(!cookies?.visiterId){
             setCookie('visiterId', visiterId);
+            setVisitorCookie(visiterId);
           }
           console.log('visitor--', visiterId);
-          setVisitorCookie(visiterId);
           setTitle(title);
           setFavIcon(favIcon)
           setCompanyTitleLogo(companyLogo);
