@@ -94,12 +94,24 @@ export default function Home() {
             setisb2cflg(isb2cflag)
           }
           let visiterId = response?.data?.Data?.rd2[0]?.VisitorId
-          
+
+          // if (!cookies?.visiterId) {
+          //   const expires = new Date();
+          //   expires.setDate(expires.getDate() + 30);
+          //   setCookie('visiterId', visiterId, { path: '/', expires });
+          //   setVisitorCookie(visiterId);
+          // }
+
           if (!cookies?.visiterId) {
             const expires = new Date();
             expires.setDate(expires.getDate() + 30);
             setCookie('visiterId', visiterId, { path: '/', expires });
-            setVisitorCookie(visiterId);
+          }
+          else {
+            const expirationDate = cookies.visiterId && new Date(cookies.visiterId.expires);
+            if (expirationDate && expirationDate <= new Date()) {
+              removeCookie('visiterId', { path: '/' });
+            }
           }
 
           console.log('visitor--', visiterId);
@@ -116,12 +128,12 @@ export default function Home() {
         console.error('Error:', error);
       }
     }
-    // const storeInit = localStorage.getItem('storeInit');
-    // if(storeInit){
+    const storeInit = localStorage.getItem('storeInit');
+    if(!storeInit){
     fetchData();
-    // }
+    }
 
-  }, [])
+  }, [islogin, cookies, setCookie, removeCookie])
 
   useEffect(() => {
     const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
