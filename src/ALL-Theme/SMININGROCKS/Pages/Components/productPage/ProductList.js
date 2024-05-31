@@ -38,6 +38,7 @@ import ProductListSkeleton from "./ProductListSkelton";
 import { Card } from "react-bootstrap";
 import ProductFilterSkelton from "./ProductFilterSkelton";
 import { FaChevronDown } from "react-icons/fa";
+import { useCookies } from "react-cookie";
 
 function valuetext(value) {
   return `${value}°C`;
@@ -144,6 +145,7 @@ const ProductList = () => {
   const [pageSize,setPageSize] = useState(1);
 
   const getMenuTransData = useRecoilValue(menuTransfData)
+  const [cookies] = useCookies(['visiterId']);
 
   let location = useLocation();
 
@@ -528,7 +530,7 @@ const ProductList = () => {
   };
 
   const getCountFunc = async () => {
-    await GetCount().then((res) => {
+    await GetCount(cookies).then((res) => {
       if (res) {
         setCartCount(res.CountCart)
         setWishCount(res.WishCount)

@@ -89,16 +89,20 @@ export default function Home() {
           let title = response?.data?.Data?.rd[0]?.companyname
           let favIcon = response?.data?.Data?.rd[0]?.favicon
           let companyLogo = response?.data?.Data?.rd[0]?.companylogo
-          if(response?.data?.Data?.rd[0]?.IsB2BWebsite == 0){
+          if (response?.data?.Data?.rd[0]?.IsB2BWebsite == 0) {
             let isb2cflag = response?.data?.Data?.rd[0]?.IsB2BWebsite
             setisb2cflg(isb2cflag)
           }
           let visiterId = response?.data?.Data?.rd2[0]?.VisitorId
-          if(!cookies?.visiterId){
-            setCookie('visiterId', visiterId);
+          
+          if (!cookies?.visiterId) {
+            const expires = new Date();
+            expires.setDate(expires.getDate() + 30);
+            setCookie('visiterId', visiterId, { path: '/', expires });
+            setVisitorCookie(visiterId);
           }
+
           console.log('visitor--', visiterId);
-          setVisitorCookie(visiterId);
           setTitle(title);
           setFavIcon(favIcon)
           setCompanyTitleLogo(companyLogo);
@@ -114,7 +118,7 @@ export default function Home() {
     }
     // const storeInit = localStorage.getItem('storeInit');
     // if(storeInit){
-      fetchData();
+    fetchData();
     // }
 
   }, [])
@@ -316,27 +320,27 @@ export default function Home() {
     }
     let designDataCall = async () => {
       await DesignSet().then((res) => {
-          setDesignList(res)
+        setDesignList(res)
       })
-  }
-  
-  if (storeInit?.IsB2BWebsite == 0) {
-    currencyCombo();
-    getColorImgData();
-    getMetalTypeData();
-    getQualityColor();
-    getColorStoneQualityData();
-    getMetalColor();
-    storImagePath();
-    designDataCall();
-  } else if (storeInit?.IsB2BWebsite == 1 && islogin == 'true') {
-    currencyCombo();
-    getColorImgData();
-    getMetalTypeData();
-    getQualityColor();
-    getColorStoneQualityData();
-    getMetalColor();
-    storImagePath();
+    }
+
+    if (storeInit?.IsB2BWebsite == 0) {
+      currencyCombo();
+      getColorImgData();
+      getMetalTypeData();
+      getQualityColor();
+      getColorStoneQualityData();
+      getMetalColor();
+      storImagePath();
+      designDataCall();
+    } else if (storeInit?.IsB2BWebsite == 1 && islogin == 'true') {
+      currencyCombo();
+      getColorImgData();
+      getMetalTypeData();
+      getQualityColor();
+      getColorStoneQualityData();
+      getMetalColor();
+      storImagePath();
     }
 
   }, [storeInit]);

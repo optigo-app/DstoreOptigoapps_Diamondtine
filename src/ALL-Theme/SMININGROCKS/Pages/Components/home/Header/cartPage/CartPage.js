@@ -26,6 +26,7 @@ import {
   WishListCounts,
   colorstoneQualityColorG,
   diamondQualityColorG,
+  isB2CFlag,
   metalTypeG,
   newTestProdData,
   priceData,
@@ -44,8 +45,10 @@ import { getDesignPriceList } from "../../../../../Utils/API/PriceDataApi";
 import { productListApiCall } from "../../../../../Utils/API/ProductListAPI";
 import { FilterListAPI } from "../../../../../Utils/API/FilterListAPI";
 import notFound from "../../../../assets/image-not-found.png";
+import { useCookies } from "react-cookie";
 
 function CustomTabPanel(props) {
+
   const { children, value, index, ...other } = props;
 
   return (
@@ -126,7 +129,8 @@ export default function CartPage() {
   const [cartPageLoding, setCartPageloding] = useState(false);
   const [singleProdData, setSingleProdData] = useState();
   const [isLodingSave, setIsLoadingSave] = useState(false);
-
+  const isb2cFlag = useRecoilValue(isB2CFlag);
+  const [cookies] = useCookies(['visiterId']);
 
 
   const setProdFullInfo = async (paramDesignno) => {
@@ -167,7 +171,8 @@ export default function CartPage() {
   useEffect(() => {
     // handelCurrencyData();
     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
-    let obj = { "CurrencyRate": loginData?.CurrencyRate, "Currencysymbol": loginData?.Currencysymbol }
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'))
+    let obj = { "CurrencyRate": storeInit?.IsB2BWebsite == 0 ? storeInit?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": storeInit?.IsB2BWebsite == 0 ? storeInit?.Currencysymbol :loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
     }
@@ -471,7 +476,11 @@ export default function CartPage() {
     const currencyCombo = JSON.parse(localStorage.getItem("CURRENCYCOMBO"));
     setCurrency(currencyCombo?.Currencysymbol);
     getCartData();
-  }, []);
+  }, [isb2cFlag]);
+
+  useEffect(() =>{
+    getCartData();
+  },[isb2cFlag])
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("QualityColor"));
@@ -547,6 +556,7 @@ export default function CartPage() {
   };
 
   const getCartData = async () => {
+    debugger
     try {
       // cartListData.length === 0 && setIsLoading(true);
       cartListData.length === 0 && setIsLoading(true);
@@ -555,13 +565,13 @@ export default function CartPage() {
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const storedData = localStorage.getItem("loginUserDetail");
       const data = JSON.parse(storedData);
-      const customerid = data.id;
+      const customerid = storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId  : data.id;
       setIsProductCuFlag(storeInit.IsProductWebCustomization);
       setIsMetalCutoMizeFlag(storeInit.IsMetalCustomization);
       setIsDaimondCstoFlag(storeInit.IsDiamondCustomization);
       setIsCColrStoneCustFlag(storeInit.IsCsCustomization);
-      setCustomerID(data.id);
-      const customerEmail = data.userid;
+      setCustomerID(customerid);
+      const customerEmail = (storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : data?.userid) ?? '';
       setUserEmail(customerEmail);
 
       const { FrontEnd_RegNo, ukey } = storeInit;
@@ -571,7 +581,7 @@ export default function CartPage() {
         CurrentPage: "1",
         PageSize: "1000",
         ukey: `${ukey}`,
-        CurrRate: "1",
+        CurrRate: `${storeInit?.IsB2BWebsite == 0 ? storeInit?.CurrencyRate : data?.CurrencyRate}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
         Customerid: `${customerid}`,
       });
@@ -583,7 +593,6 @@ export default function CartPage() {
         p: encodedCombinedValue,
       };
       const response = await CommonAPI(body);
-
       if (response?.Data) {
         setCartListData(response?.Data?.rd);
         setMainRemarks(response?.Data?.rd[0].OrderRemarks);
