@@ -852,6 +852,8 @@ const ProdDetail = () => {
   }, [WishData, productData])
 
 
+  console.log("addToCartFlag",addToCartFlag);
+
   useEffect(() => {
     handelCart()
   }, [addToCartFlag])
@@ -861,18 +863,19 @@ const ProdDetail = () => {
     getCartAndWishListData()
   }, [])
 
-  useEffect(() => {
-    let FilterData = cartData.filter(item => item?.autocode === productData?.autocode)
-    console.log("filterData1212", FilterData);
-    if (FilterData?.length) {
-      setAddToCartFlag(true)
-    }
-  }, [productData, cartData])
+  // useEffect(() => {
+  //   let FilterData = cartData.filter(item => item?.autocode === productData?.autocode)
+  //   console.log("filterData1212", FilterData);
+  //   if (FilterData?.length) {
+  //     setAddToCartFlag(true)
+  //   }
+  // }, [productData, cartData])
+
 console.log('visiorIddddd', visitorId);
+
+
   const handelCart = async (event) => {
-
     try {
-
       if (addToCartFlag) {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"))
         const UserEmail = localStorage.getItem("registerEmail")
