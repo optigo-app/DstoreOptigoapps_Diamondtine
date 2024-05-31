@@ -482,7 +482,8 @@ export default function Header() {
       if (finalData) {
         await SearchProductDataAPI(searchVar).then((res) => {
           if (res) {
-            localStorage.setItem("allproductlist", JSON.stringify(res))
+            console.log("res1111",res?.pdList[0])
+            localStorage.setItem("allproductlist", JSON.stringify(res?.pdList))
             // localStorage.setItem("finalAllData", JSON.stringify(res))
           }
           return res
@@ -493,10 +494,12 @@ export default function Header() {
             .then((res)=>{
                 if(res){
                 localStorage.setItem("getPriceData", JSON.stringify(res))
+                setSearchText('')
                 // localStorage.setItem("getSearchPriceData", JSON.stringify(res))
                 }
             })
-            navigation("/productpage", { state: { "search": true } })
+            const d = new Date();
+            navigation("/productpage", { state: { "search": Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())}})
             // toggleOverlay();
           }
         }).catch((err) => {
@@ -1064,8 +1067,8 @@ export default function Header() {
           </div>
           <div className="gorajanaBottomHeaderMain">
             <div className="daimondHeaderDiv1">
-              {/* <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} /> */}
-              {/* <input
+              <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
+              <input
                 type="text"
                 placeholder="Search..."
                 value={searchText}
@@ -1076,7 +1079,7 @@ export default function Header() {
                 }}
                 className="serachinputBoxOverly"
                 onKeyDown={searchDataFucn}
-              /> */}
+              />
             </div>
             <div className="daimondHeaderDiv2">
               <img

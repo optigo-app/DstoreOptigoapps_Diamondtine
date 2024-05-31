@@ -312,8 +312,8 @@ const ProdDetail = () => {
       setCSQOptId([csQCVar?.QualityId, csQCVar?.ColorId])
 
     } else {
-      let ref = `${ColorStoneQualityColor[0].Quality}-${ColorStoneQualityColor[0].color}`
-      let ref1 = [ColorStoneQualityColor[0].QualityId, ColorStoneQualityColor[0].ColorId]
+      let ref = `${ColorStoneQualityColor[0]?.Quality}-${ColorStoneQualityColor[0]?.color}`
+      let ref1 = [ColorStoneQualityColor[0]?.QualityId, ColorStoneQualityColor[0]?.ColorId]
       setCSQOpt(ref)
       setCSQOptId(ref1)
 
