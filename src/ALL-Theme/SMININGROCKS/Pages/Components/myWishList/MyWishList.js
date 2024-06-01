@@ -604,7 +604,7 @@ export default function MyWishList() {
                           e.target.src = notFound;
                         }}
                       />
-                      <div className="product-title">
+                      <div className="">
                         {product.TitleLine}
                       </div>
                     </td>
