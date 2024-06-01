@@ -558,6 +558,7 @@ export default function CartPage() {
   };
 
   const getCartData = async () => {
+    // debugger
     try {
       // cartListData.length === 0 && setIsLoading(true);
       cartListData.length === 0 && setIsLoading(true);

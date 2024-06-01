@@ -109,3 +109,25 @@
     background: linear-gradient(45deg, transparent 16%, #999 30%, #999 70%, transparent 84%);
   }
   
+
+@media screen and (max-width: 550px) {
+
+  .widgetsComponentsCard{
+    width: 100%!important;
+  }
+
+
+  .SocialmediawidgetsComponentsCard{
+    width: 100%!important;
+  }
+
+  .SocialmediawidgetsComponentsCard{
+    margin: 0px!important;
+  }
+
+  .instagram-photo {
+    width: 50% !important;
+    height: 100% !important;
+}
+
+}

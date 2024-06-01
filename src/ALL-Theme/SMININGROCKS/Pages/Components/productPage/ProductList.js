@@ -2968,7 +2968,7 @@ const ProductList = () => {
                       <div className="productheader part" >
                       <div>
                           {/* <p style={{display:'flex',color:'#ccc'}}>Showing &nbsp; <span>{(ProductApiData2?.length*Number(pageSize)-prodPageSize)+1}</span>-<span>{ProductApiData2?.length*Number(pageSize)}</span> &nbsp; of &nbsp; <span>{prodCount} </span> &nbsp;Products</p> */}
-                          <p style={{display:'flex',color:'#ccc',fontFamily:'Poppins, sans-serif',fontSize:'14px'}}>Showing &nbsp; <span style={{color:'#666'}}>{ProductApiData2?.length} of </span> &nbsp; <span style={{color:'#666'}}>{prodCount} </span> &nbsp;Products</p>
+                          <span style={{display:'flex',color:'#ccc',fontFamily:'Poppins, sans-serif',fontSize:'14px'}}>Showing &nbsp; <span style={{color:'#666'}}>{ProductApiData2?.length} of </span> &nbsp; <span style={{color:'#666'}}>{prodCount} </span> &nbsp;Products</span>
                       </div>
                         <div
                           style={{
