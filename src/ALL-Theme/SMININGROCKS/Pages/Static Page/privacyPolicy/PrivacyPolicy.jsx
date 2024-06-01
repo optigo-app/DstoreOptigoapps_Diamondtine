@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import "./TermsCondition.css";
 import { storImagePath } from '../../../Utils/globalFunctions/GlobalFunction';
-import logo from '../../assets/Logo1.png'
 import Footer from '../../Components/home/Footer/Footer';
 
-function TermsAndConditions() {
+function PrivacyPolicy() {
 
   const [htmlContent, setHtmlContent] = useState('');
-  
+   
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    fetch(`${storImagePath()}/html/TermsCondition.html`)
+    fetch(`${storImagePath()}/html/PrivacyPolicy.html`)
       .then((response) => response.text())
       .then((html) => {
         setHtmlContent(html);
@@ -38,4 +36,4 @@ function TermsAndConditions() {
   );
 }
 
-export default TermsAndConditions;
+export default PrivacyPolicy;
