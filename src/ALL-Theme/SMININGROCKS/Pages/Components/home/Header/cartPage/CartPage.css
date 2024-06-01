@@ -816,6 +816,14 @@
     }
 }
 
+@media screen and (max-width: 1435px) {
+.MyCartPageMainDiv{
+    margin-inline: 10%;
+}
+
+}
+
+
 @media screen and (max-width: 1300px) {
     .cartImageShow {
         width: 40% !important;
@@ -877,6 +885,18 @@
 
     .resCon {
         width: 100% !important;
+    }
+    .MyCartPageMainDiv{
+        display: block;
+    }
+    .myCartMainContainer{
+        width: 100%;
+    }
+    .myCartComponents{
+        width: 100%;
+    }
+    .CartPagePaymentDiv{
+        width: 100%;
     }
 }
 
@@ -1021,9 +1041,9 @@
         gap: 5px !important;
     }
 
-    .mobileFootreCs {
+    /* .mobileFootreCs {
         margin-bottom: 25px;
-    }
+    } */
 
     .smilingListCartTopButton {
         display: flex;
@@ -1037,6 +1057,53 @@
     .totalPriceTopMain {
         display: none !important;
     }
+
+/* table css */
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .table-custom thead th {
+        padding: 15px;
+      }
+      .table-responsive{
+        width: 100%;
+      }
+
+      .table-custom tbody tr {
+        display: flex;
+        flex-direction: column; 
+        border-bottom: 1px solid #ede8e8;; 
+      }
+    
+      .table-custom tbody td {
+        padding: 15px;
+        text-align: center;
+        border: none !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .imagetextTd{
+        display: block !important;
+      }
+      .product-title{
+        width: 100% !important;
+        text-align: center;
+        max-width: 100% !important;
+      }
+      .product-titleCart{
+        display: block;
+      }
+      .tabletrData{
+        position: relative;
+      }
+      .iconClose{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+      }
 }
 
 @media screen and (max-width: 550px) {
@@ -1048,6 +1115,15 @@
     .prodTitleLine {
         font-size: 25px !important;
         margin: 0px !important;
+    }
+    .MyCartPageMainDiv{
+        margin-inline:5px;
+    }
+    .table{
+        border: 1px solid #ede8e8;
+    }
+    .cartcardPayment{
+        margin-left: 0px;
     }
 }
 
