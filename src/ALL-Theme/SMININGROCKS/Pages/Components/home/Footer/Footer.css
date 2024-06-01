@@ -40,13 +40,14 @@
 }
 
 
-.FooterLinkMain{
+.FooterLinkMain {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     margin-top: 30px;
     margin-inline: 20%;
     display: flex;
 }
+
 .FooterLinkMainBox {
     width: 25%;
     margin-block: 40px;
@@ -57,13 +58,13 @@
     font-family: "Poppins", sans-serif;
 }
 
-.FoooterText{
+.FoooterText {
     color: #999;
     font-size: 14px;
     font-family: "Poppins", sans-serif;
 }
 
-.FoooterTextLink{
+.FoooterTextLink {
     color: #999;
     font-family: "Poppins", sans-serif;
     cursor: pointer;
@@ -72,11 +73,11 @@
     width: fit-content;
 }
 
-.FoooterTextLink:hover{
+.FoooterTextLink:hover {
     color: black;
 }
 
-.footerBottom{
+.footerBottom {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -84,16 +85,16 @@
     padding-block: 40px;
 }
 
-.newImgFooter{
+.newImgFooter {
     width: 300px;
 }
 
-.logoImgFooter{
+.logoImgFooter {
     width: 230px;
     margin-top: 30px;
 }
 
-.FooterBottomText{
+.FooterBottomText {
     font-family: "Poppins", sans-serif;
     margin: 0px;
     color: #999;
@@ -103,31 +104,63 @@
 
 
 
+@media screen and (max-width: 900px) {
+
+    .footerNewslater {
+        padding-inline: 0% !important;
+    }
+    
+    .FooterLinkMainBox{
+        margin-block: 5px!important;
+        margin-inline: 10px!important;
+    }
+
+    .FooterLinkMain {
+        margin-inline: 0px !important;
+    }
+
+}
+
+@media screen and (max-width: 650px) {
+
+    .FooterLinkMain {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .FooterLinkMainBox{
+        width: 100%!important;
+    }
+}
+
 @media screen and (max-width: 400px) {
     .subScriMainTitle {
         font-size: 24px;
     }
-    
-    .FooterLinkMain{
+
+    .FooterLinkMain {
         display: block;
     }
-    .FooterLinkMainBox{
+
+    .FooterLinkMainBox {
         width: 100%;
     }
-    .FooterBottomText{
+
+    .FooterBottomText {
         text-align: center;
     }
-    .logoImgFooter{
+
+    .logoImgFooter {
         width: 150px;
     }
-    .footerNewslater{
+
+    .footerNewslater {
         padding-inline: 0% !important;
     }
-    .footerInputBox{
+
+    .footerInputBox {
         width: 80%;
     }
-    .instagram-photo{
-        width: 100% !important;
-        height: 100% !important;
-    }
+
+ 
 }

@@ -52,7 +52,7 @@ const NewArrivalProduct = () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container spacing={2} justifyContent="center">
                     {products.map((product, index) => (
-                        <Grid item xs={12} sm={6} md={3} key={index}>
+                        <Grid item xs={12} sm={6} md={3} key={index} className='NewArrivalProductMain'>
                             <div style={{paddingBottom:'20px'}}>
                                 <img
                                     style={{ height: "100%", width: "100%" }}
