@@ -3,6 +3,7 @@ import './Footer.css'
 import { companyLogo } from '../../../../../../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { storImagePath } from '../../../../Utils/globalFunctions/GlobalFunction';
 
 
 export default function Footer() {
@@ -19,7 +20,7 @@ export default function Footer() {
     };
 
 
-     const handleSubmitNewlater = async () => {
+    const handleSubmitNewlater = async () => {
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
         const newslater = storeInit?.newslatter;
         console.log('newsletter', newslater);
@@ -47,13 +48,16 @@ export default function Footer() {
         const storeInit = JSON.parse(localStorage.getItem("storeInit")) ?? ""
         setStoreInitData(storeInit);
         const companyInfoData = JSON.parse(localStorage.getItem("CompanyInfoData")) ?? ""
-        if(companyInfoData){
+        if (companyInfoData) {
             setCompanuInfoData(companyInfoData)
             const parsedSocilaMediaUrlData = (companyInfoData?.SocialLinkObj);
             setSocialMediaData(parsedSocilaMediaUrlData)
         }
     }, [])
 
+    const openPdf = () => {
+        window.open(`${storImagePath()}/pdf/size-guide-diamondtine.pdf`, '_blank');
+    };
 
     return (
         <div>
@@ -63,7 +67,7 @@ export default function Footer() {
                         <p className='subScriMainTitle'>GET 5% OFF YOUR FIRST ORDER</p>
                         <p className='subScriMainSubTitle'>and stay in the loop with us</p> b
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: '20px' }}>
-                            <input type='text' className='footerInputBox' placeholder='Your email here' value={email} onChange={handleEmailChange} required/>
+                            <input type='text' className='footerInputBox' placeholder='Your email here' value={email} onChange={handleEmailChange} required />
                             <button className='FooterSubBtn' onClick={handleSubmitNewlater}>SUBSCRIBE</button>
                         </div>
                     </div>
@@ -77,12 +81,12 @@ export default function Footer() {
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>QUICK LINKS</p>
-                            <p className='FoooterTextLink'>FAQs</p>
-                            <p className='FoooterTextLink'>Size Guide</p>
+                            <p className='FoooterTextLink' onClick={() => navigation('/faq')}>FAQs</p>
+                            <p className='FoooterTextLink' onClick={openPdf}>Size Guide</p>
                             {/* <p className='FoooterTextLink'>Gift Cards</p> */}
                             <p className='FoooterTextLink'>Material & Care</p>
-                            <p className='FoooterTextLink'>Terms & Conditions</p>
-                            <p className='FoooterTextLink'>Privacy Policy</p>
+                            <p className='FoooterTextLink' onClick={() => navigation('/term&condition')}>Terms & Conditions</p>
+                            <p className='FoooterTextLink' onClick={() => navigation('/PrivacyPolicy')}>Privacy Policy</p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>CUSTOMER SERVICE</p>
@@ -103,7 +107,7 @@ export default function Footer() {
                 </div>
                 <div className='footerBottom'>
                     {/* <img src='https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/38/2020/09/payments.png' className='newImgFooter'/> */}
-                    <img src={titleImg} className='logoImgFooter'/>
+                    <img src={titleImg} className='logoImgFooter' />
                     <p className='FooterBottomText'>Copyright © 2023 Diamondtine. All Rights Reserved.</p>
                 </div>
             </div>
