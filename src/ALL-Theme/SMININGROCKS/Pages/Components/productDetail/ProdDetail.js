@@ -822,13 +822,15 @@ const ProdDetail = () => {
     const UserEmail = localStorage.getItem("registerEmail")
     const storeInit = JSON.parse(localStorage.getItem("storeInit"))
     const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let customerId = storeInit?.IsB2BWebsite === 0 && !islogin ? cookies?.visiterId : Customer_id?.id
+    let customerAppUserId = storeInit?.IsB2BWebsite === 0 && !islogin ? cookies?.visiterId : UserEmail
 
-    let EncodeData = { FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`, Customerid: `${Customer_id?.id}` }
+    let EncodeData = { FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`, Customerid: `${customerId}` }
 
     const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
 
     const body = {
-      "con": `{\"id\":\"Store\",\"mode\":\"getdesignnolist\",\"appuserid\":\"${UserEmail}\"}`,
+      "con": `{\"id\":\"Store\",\"mode\":\"getdesignnolist\",\"appuserid\":\"${customerAppUserId}\"}`,
       "f": " useEffect_login ( getdataofcartandwishlist )",
       "p": encodedCombinedValue
     }
@@ -852,10 +854,10 @@ const ProdDetail = () => {
   }, [WishData, productData])
 
 
-  console.log("addToCartFlag",addToCartFlag);
+  console.log("addToCartFlag", addToCartFlag);
 
   useEffect(() => {
-    handelCart()
+      handelCart()
   }, [addToCartFlag])
 
 
@@ -863,18 +865,19 @@ const ProdDetail = () => {
     getCartAndWishListData()
   }, [])
 
-  // useEffect(() => {
-  //   let FilterData = cartData.filter(item => item?.autocode === productData?.autocode)
-  //   console.log("filterData1212", FilterData);
-  //   if (FilterData?.length) {
-  //     setAddToCartFlag(true)
-  //   }
-  // }, [productData, cartData])
+  useEffect(() => {
+    let FilterData = cartData.filter(item => item?.autocode === productData?.autocode)
+    console.log("filterData1212", FilterData);
+    if (FilterData?.length) {
+      setAddToCartFlag(true)
+    }
+  }, [productData, cartData])
 
-console.log('visiorIddddd', visitorId);
+  console.log('visiorIddddd', islogin);
 
 
   const handelCart = async (event) => {
+    debugger
     try {
       if (addToCartFlag) {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"))
@@ -1063,7 +1066,7 @@ console.log('visiorIddddd', visitorId);
           "updatedate": `${product?.UpdateDate ?? 0}`,
           "videoname": `${product?.videoname ?? ""}`,
           "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-          "Customerid": Number(`${storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId  : Customer_id?.id}`),
+          "Customerid": Number(`${storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : Customer_id?.id}`),
           "PriceMastersetid": Number(`${product?.PriceMastersetid ?? 0}`),
           "quantity": Number(`${product?.quantity ?? 1}`),
           "CurrencyRate": `${product?.CurrencyRate ?? ""}`,
@@ -2153,29 +2156,29 @@ console.log('visiorIddddd', visitorId);
                       </span>
                     </div>
                     {islogin == 'true' &&
-                    <div className='wishlistcont'>
-                      <FormControlLabel
-                        label={<span className='wishlist_label' style={{ fontFamily: 'Poppins, sans-serif', color: '#999', fontSize: '16px' }}>Browse wishlist</span>}
-                        control={
-                          <Checkbox
-                            icon={
-                              <StarBorderIcon
-                                sx={{ fontSize: "25px", color: "#d2815f" }}
-                              />
-                            }
-                            checkedIcon={
-                              <StarIcon sx={{ fontSize: "25px", color: "#d2815f" }} />
-                            }
-                            disableRipple={false}
-                            checked={WishListFlag}
-                            onChange={(e) => handelWishList(e)}
-                          />
-                        }
+                      <div className='wishlistcont'>
+                        <FormControlLabel
+                          label={<span className='wishlist_label' style={{ fontFamily: 'Poppins, sans-serif', color: '#999', fontSize: '16px' }}>Browse wishlist</span>}
+                          control={
+                            <Checkbox
+                              icon={
+                                <StarBorderIcon
+                                  sx={{ fontSize: "25px", color: "#d2815f" }}
+                                />
+                              }
+                              checkedIcon={
+                                <StarIcon sx={{ fontSize: "25px", color: "#d2815f" }} />
+                              }
+                              disableRipple={false}
+                              checked={WishListFlag}
+                              onChange={(e) => handelWishList(e)}
+                            />
+                          }
 
-                      />
+                        />
 
-                      {/* <label>Browse wishlist</label> */}
-                    </div>
+                        {/* <label>Browse wishlist</label> */}
+                      </div>
                     }
                   </div>
 
@@ -2394,157 +2397,156 @@ console.log('visiorIddddd', visitorId);
           }
 
 
-
-
-          <div className="Acc-container">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                flexDirection: "column",
-                marginBottom: '60px',
-                marginTop: '30px',
-              }}
-            >
-              <p
+            <div className="Acc-container">
+          {fullProdData?.rd1?.length != 0 && fullProdData?.rd2?.length != 0 &&
+              <div
                 style={{
-                  fontSize: "18px",
-                  fontFamily: 'Poppins, sans-serif',
-                  color: "#7d7f85",
-                  textDecoration: 'underline',
-                  textUnderlineOffset: '11px',
-                  color: '#a8807c'
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  flexDirection: "column",
+                  marginBottom: '60px',
+                  marginTop: '30px',
                 }}
               >
-                Product Details
-              </p>
-              <div style={{ width: '60%', marginBottom: '60px', border: '1px solid #dadada', marginTop: '-13px', padding: '12px' }} className='tellmeMoreMain'>
-                {fullProdData?.rd1?.length !== 0 &&
-                  <div className='tellmeMoreMainMobileDiv'>
-                    <ul style={{
-                      margin: '0px 0px 3px 0px'
-                    }}>
-                      <li style={{ fontWeight: 600 }}>{`Diamond Detail(${fullProdData?.rd1.filter((item) => item?.H == diaQColOpt.split("#")[0] && item?.J == diaQColOpt.split("#")[1])?.reduce((accumulator, data) => accumulator + data.M, 0)}/${fullProdData?.rd1?.reduce((accumulator, data) => accumulator + data?.N, 0).toFixed(2)}ct)`}</li>
-                    </ul>
-                    <ul style={{
-                      display: 'flex',
-                      textDecoration: 'none',
-                      listStyle: 'none',
-                      margin: '0px 0px 3px 0px'
-                    }}>
-                      <li className='proDeatilList'>Shape</li>
-                      <li className='proDeatilList'>Clarity</li>
-                      <li className='proDeatilList'>Color</li>
-                      <li className='proDeatilList'>Pcs/Wt</li>
-                    </ul>
-                    {
-                      fullProdData?.rd1.filter((item) => item?.H == diaQColOpt.split("#")[0] && item?.J == diaQColOpt.split("#")[1]).map((data) => (
-                        <ul style={{
-                          display: 'flex',
-                          textDecoration: 'none',
-                          listStyle: 'none',
-                          margin: '0px 0px 3px 0px'
-                        }}>
-                          <li className='proDeatilList1'>{data?.F}</li>
-                          <li className='proDeatilList2'>{data?.H}</li>
-                          <li className='proDeatilList3'>{data?.J}</li>
-                          <li className='proDeatilList4'>{data.M}/{data?.N}</li>
-                        </ul>
-                      ))
-                    }
-                  </div>
-                }
-
-                <div className='tellmeMoreMainMobileDiv' style={{ marginTop: '25px' }}>
-                  {fullProdData?.rd2?.some(data => data?.D === "COLOR STONE") && (
-                    <>
-                      <ul style={{ margin: '0px 0px 3px 0px' }}>
-                        <li style={{ fontWeight: 600 }}>{`Color Stone Detail(${fullProdData?.rd2?.reduce((accumulator, data) => accumulator + data.M, 0)}/${fullProdData?.rd2?.reduce((accumulator, data) => accumulator + data?.N, 0).toFixed(2)}ct)`}</li>
-                      </ul>
-                      <ul style={{ display: 'flex', textDecoration: 'none', listStyle: 'none', margin: '0px 0px 3px 0px' }}>
-                        <li className='proDeatilList'>Shape</li>
-                        <li className='proDeatilList'>Clarity</li>
-                        <li className='proDeatilList'>Color</li>
-                        <li className='proDeatilList'>Pcs/Wt</li>
-                      </ul>
-                      {fullProdData?.rd2.filter((item) => item?.H == cSQopt.split("#")[0] && item?.J == cSQopt.split("#")[1]).map((data) => (
-                        data?.D === "COLOR STONE" && (
-                          <ul style={{ display: 'flex', textDecoration: 'none', listStyle: 'none', margin: '0px 0px 3px 0px' }}>
-                            <li className='proDeatilList1'>{data?.F}</li>
-                            <li className='proDeatilList2'>{data?.H}</li>
-                            <li className='proDeatilList3'>{data?.J}</li>
-                            <li className='proDeatilList4'>{data.M}/{data?.N}</li>
-                          </ul>
-                        )
-                      ))}
-                    </>
-                  )}
-                </div>
-
-
-                <div className='tellmeMoreMainMobileDiv' style={{ marginTop: '25px' }}>
-                  {fullProdData?.rd2?.some(data => data?.D === "MISC") && (
-                    <>
-                      <ul style={{ margin: '0px 0px 3px 0px' }}>
-                        <li style={{ fontWeight: 600 }}>{`Misc. Detail(${fullProdData?.rd2?.reduce((accumulator, data) => accumulator + data.M, 0)}/${fullProdData?.rd2?.reduce((accumulator, data) => accumulator + data?.N, 0).toFixed(2)}ct)`}(21/1.022ct)</li>
-                      </ul>
-                      <ul style={{ display: 'flex', textDecoration: 'none', listStyle: 'none', margin: '0px 0px 3px 0px' }}>
-                        <li className='proDeatilList'>Shape</li>
-                        <li className='proDeatilList'>Clarity</li>
-                        <li className='proDeatilList'>Color</li>
-                        <li className='proDeatilList'>Pcs/Wt</li>
-                      </ul>
-                      {fullProdData?.rd2?.map((data) => (
-                        data?.D === "MISC" && (
-                          <ul style={{ display: 'flex', textDecoration: 'none', listStyle: 'none', margin: '0px 0px 3px 0px' }}>
-                            <li className='proDeatilList1'>{data?.F}</li>
-                            <li className='proDeatilList2'>{data?.H}</li>
-                            <li className='proDeatilList3'>{data?.J}</li>
-                            <li className='proDeatilList4'>{data.M}/{data?.N}</li>
-                          </ul>
-                        )
-                      ))}
-                    </>
-                  )}
-                </div>
-
-              </div>
-              <ul
-                className="srAccul"
-              >
-                <li
-                  // className="tellmoreli"
-                  onClick={() => {
-                    setAccNo("");
-                    setAccNo("1");
-                    setAcc(!acc);
+                <p
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: 'Poppins, sans-serif',
+                    color: "#7d7f85",
+                    textDecoration: 'underline',
+                    textUnderlineOffset: '11px',
+                    color: '#a8807c'
                   }}
-                  style={{ userSelect: "none" }}
                 >
-                  {/* <span className="tellmorep">
+                  Product Details
+                </p>
+                <div style={{ width: '60%', marginBottom: '60px', border: '1px solid #dadada', marginTop: '-13px', padding: '12px' }} className='tellmeMoreMain'>
+                  {fullProdData?.rd1?.length !== 0 &&
+                    <div className='tellmeMoreMainMobileDiv'>
+                      <ul style={{
+                        margin: '0px 0px 3px 0px'
+                      }}>
+                        <li style={{ fontWeight: 600 }}>{`Diamond Detail(${fullProdData?.rd1.filter((item) => item?.H == diaQColOpt.split("#")[0] && item?.J == diaQColOpt.split("#")[1])?.reduce((accumulator, data) => accumulator + data.M, 0)}/${fullProdData?.rd1?.reduce((accumulator, data) => accumulator + data?.N, 0).toFixed(2)}ct)`}</li>
+                      </ul>
+                      <ul style={{
+                        display: 'flex',
+                        textDecoration: 'none',
+                        listStyle: 'none',
+                        margin: '0px 0px 3px 0px'
+                      }}>
+                        <li className='proDeatilList'>Shape</li>
+                        <li className='proDeatilList'>Clarity</li>
+                        <li className='proDeatilList'>Color</li>
+                        <li className='proDeatilList'>Pcs/Wt</li>
+                      </ul>
+                      {
+                        fullProdData?.rd1.filter((item) => item?.H == diaQColOpt.split("#")[0] && item?.J == diaQColOpt.split("#")[1]).map((data) => (
+                          <ul style={{
+                            display: 'flex',
+                            textDecoration: 'none',
+                            listStyle: 'none',
+                            margin: '0px 0px 3px 0px'
+                          }}>
+                            <li className='proDeatilList1'>{data?.F}</li>
+                            <li className='proDeatilList2'>{data?.H}</li>
+                            <li className='proDeatilList3'>{data?.J}</li>
+                            <li className='proDeatilList4'>{data.M}/{data?.N}</li>
+                          </ul>
+                        ))
+                      }
+                    </div>
+                  }
+
+                  <div className='tellmeMoreMainMobileDiv' style={{ marginTop: '25px' }}>
+                    {fullProdData?.rd2?.some(data => data?.D === "COLOR STONE") && (
+                      <>
+                        <ul style={{ margin: '0px 0px 3px 0px' }}>
+                          <li style={{ fontWeight: 600 }}>{`Color Stone Detail(${fullProdData?.rd2?.reduce((accumulator, data) => accumulator + data.M, 0)}/${fullProdData?.rd2?.reduce((accumulator, data) => accumulator + data?.N, 0).toFixed(2)}ct)`}</li>
+                        </ul>
+                        <ul style={{ display: 'flex', textDecoration: 'none', listStyle: 'none', margin: '0px 0px 3px 0px' }}>
+                          <li className='proDeatilList'>Shape</li>
+                          <li className='proDeatilList'>Clarity</li>
+                          <li className='proDeatilList'>Color</li>
+                          <li className='proDeatilList'>Pcs/Wt</li>
+                        </ul>
+                        {fullProdData?.rd2.filter((item) => item?.H == cSQopt.split("#")[0] && item?.J == cSQopt.split("#")[1]).map((data) => (
+                          data?.D === "COLOR STONE" && (
+                            <ul style={{ display: 'flex', textDecoration: 'none', listStyle: 'none', margin: '0px 0px 3px 0px' }}>
+                              <li className='proDeatilList1'>{data?.F}</li>
+                              <li className='proDeatilList2'>{data?.H}</li>
+                              <li className='proDeatilList3'>{data?.J}</li>
+                              <li className='proDeatilList4'>{data.M}/{data?.N}</li>
+                            </ul>
+                          )
+                        ))}
+                      </>
+                    )}
+                  </div>
+
+
+                  <div className='tellmeMoreMainMobileDiv' style={{ marginTop: '25px' }}>
+                    {fullProdData?.rd2?.some(data => data?.D === "MISC") && (
+                      <>
+                        <ul style={{ margin: '0px 0px 3px 0px' }}>
+                          <li style={{ fontWeight: 600 }}>{`Misc. Detail(${fullProdData?.rd2?.reduce((accumulator, data) => accumulator + data.M, 0)}/${fullProdData?.rd2?.reduce((accumulator, data) => accumulator + data?.N, 0).toFixed(2)}ct)`}(21/1.022ct)</li>
+                        </ul>
+                        <ul style={{ display: 'flex', textDecoration: 'none', listStyle: 'none', margin: '0px 0px 3px 0px' }}>
+                          <li className='proDeatilList'>Shape</li>
+                          <li className='proDeatilList'>Clarity</li>
+                          <li className='proDeatilList'>Color</li>
+                          <li className='proDeatilList'>Pcs/Wt</li>
+                        </ul>
+                        {fullProdData?.rd2?.map((data) => (
+                          data?.D === "MISC" && (
+                            <ul style={{ display: 'flex', textDecoration: 'none', listStyle: 'none', margin: '0px 0px 3px 0px' }}>
+                              <li className='proDeatilList1'>{data?.F}</li>
+                              <li className='proDeatilList2'>{data?.H}</li>
+                              <li className='proDeatilList3'>{data?.J}</li>
+                              <li className='proDeatilList4'>{data.M}/{data?.N}</li>
+                            </ul>
+                          )
+                        ))}
+                      </>
+                    )}
+                  </div>
+
+                </div>
+                <ul
+                  className="srAccul"
+                >
+                  <li
+                    // className="tellmoreli"
+                    onClick={() => {
+                      setAccNo("");
+                      setAccNo("1");
+                      setAcc(!acc);
+                    }}
+                    style={{ userSelect: "none" }}
+                  >
+                    {/* <span className="tellmorep">
                     PRODUCT DETAILS
                     <span style={{ fontSize: "24px" }}>
                       {acc && accNo === "1" ? "-" : "+"}
                     </span>
                   </span> */}
-                  {/* <div style={{display:acc && accNo === '1' ? 'block':'none',userSelect:'none',transition:'0.5s'}}> */}
-                  <div
-                    className={`my-list-fineJewe ${acc && accNo === "1" ? "openAcc" : ""}`}
-                  >
-                    <div>
-                      <div className="srAccContainer">
-                        <div className="srFloat">
-                          <span>
-                            MetalPurity: <b>{productData?.updMT?.split(" ")[1]}</b>
-                          </span>
-                          {/* <span>
+                    {/* <div style={{display:acc && accNo === '1' ? 'block':'none',userSelect:'none',transition:'0.5s'}}> */}
+                    <div
+                      className={`my-list-fineJewe ${acc && accNo === "1" ? "openAcc" : ""}`}
+                    >
+                      <div>
+                        <div className="srAccContainer">
+                          <div className="srFloat">
+                            <span>
+                              MetalPurity: <b>{productData?.updMT?.split(" ")[1]}</b>
+                            </span>
+                            {/* <span>
                             <b>MetalWeight</b>: {productData?.MetalWeight}
                           </span> */}
-                          <span>
-                            GrossWeight:
-                            {/* <b>{(
+                            <span>
+                              GrossWeight:
+                              {/* <b>{(
                               productData?.Grossweight +
                               (metalFilterData.length === 0
                                 ? 0
@@ -2553,8 +2555,8 @@ console.log('visiorIddddd', visitorId);
                                 ? 0
                                 : daimondFilterData[0]?.Weight / 5)
                             ).toFixed(2)}</b> */}
-                            <b>{productData?.updGWT}</b>
-                            {/* {daimondFilterData?.length && metalFilterData.length ? (
+                              <b>{productData?.updGWT}</b>
+                              {/* {daimondFilterData?.length && metalFilterData.length ? (
                               <>
                                 <b>GrossWeight</b>: {metalFilterData[0]?.Weight + (daimondFilterData[0]?.Weight / 5)}
                               </>
@@ -2574,82 +2576,82 @@ console.log('visiorIddddd', visitorId);
                                 <b>GrossWeight</b>: {productData?.Grossweight}
                               </>
                             ) : ''} */}
-                          </span>
-                          <span>
-                            DiamondWeight:{" "}
-                            {/* <b>{daimondFilterData?.length
+                            </span>
+                            <span>
+                              DiamondWeight:{" "}
+                              {/* <b>{daimondFilterData?.length
                               ? (
                                 productData?.diamondweight +
                                 daimondFilterData[0]?.Weight
                               ).toFixed(2)
                               : productData?.diamondweight}</b> */}
-                            <b>{daimondFilterData?.length
-                              ? (
-                                productData?.updDWT +
-                                daimondFilterData[0]?.Weight
-                              ).toFixed(2)
-                              : productData?.updDWT}</b>
-                            {/* <b>{productData?.updDWT}</b> */}
-                          </span>
-                          <span>
-                            Diamondpcs:{" "}
-                            {/* <b>{daimondFilterData?.length
+                              <b>{daimondFilterData?.length
+                                ? (
+                                  productData?.updDWT +
+                                  daimondFilterData[0]?.Weight
+                                ).toFixed(2)
+                                : productData?.updDWT}</b>
+                              {/* <b>{productData?.updDWT}</b> */}
+                            </span>
+                            <span>
+                              Diamondpcs:{" "}
+                              {/* <b>{daimondFilterData?.length
                               ? productData?.diamondpcs +
                               daimondFilterData[0]?.pieces
                               : productData?.diamondpcs}</b> */}
-                            <b>{daimondFilterData?.length
-                              ? productData?.updDPCS +
-                              daimondFilterData[0]?.pieces
-                              : productData?.updDPCS}</b>
-                          </span>
+                              <b>{daimondFilterData?.length
+                                ? productData?.updDPCS +
+                                daimondFilterData[0]?.pieces
+                                : productData?.updDPCS}</b>
+                            </span>
 
-                        </div>
-                        <div className="srFloat">
-                          <span>
-                            Netwt:{" "}
-                            {/* <b>{metalFilterData?.length
+                          </div>
+                          <div className="srFloat">
+                            <span>
+                              Netwt:{" "}
+                              {/* <b>{metalFilterData?.length
                               ? (
                                 productData?.netwt +
                                 metalFilterData[0]?.Weight
                               ).toFixed(2)
                               : productData?.netwt}</b> */}
-                            <b>{productData?.updNWT}</b>
-                          </span>
-                          <span>
-                            DiamondQuality: <b>{productData?.diamondquality}</b>
-                          </span>
-                          <span>
-                            DiamondColorname:{" "}
-                            <b>{productData?.diamondcolorname}</b>
-                          </span>
-                          <span>
-                            NumberOfDiamonds:{" "}
-                            <b>{daimondFilterData?.length
-                              ? productData?.updDPCS +
-                              daimondFilterData[0]?.pieces
-                              : productData?.updDPCS}</b>
-                            {/* <b>{daimondFilterData?.length
+                              <b>{productData?.updNWT}</b>
+                            </span>
+                            <span>
+                              DiamondQuality: <b>{productData?.diamondquality}</b>
+                            </span>
+                            <span>
+                              DiamondColorname:{" "}
+                              <b>{productData?.diamondcolorname}</b>
+                            </span>
+                            <span>
+                              NumberOfDiamonds:{" "}
+                              <b>{daimondFilterData?.length
+                                ? productData?.updDPCS +
+                                daimondFilterData[0]?.pieces
+                                : productData?.updDPCS}</b>
+                              {/* <b>{daimondFilterData?.length
                               ? productData?.diamondpcs +
                               daimondFilterData[0]?.pieces
                               : productData?.diamondpcs}</b> */}
-                            {/* <b>{productData?.updDPCS}</b> */}
-                          </span>
-                          {/* <span>
+                              {/* <b>{productData?.updDPCS}</b> */}
+                            </span>
+                            {/* <span>
                             TotalDiamondWeight: */}
-                          {/* <b>{daimondFilterData?.length
+                            {/* <b>{daimondFilterData?.length
                               ? (
                                 productData?.diamondweight +
                                 daimondFilterData[0]?.Weight
                               ).toFixed(2)
                               : productData?.diamondweight}</b> */}
-                          {/* <b>{productData?.updDWT}</b>
+                            {/* <b>{productData?.updDWT}</b>
                           </span> */}
-                          {/* <span>
+                            {/* <span>
                             DiamondSetting: <b>{productData?.diamondsetting}</b>
                           </span> */}
+                          </div>
                         </div>
-                      </div>
-                      {/* <div style={{marginBottom:'15px'}}>
+                        {/* <div style={{marginBottom:'15px'}}>
                         <span style={{fontSize:'13px',fontWeight:'normal'}}>
                           Total carat weight (ctw) represents the approximate
                           total weight of all diamonds in each jewelry and may
@@ -2657,11 +2659,11 @@ console.log('visiorIddddd', visitorId);
                           grown diamonds.
                         </span>
                       </div> */}
+                      </div>
                     </div>
-                  </div>
-                </li>
-                {/* <div style={{display:acc && accNo === '2' ? 'block':'none',userSelect:'none',transition:'0.5s'}}>  */}
-                {/* <li
+                  </li>
+                  {/* <div style={{display:acc && accNo === '2' ? 'block':'none',userSelect:'none',transition:'0.5s'}}>  */}
+                  {/* <li
                   className="tellmoreli"
                   onClick={() => {
                     setAccNo("");
@@ -2724,8 +2726,8 @@ console.log('visiorIddddd', visitorId);
                     <span style={{fontSize:'12px'}}>All our rings can be resized by one size up or down, except for Eternity Bands.</span>
                   </div>
                 </li> */}
-                {/* <div style={{display:acc && accNo === '3' ? 'block':'none',userSelect:'none',transition:'0.5s'}}> */}
-                {/* <li
+                  {/* <div style={{display:acc && accNo === '3' ? 'block':'none',userSelect:'none',transition:'0.5s'}}> */}
+                  {/* <li
                   className="tellmoreli"
                   onClick={() => {
                     setAccNo("");
@@ -2751,9 +2753,10 @@ console.log('visiorIddddd', visitorId);
                    your purchase. For more please read our Shipping and Returns Policy
                   </div>
                 </li> */}
-              </ul>
+                </ul>
+              </div>
+            }
             </div>
-          </div>
           {/* <div className="compeletethelook_cont">
             <img
               src={
@@ -2883,10 +2886,10 @@ console.log('visiorIddddd', visitorId);
           {/* <SmilingRock /> */}
         </div>
       </div>
-        {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', paddingBlock: '30px' }}>
           <p style={{ margin: '0px', fontWeight: 500, width: '100px', color: 'white', cursor: 'pointer' }} onClick={() => window.scrollTo(0, 0)}>BACK TO TOP</p>
         </div> */}
-          <Footer />
+      <Footer />
     </div >
   );
 }

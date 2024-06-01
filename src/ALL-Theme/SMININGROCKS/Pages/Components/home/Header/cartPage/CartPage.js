@@ -174,7 +174,7 @@ export default function CartPage() {
     // handelCurrencyData();
     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
     const storeInit = JSON.parse(localStorage.getItem('storeInit'))
-    let obj = { "CurrencyRate": storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.Currencysymbol :loginData?.Currencysymbol }
+    let obj = { "CurrencyRate": storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.Currencysymbol : loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
     }
@@ -206,7 +206,7 @@ export default function CartPage() {
 
 
   const getCountFunc = async () => {
-    await GetCount().then((res) => {
+    await GetCount(cookies).then((res) => {
       if (res) {
         setCartCount(res.CountCart);
         setWishCount(res.WishCount);
@@ -480,9 +480,9 @@ export default function CartPage() {
     getCartData();
   }, [isb2cFlag]);
 
-  useEffect(() =>{
+  useEffect(() => {
     getCartData();
-  },[isb2cFlag])
+  }, [isb2cFlag])
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("QualityColor"));
@@ -525,7 +525,7 @@ export default function CartPage() {
 
       const storedData = localStorage.getItem("loginUserDetail") || "0";
       const data = JSON.parse(storedData);
-      const customerid = data?.id;
+      const customerid = storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId : data.id;
       const combinedValue = JSON.stringify({
         autocode: `${item}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
@@ -558,7 +558,7 @@ export default function CartPage() {
   };
 
   const getCartData = async () => {
-    debugger
+    // debugger
     try {
       // cartListData.length === 0 && setIsLoading(true);
       cartListData.length === 0 && setIsLoading(true);
@@ -567,7 +567,7 @@ export default function CartPage() {
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const storedData = localStorage.getItem("loginUserDetail");
       const data = JSON.parse(storedData);
-      const customerid = storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId  : data.id;
+      const customerid = storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId : data.id;
       setIsProductCuFlag(storeInit.IsProductWebCustomization);
       setIsMetalCutoMizeFlag(storeInit.IsMetalCustomization);
       setIsDaimondCstoFlag(storeInit.IsDiamondCustomization);
@@ -676,7 +676,7 @@ export default function CartPage() {
         };
         const response = await CommonAPI(body);
         if (response.Data.rd[0].stat === 1) {
-          toast.success("Add remark successfully");
+          // toast.success("Add remark successfully");
           setShowOrderRemarkFields(!showOrderRemarkFields)
           setMainRemarksApires(response.Data.rd[0]?.orderremarks)
           // setMainRemarks('')
@@ -729,7 +729,7 @@ export default function CartPage() {
         const response = await CommonAPI(body);
         if (response.Data.rd[0].stat === 1) {
           await getCartData()
-          toast.success("Add remark successfully");
+          // toast.success("Add remark successfully");
           setShowRemarkFields(!showRemarkFields)
           setRemarksApiRes(response.Data.rd[0]?.design_remark)
           // setRemarks('')
@@ -776,7 +776,7 @@ export default function CartPage() {
         const response = await CommonAPI(body);
         if (response.Data.rd[0].stat === 1) {
           await getCartData()
-          toast.success("QTY change successfully");
+          // toast.success("QTY change successfully");
         } else {
           alert("Error");
         }
@@ -949,13 +949,15 @@ export default function CartPage() {
     const UserEmail = localStorage.getItem("registerEmail")
     const storeInit = JSON.parse(localStorage.getItem("storeInit"))
     const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
+    let customerId = storeInit?.IsB2BWebsite === 0 && !islogin ? cookies?.visiterId : Customer_id?.id
+    let customerAppUserId = storeInit?.IsB2BWebsite === 0 && !islogin ? cookies?.visiterId : UserEmail
 
-    let EncodeData = { FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`, Customerid: `${Customer_id?.id}` }
+    let EncodeData = { FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`, Customerid: `${customerId}` }
 
     const encodedCombinedValue = btoa(JSON.stringify(EncodeData));
 
     const body = {
-      "con": `{\"id\":\"Store\",\"mode\":\"getdesignnolist\",\"appuserid\":\"${UserEmail}\"}`,
+      "con": `{\"id\":\"Store\",\"mode\":\"getdesignnolist\",\"appuserid\":\"${customerAppUserId}\"}`,
       "f": " useEffect_login ( getdataofcartandwishlist )",
       "p": encodedCombinedValue
     }
@@ -1279,23 +1281,29 @@ export default function CartPage() {
   }
 
   const handlePlaceOrder = () => {
-    let priceData = cartListData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
-    localStorage.setItem('TotalPriceData', priceData)
-    navigation("/Delivery");
-    window.scrollTo(0, 0);
+    if (storeInitData?.IsB2BWebsite == 0 && islogin == 'false') {
+      setTimeout(() => {
+        navigation("/LoginOption");
+      }, 100);
+    } else {
+      let priceData = cartListData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
+      localStorage.setItem('TotalPriceData', priceData)
+      navigation("/Delivery");
+      window.scrollTo(0, 0);
+    }
   }
 
   const [qtyUpdateWaiting, setQtyUpdateWaiting] = useState(false);
 
-  const handleIncrementQuantity = (designNo,q) => {
-    setLastEnteredQuantity({designNo:q+1, d:designNo,Q:q+1});
-    handleUpdateQuantity(designNo,q+1);
+  const handleIncrementQuantity = (designNo, q) => {
+    setLastEnteredQuantity({ designNo: q + 1, d: designNo, Q: q + 1 });
+    handleUpdateQuantity(designNo, q + 1);
   };
-  
-  const handleDecrementQuantity = (designNo,q) => {
+
+  const handleDecrementQuantity = (designNo, q) => {
     if (q > 1) {
-      setLastEnteredQuantity({ designNo:q-1, d:designNo, Q:q-1});
-      handleUpdateQuantity(designNo,q-1);
+      setLastEnteredQuantity({ designNo: q - 1, d: designNo, Q: q - 1 });
+      handleUpdateQuantity(designNo, q - 1);
     }
   };
 
@@ -1308,7 +1316,7 @@ export default function CartPage() {
     <>
       <div
         className="paddingTopMobileSet"
-        style={{height: isLoading ? '390px': '100%' }}
+        style={{ height: isLoading ? '390px' : '100%' }}
       >
         {cartListData?.length == 0 && !isLoading &&
           <div>
@@ -1330,17 +1338,17 @@ export default function CartPage() {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  marginInline:'20%'
+                  marginInline: '20%'
                 }}
               >
                 <p
                   style={{
                     fontSize: "16px",
                     fontWeight: 500,
-                    border:'1px dashed #d9d9d9',
-                    width:'100%',
-                    padding:'10px',
-                    color:'#a7a7a7'
+                    border: '1px dashed #d9d9d9',
+                    width: '100%',
+                    padding: '10px',
+                    color: '#a7a7a7'
                   }}
                   className="my-5"
                 >
@@ -1374,8 +1382,8 @@ export default function CartPage() {
                       </thead>
                       <tbody className="table-customTbody">
                         {cartListData?.map((product, index) => (
-                          <tr className="table-customTr" key={product.id}>
-                            <td className="align-middle">
+                          <tr className="table-customTr tabletrData" key={product.id}>
+                             <td className="align-middle imagetextTd d-flex align-items-center justify-content-start">
                               <img
                                 src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
                                 className=""
@@ -1386,7 +1394,9 @@ export default function CartPage() {
                                   e.target.src = notFound;
                                 }}
                               />
-                              {product.TitleLine}
+                              <div className="product-titleCart">
+                                {product.TitleLine}
+                              </div>
                             </td>
                             <td className="align-middle">
                               <span>
@@ -1406,7 +1416,7 @@ export default function CartPage() {
                                     style={{ fontFamily: "sans-serif" }}
                                   />
                                   {/* {FinalPrice()} */}
-                              {product?.UnitCost}
+                                  {product?.UnitCost}
                                 </span>
                               </span>
                             </td>
@@ -1417,7 +1427,7 @@ export default function CartPage() {
                                 </div>
                                 <p className="QTYvalue">
                                   {/* {lastEnteredQuantity.d == product?.designno ? lastEnteredQuantity.Q : product?.Quantity} */}
-                              {product?.Quantity ?? 1}
+                                  {product?.Quantity ?? 1}
                                 </p>
                                 <div>
                                   <Button className='QtyAdd' disabled={qtyUpdateWaiting} onClick={() => handleIncrementQuantity(product?.designno, product?.Quantity)}>+</Button>
@@ -1443,7 +1453,7 @@ export default function CartPage() {
                                     style={{ fontFamily: "sans-serif" }}
                                   />
                                   {/* {(product?.UnitCost * ( lastEnteredQuantity?.d == product?.designNo ? (lastEnteredQuantity?.Q ?? 1) : 1)).toFixed(2)} */}
-                              {(product?.UnitCost * product?.Quantity).toFixed(2)}
+                                  {(product?.UnitCost * product?.Quantity).toFixed(2)}
                                 </span>
                               </span>
                             </td>
@@ -1455,6 +1465,7 @@ export default function CartPage() {
                                   cursor: "pointer",
                                   color: "rgba(210,212,215,1)",
                                 }}
+                                className="iconClose"
                                 onClick={() => handleRemove(product)}
                               />
                             </td>
@@ -1503,7 +1514,7 @@ export default function CartPage() {
                         </p>
                       </div>
 
-                      <div>
+                      {/* <div>
                         <h4>Have a gift card?</h4>
                         <div>
                           <input style={{ width: '100%', border: '1px solid rgb(239 239 239)', padding: '10px', background: '#f9f9f9' }} type="text" placeholder="Enter your code..." />
@@ -1511,7 +1522,7 @@ export default function CartPage() {
                             <button style={{ border: '1px solid #a5a5a5', padding: '5px' }}>Apply</button>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="btn-checkout my-3">
                         <button className="CheckoutBtn" onClick={handlePlaceOrder}>PROCEED TO CHECKOUT</button>
                       </div>

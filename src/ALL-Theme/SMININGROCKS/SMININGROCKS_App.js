@@ -53,6 +53,7 @@ import ProductListSkeleton from './Pages/Components/productPage/ProductListSkelt
 import PageNotFound from "./Pages/Components/404Page/PageNotFound"
 import CartPageSkelton from './Pages/Components/home/Header/cartPage/CartPageSkelton'
 import ProductFilterSkelton from './Pages/Components/productPage/ProductFilterSkelton'
+import PrivacyPolicy from './Pages/Static Page/privacyPolicy/PrivacyPolicy'
 import { useCookies } from 'react-cookie'
 
 export default function SMININGROCKS_App() {
@@ -61,6 +62,7 @@ export default function SMININGROCKS_App() {
     const location = useLocation();
     const setCartCount = useSetRecoilState(CartListCounts)
     const setWishCount = useSetRecoilState(WishListCounts)
+    
     const getCountFunc = async () => {
         await GetCount(cookies).then((res) => {
             if (res) {
@@ -115,6 +117,7 @@ export default function SMININGROCKS_App() {
                         <Route path="/searchResult" element={<SearchResult />} />
                         <Route path="/celeb" element={<Celeb />} />
                         <Route path="/blog" element={<Blog />} />
+                        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
                         {/* <Route path="/productpage" element={<ProductList />} /> */}
                         {/* <Route path="/productdetail" element={<ProdDetail />} /> */}
                         {/* <Route path="/Delivery" element={<Delivery />} /> */}

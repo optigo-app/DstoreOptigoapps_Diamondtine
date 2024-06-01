@@ -355,6 +355,7 @@ export default function Header() {
   const [isB2bFlag, setIsB2BFlag] = useState('');
   const fetchData = () => {
     const value = localStorage.getItem('LoginUser');
+    console.log('value', value === true);
     const val = (value === 'true' ? 'true' : 'false')
     setislogin(val);
   };
@@ -816,7 +817,7 @@ export default function Header() {
     drawerWidth = '25%';
   }
 
- 
+
 
   {
     ((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
@@ -835,7 +836,7 @@ export default function Header() {
           shopDropdown?.classList.remove('fixed_openMenu');
         }
 
-        if(document?.getElementsByClassName('Smining-Top-LoginHeader')?.fixedHeader?.classList?.contains('fixed') === true){
+        if (document?.getElementsByClassName('Smining-Top-LoginHeader')?.fixedHeader?.classList?.contains('fixed') === true) {
           var shopDropdown = document?.getElementById('shopdropdown');
           shopDropdown?.classList.add('fixed_openMenu')
         }
@@ -921,7 +922,7 @@ export default function Header() {
                 </a>
               </div>
               <div className="mobileViewFirstDiv3Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%', justifyContent: 'flex-end' }}>
-                {storeInit?.IsB2BWebsite == 0 && islogin == 'false' &&
+                {islogin == 'true' &&
                   <Badge
                     badgeContent={getWishListCount}
                     max={1000}
@@ -1093,7 +1094,7 @@ export default function Header() {
               {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
                 <ul className="nav-ul-shop" style={{ marginTop: '24px' }}>
                   <>
-                    {storeInit?.IsB2BWebsite == 0 && islogin == 'false' &&
+                    {islogin == 'true' &&
                       <Badge
                         badgeContent={getWishListCount}
                         max={1000}
@@ -1139,7 +1140,7 @@ export default function Header() {
                     <li
                       className="nav-li-smining"
                       style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
-                      onClick={() => navigation("/account")}
+                      onClick={() => { storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? navigation("/LoginOption") : navigation("/account") }}
                     >
                       <IoPersonOutline color="#7D7F85" fontSize='25px' />
                     </li>
@@ -1381,7 +1382,6 @@ export default function Header() {
                     display: "flex",
                     alignItems: "center",
                     width: "20%",
-                    gap: '20px'
                   }}
                   className="mobileViewFirstDiv3Sub-sub"
 
@@ -1391,7 +1391,7 @@ export default function Header() {
                       <IoSearch color="#7D7F85" fontSize='30px' />
                     </li>
                   } */}
-                  {storeInit?.IsB2BWebsite == 0 && islogin == 'false' &&
+                  {islogin == 'true' &&
                     <Badge
                       badgeContent={getWishListCount}
                       max={1000}
@@ -1438,7 +1438,7 @@ export default function Header() {
                   </Badge>
                   {islogin == 'true' &&
                     <li
-                      className="nav-li-smining"
+                      className="nav-li-smining mobileViewSmilingTop3IconeDiv"
                       style={{ cursor: "pointer", textDecoration: 'none' }}
                       onClick={() => navigation("/account")}
                     >
@@ -1448,7 +1448,7 @@ export default function Header() {
                   {islogin == 'true' ? (
                     <li
                       className="nav-li-smining"
-                      style={{ cursor: "pointer", marginTop: "0" }}
+                      style={{ cursor: "pointer", marginTop: "0" , color: 'rgb(125, 127, 133)'}}
                       onClick={handleLogout}
                     >
                       <FaPowerOff fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop4Icone" />
