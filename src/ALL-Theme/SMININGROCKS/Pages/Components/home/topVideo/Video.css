@@ -26,3 +26,11 @@
     }
 
   }
+
+  @media screen and (max-width: 500px) {
+
+    .centered-image{
+        width: 100%!important;
+    }
+
+  }

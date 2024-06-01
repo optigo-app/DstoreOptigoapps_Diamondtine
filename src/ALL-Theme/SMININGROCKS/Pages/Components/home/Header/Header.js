@@ -1382,7 +1382,6 @@ export default function Header() {
                     display: "flex",
                     alignItems: "center",
                     width: "20%",
-                    gap: '20px'
                   }}
                   className="mobileViewFirstDiv3Sub-sub"
 
@@ -1439,7 +1438,7 @@ export default function Header() {
                   </Badge>
                   {islogin == 'true' &&
                     <li
-                      className="nav-li-smining"
+                      className="nav-li-smining mobileViewSmilingTop3IconeDiv"
                       style={{ cursor: "pointer", textDecoration: 'none' }}
                       onClick={() => navigation("/account")}
                     >
@@ -1449,7 +1448,7 @@ export default function Header() {
                   {islogin == 'true' ? (
                     <li
                       className="nav-li-smining"
-                      style={{ cursor: "pointer", marginTop: "0" }}
+                      style={{ cursor: "pointer", marginTop: "0" , color: 'rgb(125, 127, 133)'}}
                       onClick={handleLogout}
                     >
                       <FaPowerOff fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop4Icone" />

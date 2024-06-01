@@ -252,7 +252,7 @@
 .nav-li-smining {
     font-size: 14px !important;
     text-transform: capitalize;
-    color: white !important;
+    /* color: white !important; */
 }
 
 /* .nav-li-smining:hover {
@@ -822,6 +822,9 @@
         display: none;
     }
 
+    .smilingMobileSubDiv{
+        height: 60px!important;
+    }
     .top_header {
         display: none;
     }
@@ -967,6 +970,9 @@
 
 @media screen and (max-width:599px) {
 
+    .smilingHeaderWhishlistIcon{
+        display: none!important;
+    }
     .smilingNoDataCart {
         margin-top: 300px !important;
     }
@@ -1094,7 +1100,7 @@
 
 
     .mobileViewFirstDiv3Sub {
-        margin: 20px 10px !important;
+        margin: 0px !important;
     }
 
     .mobileViewFirstDiv3Sub-sub {
@@ -1113,6 +1119,9 @@
         /* margin-left: 0px !important; */
     }
 
+    .mobileViewSmilingTop3IconeDiv{
+        display: none!important;
+    }
     .mobileHeaderSmining {
         height: 60px !important;
     }
