@@ -355,6 +355,7 @@ export default function Header() {
   const [isB2bFlag, setIsB2BFlag] = useState('');
   const fetchData = () => {
     const value = localStorage.getItem('LoginUser');
+    console.log('value', value === true);
     const val = (value === 'true' ? 'true' : 'false')
     setislogin(val);
   };
