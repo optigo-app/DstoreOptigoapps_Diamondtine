@@ -124,16 +124,16 @@ export const productListApiCall = async(param,page=1,filterObj={}) =>{
 
 
     const data = {
-      "PackageId":`${loginInfo?.PackageId}`,
+      "PackageId":`${storeinit?.IsB2BWebsite == 0 ?  storeinit?.PackageId : loginInfo?.PackageId}`,
       "autocode":"","FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,
-      "Customerid":`${loginInfo?.id}`,
+      "Customerid":`${loginInfo?.id ?? 0}`,
       "Filter":btoa(JSON.stringify(encodedFilter)),
     }
     let encData =  btoa(JSON.stringify(data))
     console.log('encodedFilter',encodedFilter);
 
     let body = {
-      "con":`{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${userEmail}\"}`,
+      "con":`{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${userEmail ?? ''}\"}`,
       "f":"onlogin (GETPRODUCTLIST)",
       "p":encData
     }

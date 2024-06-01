@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartListCounts, WishListCounts, priceData } from '../../../../../../Recoil/atom';
 import { GetCount } from '../../../../Utils/API/GetCount';
 import { ToastContainer, toast } from 'react-toastify';
+import { useCookies } from 'react-cookie';
 
 
 
@@ -72,6 +73,7 @@ export default function Cart({ open, toggleCartDrawer }) {
     const navigation = useNavigate();
     // console.log("selectedMetalType", selectedMetalType)
     // console.log("grandTotal", grandTotal)
+    const [cookies] = useCookies(['visiterId']);
 
 
 
@@ -112,10 +114,10 @@ export default function Cart({ open, toggleCartDrawer }) {
 
 
     const getCountFunc = async () => {
-        await GetCount().then((res) => {
+        await GetCount(cookies).then((res) => {
             if (res) {
                 setCartCount(res.CountCart)
-                setWishCount(res.WishCount)
+                setWishCount(res.WishCount) 
             }
         })
 

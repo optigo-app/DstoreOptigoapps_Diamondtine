@@ -14,6 +14,7 @@ import './LoginWithEmail.css'
 import { DesignSet } from '../../../../Utils/API/DesignSet';
 import { GetCount } from '../../../../Utils/API/GetCount';
 import { getDesignPriceList } from '../../../../Utils/API/PriceDataApi';
+import { useCookies } from 'react-cookie';
 
 export default function LoginWithEmail() {
     const [email, setEmail] = useState('');
@@ -32,6 +33,8 @@ export default function LoginWithEmail() {
     const setCartCount = useSetRecoilState(CartListCounts)
     const setWishCount = useSetRecoilState(WishListCounts)
     const setTestProdData = useSetRecoilState(newTestProdData);
+    const [cookies] = useCookies(['visiterId']);
+    const [, , removeCookie] = useCookies(['visiterId']);
 
 
     const getCountFunc = async () => {
@@ -127,8 +130,11 @@ export default function LoginWithEmail() {
 
             const storeInit = JSON.parse(localStorage.getItem('storeInit'));
             const { FrontEnd_RegNo } = storeInit;
+            const visitorId = cookies?.visiterId;
+            // ...(storeInit?.IsB2BWebsite === 0 && { visitorId: visitorId })
             const combinedValue = JSON.stringify({
-                userid: `${email}`, mobileno: '', pass: `${hashedPassword}`, mobiletoken: '', FrontEnd_RegNo: `${FrontEnd_RegNo}`
+                userid: `${email}`, mobileno: '', pass: `${hashedPassword}`, mobiletoken: '', FrontEnd_RegNo: `${FrontEnd_RegNo}`,
+                ...(storeInit?.IsB2BWebsite === 0 && { visitorId: visitorId })
             });
             const encodedCombinedValue = btoa(combinedValue);
             const body = {
@@ -141,6 +147,7 @@ export default function LoginWithEmail() {
             if (response.Data.rd[0].stat === 1) {
                 let resData = response.Data.rd[0]
                 localStorage.setItem('registerEmail', email)
+                removeCookie('visiterId');
                 setIsLoginState('true')
                 localStorage.setItem('LoginUser', 'true')
                 localStorage.setItem('loginUserDetail', JSON.stringify(response.Data.rd[0]));
@@ -272,7 +279,7 @@ export default function LoginWithEmail() {
                             <button type='submit' className='submitBtnForgot' onClick={handleNavigation}>Login With a Code instead on email</button>
                             <p style={{ textAlign: 'center' }}>Go passwordless! we'll send you an email.</p>
 
-                            <p style={{ color: 'blue', cursor: 'pointer' ,marginBottom: '40px' }} onClick={handleForgotPassword}>Forgot Password ?</p>
+                            <p style={{ color: 'blue', cursor: 'pointer', marginBottom: '40px' }} onClick={handleForgotPassword}>Forgot Password ?</p>
                         </div>
                     </div>
                 </div>

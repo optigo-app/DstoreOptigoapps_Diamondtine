@@ -11,7 +11,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { PiStarFourThin } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { CartListCounts, HeaderData, HeaderData2, WishListCounts, companyLogo, loginState, menuTransfData, newMenuData, openSignInModal, searchData } from "../../../../../../Recoil/atom";
+import { CartListCounts, HeaderData, HeaderData2, WishListCounts, companyLogo, isB2CFlag, loginState, menuTransfData, newMenuData, openSignInModal, searchData } from "../../../../../../Recoil/atom";
 import { CommonAPI } from "../../../../Utils/API/CommonAPI";
 import Cart from "./Cart";
 // import titleImg from "../../../assets/title/sonasons.png"
@@ -39,12 +39,16 @@ import { toast } from "react-toastify";
 import { SearchProductDataAPI } from "../../../../Utils/API/SearchProductDataAPI";
 import { SearchPriceDataAPI } from "../../../../Utils/API/SearchPriceDataAPI";
 import { AiFillInstagram } from "react-icons/ai";
+import { useCookies } from "react-cookie";
 
 export default function Header() {
   // const [titleImg, setTitleImg ] = useState() 
+  const isb2cflag = useRecoilValue(isB2CFlag);
+  const [, , removeCookie] = useCookies(['visiterId']);
   const navigation = useNavigate();
   const location = useLocation();
   const dropdownRef = useRef(null);
+  const [storeInit, setStoreInit] = useState();
   const [lodingLogo, setLodingLogo] = useState(true);
   const [inputValue, setInputValue] = useState(1);
   const [serachsShowOverlay, setSerachShowOverlay] = useState(false);
@@ -390,7 +394,7 @@ export default function Header() {
     let pEnc = btoa(pData)
 
     const body = {
-      con: "{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"nimesh@ymail.in\"}",
+      con: "{\"id\":\"\",\"mode\":\"GETMENU\",\"appuserid\":\"\"}",
       f: "onload (GETMENU)",
       p: pEnc
     }
@@ -406,14 +410,15 @@ export default function Header() {
   }
 
   useEffect(() => {
-    if (islogin === 'true') {
+    const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
+    setStoreInit(storeInit)
+    if (storeInit?.IsB2BWebsite == 0) {
       getMenuApi()
-      const storeInit = JSON.parse(localStorage.getItem('storeInit')) ?? "";
-      const { IsB2BWebsite } = storeInit;
-      setIsB2BFlag(1);
-      // setIsB2BFlag(IsB2BWebsite);
+
+    } else if (storeInit?.IsB2BWebsite == 1 && islogin == 'true') {
+      getMenuApi()
     }
-  }, [islogin])
+  }, [islogin, isb2cflag])
 
   const toggleList = () => {
     setIsOpen(!isOpen);
@@ -477,7 +482,8 @@ export default function Header() {
       if (finalData) {
         await SearchProductDataAPI(searchVar).then((res) => {
           if (res) {
-            localStorage.setItem("allproductlist", JSON.stringify(res))
+            console.log("res1111",res?.pdList[0])
+            localStorage.setItem("allproductlist", JSON.stringify(res?.pdList))
             // localStorage.setItem("finalAllData", JSON.stringify(res))
           }
           return res
@@ -485,13 +491,16 @@ export default function Header() {
           if (res) {
             let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
             await SearchPriceDataAPI(autoCodeList, searchVar)
-            // .then((res)=>{
-            //     if(res){
-            //     localStorage.setItem("getSearchPriceData", JSON.stringify(res))
-            //     }
-            // })
-            navigation("/productpage", { state: { "search": true } })
-            toggleOverlay();
+            .then((res)=>{
+                if(res){
+                localStorage.setItem("getPriceData", JSON.stringify(res))
+                setSearchText('')
+                // localStorage.setItem("getSearchPriceData", JSON.stringify(res))
+                }
+            })
+            const d = new Date();
+            navigation("/productpage", { state: { "search": Math.floor(Math.random() * 1000 * d.getMilliseconds() * d.getSeconds() * d.getDate() * d.getHours() * d.getMinutes())}})
+            // toggleOverlay();
           }
         }).catch((err) => {
           if (err) toast.error("Something Went Wrong!!!")
@@ -548,6 +557,7 @@ export default function Header() {
     localStorage.removeItem('UploadLogicalPath');
     localStorage.removeItem('remarks');
     localStorage.removeItem('registerMobile');
+    removeCookie('visiterId');
     navigation('/')
     window.location.reload();
   }
@@ -806,19 +816,30 @@ export default function Header() {
     drawerWidth = '25%';
   }
 
-  {
-    islogin == 'true' &&
-    window.addEventListener('scroll', function () {
-      var topHeader = document?.querySelector('.gorjanaTopHeader');
-      var bottomHeader = document?.querySelector('.gorajanaBottomHeaderMain');
-      var fixedHeader = document?.getElementById('fixedHeader');
 
-      if (window.pageYOffset > 100 && topHeader?.getBoundingClientRect()?.bottom <= 0 && bottomHeader?.getBoundingClientRect()?.top <= 0) {
-        fixedHeader?.classList.add('fixed');
-      } else {
-        fixedHeader?.classList.remove('fixed');
-      }
-    });
+
+  {
+    ((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
+      window.addEventListener('scroll', function () {
+        var topHeader = document?.querySelector('.gorjanaTopHeader');
+        var bottomHeader = document?.querySelector('.gorajanaBottomHeaderMain');
+        var fixedHeader = document?.getElementById('fixedHeader');
+        var shopDropdown = document?.getElementById('shopdropdown');
+
+        if (window.pageYOffset > 100 && topHeader?.getBoundingClientRect()?.bottom <= 0 && bottomHeader?.getBoundingClientRect()?.top <= 0) {
+          fixedHeader?.classList.add('fixed');
+          shopDropdown?.classList.add('fixed_openMenu');
+
+        } else {
+          fixedHeader?.classList.remove('fixed');
+          shopDropdown?.classList.remove('fixed_openMenu');
+        }
+
+        if (document?.getElementsByClassName('Smining-Top-LoginHeader')?.fixedHeader?.classList?.contains('fixed') === true) {
+          var shopDropdown = document?.getElementById('shopdropdown');
+          shopDropdown?.classList.add('fixed_openMenu')
+        }
+      });
   }
 
 
@@ -900,31 +921,33 @@ export default function Header() {
                 </a>
               </div>
               <div className="mobileViewFirstDiv3Drawer" style={{ display: 'flex', alignItems: 'center', width: '33.33%', justifyContent: 'flex-end' }}>
-                <Badge
-                  badgeContent={getWishListCount}
-                  max={1000}
-                  overlap={"rectangular"}
-                  color="secondary"
-                  style={{ marginInline: '15px' }}
-                  sx={{
-                    '& .MuiBadge-badge': {
-                      backgroundColor: '#a8807c',
-                    },
-                  }}
-                >
-                  <li
-                    onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
-                    style={{
-                      marginLeft: "-10px",
-                      cursor: "pointer",
-                      listStyle: 'none',
-                      marginTop: "0px",
+                {islogin == 'true' &&
+                  <Badge
+                    badgeContent={getWishListCount}
+                    max={1000}
+                    overlap={"rectangular"}
+                    color="secondary"
+                    style={{ marginInline: '15px' }}
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        backgroundColor: '#a8807c',
+                      },
                     }}
-                    sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
                   >
-                    <GoHeart color="#7D7F85" fontSize='20px' />
-                  </li>
-                </Badge>
+                    <li
+                      onClick={() => { setDrawerOpen(false); navigation('/myWishList') }}
+                      style={{
+                        marginLeft: "-10px",
+                        cursor: "pointer",
+                        listStyle: 'none',
+                        marginTop: "0px",
+                      }}
+                      sx={{ "& .MuiBadge-badge": { fontSize: 10, height: 20, minWidth: 20, width: 20 } }}
+                    >
+                      <GoHeart color="#7D7F85" fontSize='20px' />
+                    </li>
+                  </Badge>
+                }
                 <Badge
                   badgeContent={getCartListCount}
                   max={1000}
@@ -1024,7 +1047,7 @@ export default function Header() {
       )}
 
       {!serachsShowOverlay &&
-        <div className="sminingHeaderWeb" style={{ height: islogin == 'true' ? '190px' : '150px' }}>
+        <div className="sminingHeaderWeb" style={{ height: ((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) ? '190px' : '150px' }}>
           <div className="gorjanaTopHeader">
             <div className="contact-info">
               <IoCallOutline style={{ height: "20px", width: "40px" }} />
@@ -1044,8 +1067,8 @@ export default function Header() {
           </div>
           <div className="gorajanaBottomHeaderMain">
             <div className="daimondHeaderDiv1">
-              {/* <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} /> */}
-              {/* <input
+              <VscSearch fontSize='20px' style={{ height: "20px", width: "20px", marginRight: "10px" }} />
+              <input
                 type="text"
                 placeholder="Search..."
                 value={searchText}
@@ -1056,7 +1079,7 @@ export default function Header() {
                 }}
                 className="serachinputBoxOverly"
                 onKeyDown={searchDataFucn}
-              /> */}
+              />
             </div>
             <div className="daimondHeaderDiv2">
               <img
@@ -1067,26 +1090,28 @@ export default function Header() {
               />
             </div>
             <div className="daimondHeaderDiv3">
-              {islogin === "true" &&
+              {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
                 <ul className="nav-ul-shop" style={{ marginTop: '24px' }}>
                   <>
-                    <Badge
-                      badgeContent={getWishListCount}
-                      max={1000}
-                      overlap={"rectangular"}
-                      color="secondary"
-                      sx={{
-                        '& .MuiBadge-badge': {
-                          backgroundColor: '#a8807c',
-                        },
-                      }}
-                    >
-                      <Tooltip title="WishList">
-                        <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
-                          <GoHeart color="#7D7F85" fontSize='25px' />
-                        </li>
-                      </Tooltip>
-                    </Badge>
+                    {islogin == 'true' &&
+                      <Badge
+                        badgeContent={getWishListCount}
+                        max={1000}
+                        overlap={"rectangular"}
+                        color="secondary"
+                        sx={{
+                          '& .MuiBadge-badge': {
+                            backgroundColor: '#a8807c',
+                          },
+                        }}
+                      >
+                        <Tooltip title="WishList">
+                          <li style={{ cursor: "pointer", textDecoration: 'none', marginTop: '0' }} onClick={() => navigation("/myWishList")}>
+                            <GoHeart color="#7D7F85" fontSize='25px' />
+                          </li>
+                        </Tooltip>
+                      </Badge>
+                    }
                     <Badge
                       badgeContent={getCartListCount}
                       max={1000}
@@ -1114,23 +1139,25 @@ export default function Header() {
                     <li
                       className="nav-li-smining"
                       style={{ cursor: "pointer", textDecoration: 'none', marginTop: "0" }}
-                      onClick={() => navigation("/account")}
+                      onClick={() => { storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? navigation("/LoginOption") : navigation("/account") }}
                     >
                       <IoPersonOutline color="#7D7F85" fontSize='25px' />
                     </li>
                   </Tooltip>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer", marginTop: "0" }}
-                    onClick={handleLogout}
-                  >
-                    <FaPowerOff color="#7D7F85" style={{ fontSize: '25px' }} />
-                  </li>
+                  {islogin == 'true' &&
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", marginTop: "0" }}
+                      onClick={handleLogout}
+                    >
+                      <FaPowerOff color="#7D7F85" style={{ fontSize: '25px' }} />
+                    </li>
+                  }
                 </ul>
               }
             </div>
           </div>
-          {islogin == 'true' &&
+          {((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) &&
             <div id="fixedHeader" className="Smining-Top-LoginHeader">
               <div
                 className="HeaderMenuItemMainDiv"
@@ -1238,7 +1265,7 @@ export default function Header() {
           }
           {/* } */}
           <>
-            <div className={`shop-dropdown ${expandedMenu !== null ? "open" : ""}`} onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
+            <div id='shopdropdown' className={`shop-dropdown ${expandedMenu !== null ? "open" : ""} ${((expandedMenu !== null) && (document.getElementById('fixedHeader')?.classList?.contains('fixed') === true)) ? "fixed_openMenu" : ""}`} onMouseEnter={() => handleMouseEnter(hoveredIndex)} onMouseLeave={handleMouseLeave}>
               <div
                 style={{
                   display: "flex",
@@ -1319,7 +1346,7 @@ export default function Header() {
             className="mobileViewFirstDiv2"
           >
             <a href="/" className="mobileViewFirstDiv2">
-              {titleImg && <img src={titleImg} className="MainlogogMobileImage" style={islogin == 'true' ? containerStyle : alternateStyle} />}
+              {titleImg && <img src={titleImg} className="MainlogogMobileImage" style={((storeInit?.IsB2BWebsite == 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) ? containerStyle : alternateStyle} />}
             </a>
           </div>
           <div
@@ -1332,7 +1359,7 @@ export default function Header() {
             className="mobileViewFirstDiv3"
           >
 
-            {islogin === "false" ? (
+            {((storeInit?.IsB2BWebsite != 0) || (storeInit?.IsB2BWebsite == 1 && islogin == 'true')) ? (
               <li
                 className="nav-li-smining"
                 style={{ cursor: "pointer", color: 'black', marginRight: '15px' }}
@@ -1364,23 +1391,25 @@ export default function Header() {
                       <IoSearch color="#7D7F85" fontSize='30px' />
                     </li>
                   } */}
-                  <Badge
-                    badgeContent={getWishListCount}
-                    max={1000}
-                    overlap={"rectangular"}
-                    color="secondary"
-                    style={{ marginInline: '5px' }}
-                    className="smilingHeaderWhishlistIcon"
-                    sx={{
-                      '& .MuiBadge-badge': {
-                        backgroundColor: '#a8807c',
-                      },
-                    }}
-                  >
-                    <li style={{ listStyle: 'none', cursor: 'pointer' }} onClick={() => navigation("/myWishList")}>
-                      <GoHeart color="#7D7F85" fontSize='30px' className="mobileViewSmilingTop1Icone" />
-                    </li>
-                  </Badge>
+                  {islogin == 'true' &&
+                    <Badge
+                      badgeContent={getWishListCount}
+                      max={1000}
+                      overlap={"rectangular"}
+                      color="secondary"
+                      style={{ marginInline: '5px' }}
+                      className="smilingHeaderWhishlistIcon"
+                      sx={{
+                        '& .MuiBadge-badge': {
+                          backgroundColor: '#a8807c',
+                        },
+                      }}
+                    >
+                      <li style={{ listStyle: 'none', cursor: 'pointer' }} onClick={() => navigation("/myWishList")}>
+                        <GoHeart color="#7D7F85" fontSize='30px' className="mobileViewSmilingTop1Icone" />
+                      </li>
+                    </Badge>
+                  }
 
 
                   <Badge
@@ -1407,20 +1436,32 @@ export default function Header() {
                       <HiOutlineShoppingBag color="#7D7F85" fontSize='30px' className="mobileViewSmilingTop2Icone" />
                     </li>
                   </Badge>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer", textDecoration: 'none' }}
-                    onClick={() => navigation("/account")}
-                  >
-                    <IoPersonOutline color="#7D7F85" fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop3Icone" />
-                  </li>
-                  <li
-                    className="nav-li-smining"
-                    style={{ cursor: "pointer", marginTop: "0" }}
-                    onClick={handleLogout}
-                  >
-                    <FaPowerOff fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop4Icone" />
-                  </li>
+                  {islogin == 'true' &&
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", textDecoration: 'none' }}
+                      onClick={() => navigation("/account")}
+                    >
+                      <IoPersonOutline color="#7D7F85" fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop3Icone" />
+                    </li>
+                  }
+                  {islogin == 'true' ? (
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", marginTop: "0" }}
+                      onClick={handleLogout}
+                    >
+                      <FaPowerOff fontSize='30px' style={{ marginTop: '-5px' }} className="mobileViewSmilingTop4Icone" />
+                    </li>
+                  ) :
+                    <li
+                      className="nav-li-smining"
+                      style={{ cursor: "pointer", marginTop: "0" }}
+                      onClick={() => navigation('/LoginOption')}
+                    >
+                      <span style={{ display: 'block', width: '50px' }}>Log In</span>
+                    </li>
+                  }
                   {/* <li
                       className="nav-li-smining"
                       style={{ cursor: "pointer", marginTop: "0" }}

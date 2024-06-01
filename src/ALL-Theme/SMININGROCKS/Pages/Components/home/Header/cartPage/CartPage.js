@@ -26,6 +26,8 @@ import {
   WishListCounts,
   colorstoneQualityColorG,
   diamondQualityColorG,
+  isB2CFlag,
+  loginState,
   metalTypeG,
   newTestProdData,
   priceData,
@@ -44,8 +46,10 @@ import { getDesignPriceList } from "../../../../../Utils/API/PriceDataApi";
 import { productListApiCall } from "../../../../../Utils/API/ProductListAPI";
 import { FilterListAPI } from "../../../../../Utils/API/FilterListAPI";
 import notFound from "../../../../assets/image-not-found.png";
+import { useCookies } from "react-cookie";
 
 function CustomTabPanel(props) {
+
   const { children, value, index, ...other } = props;
 
   return (
@@ -66,6 +70,7 @@ function CustomTabPanel(props) {
 }
 
 export default function CartPage() {
+  const islogin = useRecoilValue(loginState)
   const [cartListData, setCartListData] = useState([]);
   const [imageURL, setImageURL] = useState("");
   const [yKey, setYouKey] = useState("");
@@ -126,7 +131,8 @@ export default function CartPage() {
   const [cartPageLoding, setCartPageloding] = useState(false);
   const [singleProdData, setSingleProdData] = useState();
   const [isLodingSave, setIsLoadingSave] = useState(false);
-
+  const isb2cFlag = useRecoilValue(isB2CFlag);
+  const [cookies] = useCookies(['visiterId']);
 
 
   const setProdFullInfo = async (paramDesignno) => {
@@ -167,7 +173,8 @@ export default function CartPage() {
   useEffect(() => {
     // handelCurrencyData();
     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
-    let obj = { "CurrencyRate": loginData?.CurrencyRate, "Currencysymbol": loginData?.Currencysymbol }
+    const storeInit = JSON.parse(localStorage.getItem('storeInit'))
+    let obj = { "CurrencyRate": storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.Currencysymbol :loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
     }
@@ -199,7 +206,7 @@ export default function CartPage() {
 
 
   const getCountFunc = async () => {
-    await GetCount().then((res) => {
+    await GetCount(cookies).then((res) => {
       if (res) {
         setCartCount(res.CountCart);
         setWishCount(res.WishCount);
@@ -471,7 +478,11 @@ export default function CartPage() {
     const currencyCombo = JSON.parse(localStorage.getItem("CURRENCYCOMBO"));
     setCurrency(currencyCombo?.Currencysymbol);
     getCartData();
-  }, []);
+  }, [isb2cFlag]);
+
+  useEffect(() =>{
+    getCartData();
+  },[isb2cFlag])
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("QualityColor"));
@@ -514,7 +525,7 @@ export default function CartPage() {
 
       const storedData = localStorage.getItem("loginUserDetail") || "0";
       const data = JSON.parse(storedData);
-      const customerid = data?.id;
+      const customerid = storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId  : data.id;
       const combinedValue = JSON.stringify({
         autocode: `${item}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
@@ -547,6 +558,7 @@ export default function CartPage() {
   };
 
   const getCartData = async () => {
+    debugger
     try {
       // cartListData.length === 0 && setIsLoading(true);
       cartListData.length === 0 && setIsLoading(true);
@@ -555,13 +567,13 @@ export default function CartPage() {
       const storeInit = JSON.parse(localStorage.getItem("storeInit"));
       const storedData = localStorage.getItem("loginUserDetail");
       const data = JSON.parse(storedData);
-      const customerid = data.id;
+      const customerid = storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId  : data.id;
       setIsProductCuFlag(storeInit.IsProductWebCustomization);
       setIsMetalCutoMizeFlag(storeInit.IsMetalCustomization);
       setIsDaimondCstoFlag(storeInit.IsDiamondCustomization);
       setIsCColrStoneCustFlag(storeInit.IsCsCustomization);
-      setCustomerID(data.id);
-      const customerEmail = data.userid;
+      setCustomerID(customerid);
+      const customerEmail = (storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? cookies?.visiterId : data?.userid) ?? '';
       setUserEmail(customerEmail);
 
       const { FrontEnd_RegNo, ukey } = storeInit;
@@ -571,7 +583,7 @@ export default function CartPage() {
         CurrentPage: "1",
         PageSize: "1000",
         ukey: `${ukey}`,
-        CurrRate: "1",
+        CurrRate: `${storeInit?.IsB2BWebsite == 0 && islogin == 'false' ? storeInit?.CurrencyRate : data?.CurrencyRate}`,
         FrontEnd_RegNo: `${FrontEnd_RegNo}`,
         Customerid: `${customerid}`,
       });
@@ -583,7 +595,6 @@ export default function CartPage() {
         p: encodedCombinedValue,
       };
       const response = await CommonAPI(body);
-
       if (response?.Data) {
         setCartListData(response?.Data?.rd);
         setMainRemarks(response?.Data?.rd[0].OrderRemarks);
@@ -1268,10 +1279,16 @@ export default function CartPage() {
   }
 
   const handlePlaceOrder = () => {
-    let priceData = cartListData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
-    localStorage.setItem('TotalPriceData', priceData)
-    navigation("/Delivery");
-    window.scrollTo(0, 0);
+    if(storeInitData?.IsB2BWebsite == 0 && islogin == 'false'){
+      setTimeout(() => {
+        navigation("/LoginOption");
+      }, 100);
+    }else{
+      let priceData = cartListData.reduce((total, item) => total + item.UnitCost, 0).toFixed(2)
+      localStorage.setItem('TotalPriceData', priceData)
+      navigation("/Delivery");
+      window.scrollTo(0, 0);
+    }
   }
 
   const [qtyUpdateWaiting, setQtyUpdateWaiting] = useState(false);
@@ -1492,7 +1509,7 @@ export default function CartPage() {
                         </p>
                       </div>
 
-                      <div>
+                      {/* <div>
                         <h4>Have a gift card?</h4>
                         <div>
                           <input style={{ width: '100%', border: '1px solid rgb(239 239 239)', padding: '10px', background: '#f9f9f9' }} type="text" placeholder="Enter your code..." />
@@ -1500,7 +1517,7 @@ export default function CartPage() {
                             <button style={{ border: '1px solid #a5a5a5', padding: '5px' }}>Apply</button>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="btn-checkout my-3">
                         <button className="CheckoutBtn" onClick={handlePlaceOrder}>PROCEED TO CHECKOUT</button>
                       </div>

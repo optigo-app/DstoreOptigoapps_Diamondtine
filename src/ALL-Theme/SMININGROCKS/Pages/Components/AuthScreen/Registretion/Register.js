@@ -9,6 +9,7 @@ import CryptoJS from 'crypto-js';
 import { CommonAPI } from '../../../../Utils/API/CommonAPI';
 import { loginState } from '../../../../../../Recoil/atom';
 import { useSetRecoilState } from 'recoil';
+import { useCookies } from 'react-cookie';
 
 export default function Register() {
   const navigation = useNavigate();
@@ -29,6 +30,8 @@ export default function Register() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
+  const [cookies] = useCookies(['visiterId']);
+
 
   const setIsLoginState = useSetRecoilState(loginState)
 
@@ -188,9 +191,22 @@ export default function Register() {
       try {
         const storeInit = JSON.parse(localStorage.getItem('storeInit'));
         const { FrontEnd_RegNo, IsB2BWebsite } = storeInit;
+        const visitorId = cookies?.visiterId;
         const combinedValue = JSON.stringify({
-          firstname: `${firstName}`, lastname: `${lastName}`, userid: `${(email).toLocaleLowerCase()}`, country_code: '91', mobile: `${mobileNo}`, pass: `${hashedPassword}`, IsB2BWebsite: `${IsB2BWebsite}`, FrontEnd_RegNo: `${FrontEnd_RegNo}`, Customerid: '0'
-        });
+          firstname: `${firstName}`,
+          lastname: `${lastName}`,
+          userid: `${email.toLowerCase()}`,
+          country_code: '91',
+          mobile: `${mobileNo}`,
+          pass: `${hashedPassword}`,
+          IsB2BWebsite: `${IsB2BWebsite}`,
+          FrontEnd_RegNo: `${FrontEnd_RegNo}`,
+          Customerid: '0',
+          ...(storeInit?.IsB2BWebsite === 0 && { visitorId: visitorId })
+        }); 
+        
+        console.log('wdqwdqwdqwdq',combinedValue);
+
         const encodedCombinedValue = btoa(combinedValue);
         const body = {
           "con": "{\"id\":\"\",\"mode\":\"WEBSIGNUP\"}",

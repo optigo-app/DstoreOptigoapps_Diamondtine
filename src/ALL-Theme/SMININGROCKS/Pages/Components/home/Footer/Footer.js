@@ -95,7 +95,7 @@ export default function Footer() {
                             {/* <p className='FoooterTextLink'>Loyalty Program</p> */}
                             <p className='FoooterTextLink'>Material & Care</p>
                             {/* <p className='FoooterTextLink'>Try at Home</p> */}
-                            <p className='FoooterTextLink'>Contact us</p>
+                            <p className='FoooterTextLink' onClick={() => handleNavigte('/contactUs')}>Contact us</p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>MY ACCOUNT</p>
