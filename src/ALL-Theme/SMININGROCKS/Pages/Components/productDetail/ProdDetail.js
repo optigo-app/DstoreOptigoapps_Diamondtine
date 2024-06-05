@@ -183,7 +183,7 @@ const ProdDetail = () => {
 
   const setProdFullInfo = async () => {
     let srProductsData = JSON.parse(localStorage.getItem('srProductsData'))
-    await FullProInfoAPI(srProductsData?.designno).then(res => {
+    await FullProInfoAPI(srProductsData?.designno, cookies, islogin).then(res => {
       if (res) {
         getProdFullInfo();
       }
@@ -808,7 +808,7 @@ const ProdDetail = () => {
 
   const getCountFunc = async () => {
 
-    await GetCount(cookies).then((res) => {
+    await GetCount(cookies, islogin).then((res) => {
       if (res) {
         setCartCount(res.CountCart)
         setWishCount(res.WishCount)
@@ -877,7 +877,6 @@ const ProdDetail = () => {
 
 
   const handelCart = async (event) => {
-    debugger
     try {
       if (addToCartFlag) {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"))

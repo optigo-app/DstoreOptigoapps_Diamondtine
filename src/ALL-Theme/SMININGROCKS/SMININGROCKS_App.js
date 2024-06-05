@@ -58,13 +58,14 @@ import { useCookies } from 'react-cookie'
 
 export default function SMININGROCKS_App() {
     const [cookies] = useCookies(['visiterId']);
+    const islogin = useRecoilValue(loginState)
     const isLoginStatus = useRecoilValue(loginState);
     const location = useLocation();
     const setCartCount = useSetRecoilState(CartListCounts)
     const setWishCount = useSetRecoilState(WishListCounts)
     
     const getCountFunc = async () => {
-        await GetCount(cookies).then((res) => {
+        await GetCount(cookies, islogin).then((res) => {
             if (res) {
                 setCartCount(res.CountCart)
                 setWishCount(res.WishCount)

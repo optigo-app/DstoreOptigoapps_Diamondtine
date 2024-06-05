@@ -5,10 +5,11 @@ import { CommonAPI } from '../../../Utils/API/CommonAPI';
 import { Button, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { IoArrowBackOutline } from "react-icons/io5";
-import { useSetRecoilState } from 'recoil';
-import { CartListCounts, WishListCounts } from '../../../../../Recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { CartListCounts, WishListCounts, loginState } from '../../../../../Recoil/atom';
 import { GetCount } from '../../../Utils/API/GetCount';
 import { storImagePath } from '../../../Utils/globalFunctions/GlobalFunction';
+import { useCookies } from 'react-cookie';
 
 export default function Payment() {
 
@@ -20,6 +21,8 @@ export default function Payment() {
     const [TotlaPriceText, setTotalPriceText] = useState('');
     const [finalTotal, setFinlTotal] = useState('');
     const [currData, setCurrData] = useState()
+    const [cookies] = useCookies(['visiterId']);
+    const islogin = useRecoilValue(loginState)
 
     const setCartCount = useSetRecoilState(CartListCounts)
     const setWishCount = useSetRecoilState(WishListCounts)
@@ -84,7 +87,7 @@ export default function Payment() {
     }, []);
 
     const getCountFunc = async () => {
-        await GetCount().then((res) => {
+        await GetCount(cookies, islogin).then((res) => {
             if (res) {
                 setCartCount(res.CountCart)
                 setWishCount(res.WishCount)

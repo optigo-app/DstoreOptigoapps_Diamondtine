@@ -4,7 +4,7 @@ import { CommonAPI } from '../../../../Utils/API/CommonAPI';
 import { Box, CircularProgress, Divider, Drawer, Tab, Tabs, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { CartListCounts, WishListCounts, priceData } from '../../../../../../Recoil/atom';
+import { CartListCounts, WishListCounts, loginState, priceData } from '../../../../../../Recoil/atom';
 import { GetCount } from '../../../../Utils/API/GetCount';
 import { ToastContainer, toast } from 'react-toastify';
 import { useCookies } from 'react-cookie';
@@ -33,7 +33,7 @@ function CustomTabPanel(props) {
 
 
 export default function Cart({ open, toggleCartDrawer }) {
-
+    const islogin = useRecoilValue(loginState)
     const [cartListData, setCartListData] = useState([]);
     const [imageURL, setImageURL] = useState('');
     const [yKey, setYouKey] = useState('');
@@ -114,7 +114,7 @@ export default function Cart({ open, toggleCartDrawer }) {
 
 
     const getCountFunc = async () => {
-        await GetCount(cookies).then((res) => {
+        await GetCount(cookies, islogin).then((res) => {
             if (res) {
                 setCartCount(res.CountCart)
                 setWishCount(res.WishCount) 

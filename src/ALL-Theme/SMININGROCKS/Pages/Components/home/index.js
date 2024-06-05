@@ -128,10 +128,7 @@ export default function Home() {
         console.error('Error:', error);
       }
     }
-    const storeInit = localStorage.getItem('storeInit');
-    if(!storeInit){
     fetchData();
-    }
 
   }, [islogin, cookies, setCookie, removeCookie])
 

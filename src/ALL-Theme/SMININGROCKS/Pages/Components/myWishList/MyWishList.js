@@ -6,16 +6,19 @@ import { CommonAPI } from "../../../Utils/API/CommonAPI";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { Button, CircularProgress, Dialog, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
-import { useSetRecoilState } from "recoil";
-import { CartListCounts, WishListCounts } from "../../../../../Recoil/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { CartListCounts, WishListCounts, loginState } from "../../../../../Recoil/atom";
 import { GetCount } from "../../../Utils/API/GetCount";
 import notFound from "../../assets/image-not-found.png";
 import { FilterListAPI } from "../../../Utils/API/FilterListAPI";
 import { productListApiCall } from "../../../Utils/API/ProductListAPI";
 import { getDesignPriceList } from "../../../Utils/API/PriceDataApi";
 import { toast } from "react-toastify";
+import { useCookies } from "react-cookie";
+
 
 export default function MyWishList() {
+  const islogin = useRecoilValue(loginState)
   const [wishlistData, setWishlistData] = useState([]);
   const [wishlistDataNew, setWishlistDataNew] = useState([]);
   const [yKey, setYouKey] = useState("");
@@ -31,6 +34,7 @@ export default function MyWishList() {
   const [currData, setCurrData] = useState()
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [cookies] = useCookies(['visiterId']);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -82,7 +86,7 @@ export default function MyWishList() {
   }, [])
 
   const getCountFunc = async () => {
-    await GetCount().then((res) => {
+    await GetCount(cookies, islogin).then((res) => {
       if (res) {
         setCartCount(res.CountCart);
         setWishCount(res.WishCount);
@@ -296,8 +300,8 @@ export default function MyWishList() {
     let finalData = JSON.parse(localStorage.getItem("menuparams"))
 
     if (finalData) {
-      await FilterListAPI(finalData)
-      await productListApiCall(finalData).then((res) => {
+      await FilterListAPI(finalData, islogin)
+      await productListApiCall(finalData, 1, {},  islogin).then((res) => {
         if (res) {
           localStorage.setItem("allproductlist", JSON.stringify(res))
           localStorage.setItem("finalAllData", JSON.stringify(res))
@@ -306,7 +310,7 @@ export default function MyWishList() {
       }).then(async (res) => {
         if (res) {
           let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
-          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList)
+          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList, islogin)
         }
       }).catch((err) => {
         if (err) toast.error("Something Went Wrong!!!")
@@ -604,7 +608,7 @@ export default function MyWishList() {
                           e.target.src = notFound;
                         }}
                       />
-                      <div className="product-title">
+                      <div className="">
                         {product.TitleLine}
                       </div>
                     </td>
