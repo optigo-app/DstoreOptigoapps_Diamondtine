@@ -1,6 +1,6 @@
 import { CommonAPI } from "./CommonAPI";
 
-export const getDesignPriceList = async (param,page=1,obj={},filterObj={},autocodeList) => {
+export const getDesignPriceList = async (param,page=1,obj={},filterObj={},autocodeList, islogin) => {
   let storeinit = JSON.parse(localStorage.getItem("storeInit"));
   
   const storeInit = JSON.parse(localStorage.getItem("storeInit"))
@@ -50,15 +50,16 @@ export const getDesignPriceList = async (param,page=1,obj={},filterObj={},autoco
   }
 
   console.log("log11",encodedFilter)
+  console.log('isloginPriceApi--', islogin);
 
   const GetPriceReq = {
     "CurrencyRate": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.CurrencyRate : loginUserDetail?.CurrencyRate}`,
     "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
     "Customerid": `${loginUserDetail?.id ?? 0}`,
-    "Laboursetid": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
-    "diamondpricelistname": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
-    "colorstonepricelistname": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
-    "SettingPriceUniqueNo": `${storeinit?.IsB2BWebsite == 0 ? storeInit?.SettingPriceUniqueNo : loginUserDetail?.SettingPriceUniqueNo}`,
+    "Laboursetid": `${storeinit?.IsB2BWebsite == 0 && islogin == 'false' || 'f' ? storeInit?.pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
+    "diamondpricelistname": `${storeinit?.IsB2BWebsite == 0 && islogin == 'false' || 'f'  ? storeInit?.diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
+    "colorstonepricelistname": `${storeinit?.IsB2BWebsite == 0 && islogin == 'false' || 'f' ? storeInit?.colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
+    "SettingPriceUniqueNo": `${storeinit?.IsB2BWebsite == 0 && islogin == 'false' || 'f' ? storeInit?.SettingPriceUniqueNo : loginUserDetail?.SettingPriceUniqueNo}`,
     // "Laboursetid": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
     // "diamondpricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
     // "colorstonepricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
@@ -69,7 +70,7 @@ export const getDesignPriceList = async (param,page=1,obj={},filterObj={},autoco
   const encodedCombinedValue = btoa(JSON.stringify(GetPriceReq));
 
   let body = {
-    "con": `{\"id\":\"Store\",\"mode\":\"getdesignpricelist\",\"appuserid\":\"${UserEmail}\"}`,
+    "con": `{\"id\":\"Store\",\"mode\":\"getdesignpricelist\",\"appuserid\":\"${UserEmail ?? ''}\"}`,
     "f": "onloadFirstTime (getdesignpricelist)",
     "p": encodedCombinedValue
   }

@@ -18,7 +18,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { CommonAPI } from "../../../Utils/API/CommonAPI";
 import axios from "axios";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { CartListCounts, HeaderData, HeaderData2, WishListCounts, colorstoneQualityColorG, diamondQualityColorG, menuTransfData, metalTypeG, newMenuData, newTestProdData, priceData, productDataNew, searchData } from "../../../../../Recoil/atom";
+import { CartListCounts, HeaderData, HeaderData2, WishListCounts, colorstoneQualityColorG, diamondQualityColorG, loginState, menuTransfData, metalTypeG, newMenuData, newTestProdData, priceData, productDataNew, searchData } from "../../../../../Recoil/atom";
 import { GetCount } from "../../../Utils/API/GetCount";
 import notFound from "../../assets/image-not-found.png";
 import { productListApiCall } from "../../../Utils/API/ProductListAPI";
@@ -45,7 +45,7 @@ function valuetext(value) {
 }
 
 const ProductList = () => {
-
+  const islogin = useRecoilValue(loginState)
   const ProductData2 = [];
   const dropdownRef = useRef(null);
 
@@ -530,7 +530,7 @@ const ProductList = () => {
   };
 
   const getCountFunc = async () => {
-    await GetCount(cookies).then((res) => {
+    await GetCount(cookies, islogin).then((res) => {
       if (res) {
         setCartCount(res.CountCart)
         setWishCount(res.WishCount)
@@ -1124,7 +1124,7 @@ const ProductList = () => {
     console.log("priceDataApi", priceDataApi);
 
     if (param && output) {
-      await productListApiCall(param, 1, output).then(res => {
+      await productListApiCall(param, 1, output, islogin).then(res => {
         if (res) {
           getProductData()
         }
@@ -1823,7 +1823,7 @@ const ProductList = () => {
     // setRangeProData([])
     setFilterChecked({})
     let param = JSON.parse(localStorage.getItem("menuparams"))
-    await productListApiCall(param, 1).then(res => {
+    await productListApiCall(param, 1, {}, islogin).then(res => {
       if (res) {
         getProductData()
       }
@@ -1839,7 +1839,7 @@ const ProductList = () => {
         let obj = { mt: metalTypeId, dqc: DiaQCid, csqc: CsQcid }
 
 
-        await getDesignPriceList(param, 1, obj, {}, autoCodeList).then(resp => {
+        await getDesignPriceList(param, 1, obj, {}, autoCodeList, islogin).then(resp => {
           if (resp) {
             getProdPriceData()
           }
@@ -2283,7 +2283,7 @@ const ProductList = () => {
     let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
 
     // if(param && currentPage && metalTypeId && DiaQCid && CsQcid){
-    await getDesignPriceList(param, currentPage, obj, {}, autoCodeList).then(res => {
+    await getDesignPriceList(param, currentPage, obj, {}, autoCodeList, islogin).then(res => {
       if (res) {
         getProdPriceData()
       }
@@ -2334,14 +2334,14 @@ const ProductList = () => {
       window.scroll(0, 0)
     }, 100);
 
-    await productListApiCall(param, value, output).then((res) => {
+    await productListApiCall(param, value, output, islogin).then((res) => {
       if (res) return res
       return res
     }).then(async (res) => {
       if (res) {
         let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
         console.log("priceCall1");
-        await getDesignPriceList(param, value, obj, output, autoCodeList)
+        await getDesignPriceList(param, value, obj, output, autoCodeList, islogin)
         return res
       }
     }).then((res) => {

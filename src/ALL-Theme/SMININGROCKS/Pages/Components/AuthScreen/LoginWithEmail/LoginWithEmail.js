@@ -6,7 +6,7 @@ import { CommonAPI } from '../../../../Utils/API/CommonAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CryptoJS from 'crypto-js';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartListCounts, WishListCounts, designSet, loginState, newTestProdData, productDataNew } from '../../../../../../Recoil/atom';
 import { productListApiCall } from '../../../../Utils/API/ProductListAPI';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,6 +17,7 @@ import { getDesignPriceList } from '../../../../Utils/API/PriceDataApi';
 import { useCookies } from 'react-cookie';
 
 export default function LoginWithEmail() {
+    const islogin = useRecoilValue(loginState)
     const [email, setEmail] = useState('');
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -39,7 +40,7 @@ export default function LoginWithEmail() {
 
     const getCountFunc = async () => {
 
-        await GetCount().then((res) => {
+        await GetCount(cookies, islogin).then((res) => {
             if (res) {
                 setCartCount(res.CountCart)
                 setWishCount(res.WishCount)

@@ -136,7 +136,7 @@ export default function CartPage() {
 
 
   const setProdFullInfo = async (paramDesignno) => {
-    await FullProInfoAPI(paramDesignno).then(res => {
+    await FullProInfoAPI(paramDesignno, cookies, islogin).then(res => {
       if (res) {
         // getProdFullInfo();
         setFullProdData(res)
@@ -206,7 +206,7 @@ export default function CartPage() {
 
 
   const getCountFunc = async () => {
-    await GetCount(cookies).then((res) => {
+    await GetCount(cookies, islogin).then((res) => {
       if (res) {
         setCartCount(res.CountCart);
         setWishCount(res.WishCount);
@@ -1256,14 +1256,14 @@ export default function CartPage() {
 
 
   console.log('sizeData', FinalPrice())
-
+  console.log('islogincart', islogin);
   const handelBrowse = async () => {
     navigation("/productpage")
     let finalData = JSON.parse(localStorage.getItem("menuparams"))
 
     if (finalData) {
-      await FilterListAPI(finalData)
-      await productListApiCall(finalData).then((res) => {
+      await FilterListAPI(finalData, islogin)
+      await productListApiCall(finalData, 1, {},  islogin).then((res) => {
         if (res) {
           localStorage.setItem("allproductlist", JSON.stringify(res))
           localStorage.setItem("finalAllData", JSON.stringify(res))
@@ -1272,7 +1272,7 @@ export default function CartPage() {
       }).then(async (res) => {
         if (res) {
           let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
-          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList)
+          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList,islogin)
         }
       }).catch((err) => {
         if (err) toast.error("Something Went Wrong!!!")
