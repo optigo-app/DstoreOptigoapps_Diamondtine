@@ -32,7 +32,7 @@ export default function FAQ() {
             paddingTop: '110px'
         }}>
             <div className='daimondsEveryAbout'>
-                <div style={{ marginInline: '10%', paddingTop: '50px' }}>
+                <div style={{ marginInline: '10%', paddingBottom: '80px' }}>
                     <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                 </div>
                 <Footer />
