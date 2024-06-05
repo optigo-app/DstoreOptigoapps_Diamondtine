@@ -640,11 +640,9 @@ export default function Header() {
     console.log('finalData', finalData);
     // navigation("/productpage", { state: { menuFlag: true, filtervalue: finalData } })
 
-
-
     if (finalData) {
       let resData;
-      await productListApiCall(finalData).then((res) => {
+      await productListApiCall(finalData, 1, {},  islogin).then((res) => {
         if (res) {
           resData = res;
           console.log("res", res);
@@ -656,7 +654,7 @@ export default function Header() {
       }).then(async (res) => {
         if (res) {
           let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
-          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList).then((res) => {
+          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList, islogin).then((res) => {
             if (res) {
               // console.log("test",res);
               localStorage.setItem("getPriceData", JSON.stringify(res))
@@ -675,7 +673,7 @@ export default function Header() {
           toast.error("Something Went Wrong!!");
         }
       })
-      await FilterListAPI(finalData)
+      await FilterListAPI(finalData, islogin)
 
     }
 

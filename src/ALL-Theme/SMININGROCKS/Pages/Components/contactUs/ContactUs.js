@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ContactUs.css'
 import Header from '../home/Header/Header'
 import SmilingRock from '../home/smiling_Rock/SmilingRock'
@@ -83,9 +83,18 @@ export default function ContactUs() {
         } else {
             setErrors(errors);
         }
-    };
+    };  
 
-
+    useEffect(() => {
+        const scrollToTop = () => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        };
+        scrollToTop();
+      }, []);
+        
     return (
         <div style={{
             backgroundColor: '#fffff',

@@ -104,7 +104,7 @@ export const SearchProductDataAPI = async(searchVar) =>{
     console.log('encodedFilter',encodedFilter);
 
     let body = {
-      "con":`{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${userEmail}\"}`,
+      "con":`{\"id\":\"\",\"mode\":\"GETPRODUCTLIST\",\"appuserid\":\"${userEmail ?? ''}\"}`,
       "f":"onlogin (GETPRODUCTLIST)",
       "p":encData
     }

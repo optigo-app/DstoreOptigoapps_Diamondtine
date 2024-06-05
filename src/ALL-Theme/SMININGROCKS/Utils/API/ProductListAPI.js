@@ -1,6 +1,6 @@
 import { CommonAPI } from "./CommonAPI"
 
-export const productListApiCall = async(param,page=1,filterObj={}) =>{
+export const productListApiCall = async(param,page=1,filterObj={}, islogin) =>{
 
     const keyMapping = {
         "0": "id",
@@ -89,13 +89,7 @@ export const productListApiCall = async(param,page=1,filterObj={}) =>{
     let storeinit = JSON.parse(localStorage.getItem("storeInit"))
     let loginInfo = JSON.parse(localStorage.getItem("loginUserDetail"))
     let userEmail = localStorage.getItem("userEmailForPdList")
-    let loginStatus = localStorage.getItem("LoginUser")
-    let isLogin;
-    if(loginStatus){
-      isLogin = 'true'
-    }else{
-      isLogin = 'false'
-    }
+
       console.log('props---', param);
 
     let encodedFilter = {
@@ -129,7 +123,7 @@ export const productListApiCall = async(param,page=1,filterObj={}) =>{
     }
 
 
-    const packageId = storeinit?.IsB2BWebsite === 0 && !loginInfo ? storeinit?.PackageId : loginInfo?.PackageId;
+    const packageId = storeinit?.IsB2BWebsite === 0 && islogin == 'false' || 'f' ? storeinit?.PackageId : loginInfo?.PackageId;
     const data = {
       "PackageId":packageId,
       "autocode":"","FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,
