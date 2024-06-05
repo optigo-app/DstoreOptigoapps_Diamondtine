@@ -9,8 +9,8 @@ export const GetCount = async(cookies, islogin) => {
             const storeInit = JSON.parse(localStorage.getItem("storeInit"))
             const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
             const UserEmail = localStorage.getItem("registerEmail")
-            let customerId = storeInit?.IsB2BWebsite == 0 && islogin == 'false' || 'f' ? cookies?.visiterId  != undefined ? cookies?.visiterId : Customer_id?.id : Customer_id?.id;
-            let customerAppUserId = storeInit?.IsB2BWebsite == 0 && islogin == 'false' || 'f' ? cookies?.visiterId : UserEmail
+            let customerId = storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId  != undefined ? cookies?.visiterId : Customer_id?.id : Customer_id?.id;
+            let customerAppUserId = storeInit?.IsB2BWebsite == 0  ? cookies?.visiterId : UserEmail
             let EncodeData = {FrontEnd_RegNo:`${storeInit?.FrontEnd_RegNo}`,Customerid:`${customerId}`}
     
         const encodedCombinedValue = btoa(JSON.stringify(EncodeData));

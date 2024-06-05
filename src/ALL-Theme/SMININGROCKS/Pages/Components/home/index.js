@@ -102,6 +102,7 @@ export default function Home() {
           //   setVisitorCookie(visiterId);
           // }
 
+          if(islogin == 'false'){
           if (!cookies?.visiterId) {
             const expires = new Date();
             expires.setDate(expires.getDate() + 30);
@@ -113,6 +114,7 @@ export default function Home() {
               removeCookie('visiterId', { path: '/' });
             }
           }
+        }
 
           console.log('visitor--', visiterId);
           setTitle(title);
