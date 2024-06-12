@@ -83,18 +83,18 @@ export default function ContactUs() {
         } else {
             setErrors(errors);
         }
-    };  
+    };
 
     useEffect(() => {
         const scrollToTop = () => {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
         };
         scrollToTop();
-      }, []);
-        
+    }, []);
+
     return (
         <div style={{
             backgroundColor: '#fffff',
@@ -238,7 +238,16 @@ export default function ContactUs() {
                             <p className='Fo-contactBox2Desc'>If you are looking for instant answers, check out our FAQ page for more information!</p>
                             <p className='Fo-contactBox2Title'>Orders & Returns</p>
                             <p className='Fo-contactBox2Desc'>Check out our FAQ page or our Orders & Retuns page</p>
-                            <p className='Fo-contactBox2Title'>Call us at xxx-xxx-xxxx</p>
+                            <p className='Fo-contactBox2Desc'>Call us at 98108 76359</p>
+                            <p className='Fo-contactBox2Desc'>Email: contact@diamondtine.com</p>
+                            <p className='Fo-contactBox2Title'>Studio Address
+                                <p className='Fo-contactBox2Desc'>E-4, South EX-|| New Delhi 110049</p>
+
+                                <p className='Fo-contactBox2Title'>Opening Hours
+                                    <p className='Fo-contactBox2Desc'>Monday - Friday 11am - 6pm <br /> Saturday 12am - 6pm</p>
+                                </p>
+                            </p>
+
                             {/* <p className='Fo-contactBox2Desc'>Our customer service team is available by phone from Monday-Friday 9.30am-6:30pm EST and Saturday 10am-5pm EST.</p>
                             <p className='Fo-contactBox2Desc'>Our office is located at 33W 46th Str, STE#9W, New York, NY 10036</p> */}
                             <div className='mt-4'>
