@@ -123,7 +123,7 @@ export const productListApiCall = async(param,page=1,filterObj={}, islogin) =>{
     }
 
 
-    const packageId = storeinit?.IsB2BWebsite === 0 && islogin == 'false' || 'f' ? storeinit?.PackageId : loginInfo?.PackageId;
+    const packageId = (storeinit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? storeinit?.PackageId : loginInfo?.PackageId;
     const data = {
       "PackageId":packageId,
       "autocode":"","FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,

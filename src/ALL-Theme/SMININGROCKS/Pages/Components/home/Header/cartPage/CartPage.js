@@ -146,7 +146,7 @@ export default function CartPage() {
 
   const cartSingalDataAPICalling = async () => {
     if (cartListData) {
-      await SingleProductAPI(cartListData[0]?.designno).then((res) => {
+      await SingleProductAPI(cartListData[0]?.designno, islogin).then((res) => {
         let data = res[0]
         setSingleProdData(data)
       })
@@ -1263,7 +1263,7 @@ export default function CartPage() {
 
     if (finalData) {
       await FilterListAPI(finalData, islogin)
-      await productListApiCall(finalData, 1, {},  islogin).then((res) => {
+      await productListApiCall(finalData, 1, {}, islogin).then((res) => {
         if (res) {
           localStorage.setItem("allproductlist", JSON.stringify(res))
           localStorage.setItem("finalAllData", JSON.stringify(res))
@@ -1272,7 +1272,7 @@ export default function CartPage() {
       }).then(async (res) => {
         if (res) {
           let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
-          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList,islogin)
+          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList, islogin)
         }
       }).catch((err) => {
         if (err) toast.error("Something Went Wrong!!!")
@@ -1281,7 +1281,7 @@ export default function CartPage() {
   }
 
   const handlePlaceOrder = () => {
-    if (storeInitData?.IsB2BWebsite == 0 && islogin == 'false') {
+    if ((storeInitData?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f"))) {
       setTimeout(() => {
         navigation("/LoginOption");
       }, 100);
@@ -1383,7 +1383,7 @@ export default function CartPage() {
                       <tbody className="table-customTbody">
                         {cartListData?.map((product, index) => (
                           <tr className="table-customTr tabletrData" key={product.id}>
-                             <td className="align-middle imagetextTd d-flex align-items-center justify-content-start">
+                            <td className="align-middle imagetextTd d-flex align-items-center justify-content-start">
                               <img
                                 src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
                                 className=""
@@ -1499,7 +1499,9 @@ export default function CartPage() {
                         <p className="addinfotext">Shipping to <span style={{ color: 'black', fontWeight: '500' }}>Delhi</span><br />
                           Estimate for Your Country
                         </p>
-                        <a href="/Delivery" class="btn btn-link addressLink" role="button">Change address</a>
+                        {(storeInitData?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) &&
+                          <a href="/Delivery" class="btn btn-link addressLink" role="button">Change address</a>
+                        }
                       </div>
 
                       <hr className="border-lines" />

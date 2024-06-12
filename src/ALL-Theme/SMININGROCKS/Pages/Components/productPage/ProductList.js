@@ -3044,9 +3044,9 @@ const ProductList = () => {
                           ${show2ImagesView ? "listing-cardShow2Image" : ""}
                           ${show4ImagesView ? "listing-cardShow4Image" : ""}`} >
                                   <div className="listing-image">
-                                    {products?.designno === "S24705E" && <p id="labelTag_0002388" className="instockP">IN STOCK</p>}
+                                    {/* {products?.designno === "S24705E" && <p id="labelTag_0002388" className="instockP">IN STOCK</p>}
                                     {products?.designno === "S24705" && <p id="labelTag_0002388" className="instockP">IN STOCK</p>}
-                                    {products?.designno === "MCJ2" && <p id="labelTag_0002388" className="instockP">IN STOCK</p>}
+                                    {products?.designno === "MCJ2" && <p id="labelTag_0002388" className="instockP">IN STOCK</p>} */}
 
                                     <div>
                                       <img
@@ -3099,7 +3099,7 @@ const ProductList = () => {
                                           onChange={(e) => handelCartList(e, products)}
                                         />
                                       </Button>
-                                      <Button className="wishlist-icon" >
+                                      <Button className={"wishlist-icon"} >
                                         <Checkbox
                                           icon={
                                             <FavoriteBorderIcon
