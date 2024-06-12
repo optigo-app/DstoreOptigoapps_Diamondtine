@@ -818,12 +818,12 @@ const ProdDetail = () => {
   }
 
   const getCartAndWishListData = async () => {
-
+debugger
     const UserEmail = localStorage.getItem("registerEmail")
     const storeInit = JSON.parse(localStorage.getItem("storeInit"))
     const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
-    let customerId = storeInit?.IsB2BWebsite === 0 && !islogin ? cookies?.visiterId : Customer_id?.id
-    let customerAppUserId = storeInit?.IsB2BWebsite === 0 && !islogin ? cookies?.visiterId : UserEmail
+    let customerId = (storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : Customer_id?.id
+    let customerAppUserId = (storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : UserEmail
 
     let EncodeData = { FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`, Customerid: `${customerId}` }
 
@@ -882,7 +882,7 @@ const ProdDetail = () => {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"))
         const UserEmail = localStorage.getItem("registerEmail")
         const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
-        let customerAppUserId = storeInit?.IsB2BWebsite === 0 ? cookies?.visiterId : UserEmail
+        let customerAppUserId = (storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : UserEmail
         productData.checkFlag = addToCartFlag;
         localStorage.setItem("srProductsData", JSON.stringify(productData))
         const product = productData
@@ -1065,7 +1065,7 @@ const ProdDetail = () => {
           "updatedate": `${product?.UpdateDate ?? 0}`,
           "videoname": `${product?.videoname ?? ""}`,
           "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-          "Customerid": Number(`${storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : Customer_id?.id}`),
+          "Customerid": Number(`${(storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : Customer_id?.id}`),
           "PriceMastersetid": Number(`${product?.PriceMastersetid ?? 0}`),
           "quantity": Number(`${product?.quantity ?? 1}`),
           "CurrencyRate": `${product?.CurrencyRate ?? ""}`,

@@ -33,7 +33,6 @@ function CustomTabPanel(props) {
 
 
 export default function Cart({ open, toggleCartDrawer }) {
-    const islogin = useRecoilValue(loginState)
     const [cartListData, setCartListData] = useState([]);
     const [imageURL, setImageURL] = useState('');
     const [yKey, setYouKey] = useState('');
@@ -114,6 +113,7 @@ export default function Cart({ open, toggleCartDrawer }) {
 
 
     const getCountFunc = async () => {
+        const islogin = localStorage.getItem('LoginUser')
         await GetCount(cookies, islogin).then((res) => {
             if (res) {
                 setCartCount(res.CountCart)

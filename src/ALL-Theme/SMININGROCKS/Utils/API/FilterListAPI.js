@@ -18,7 +18,7 @@ export const FilterListAPI = async(param, islogin) =>{
       }
 
     const data = {
-      "PackageId":`${storeinit?.IsB2BWebsite == 0 && islogin == 'false' || 'f' ?  storeinit?.PackageId : loginInfo?.PackageId}`,
+      "PackageId":`${(storeinit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ?  storeinit?.PackageId : loginInfo?.PackageId}`,
         "autocode":"","FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,
         "Customerid":`${loginInfo?.id ?? 0}`,
         "Filter":btoa(JSON.stringify(encodedFilter)),
