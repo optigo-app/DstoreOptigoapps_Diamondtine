@@ -1,5 +1,7 @@
 .titleNewArrival {
     color: #A8807C;
+    font-family: "Rosarivo", Sans-serif;
+    text-decoration: uppercase!important;
 }
 
 .newArrivalPdTitle {
@@ -12,11 +14,11 @@
         margin: 20px 0px 20px 0px !important;
     }
 
-    .NewArrMainDiv{
-        padding: 0px 0px 20px 20px!important;
+    .NewArrMainDiv {
+        padding: 0px 0px 20px 20px !important;
     }
 
-    .NewArrivalProductMain{
-        padding: 0px!important;
+    .NewArrivalProductMain {
+        padding: 0px !important;
     }
 }

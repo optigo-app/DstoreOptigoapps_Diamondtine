@@ -1049,7 +1049,7 @@ export default function Header() {
             </div>
             <div className="login-link">
               <FaFacebookF style={{ fontSize: '15px', color: '#acabab' }} />
-              <AiFillInstagram style={{ fontSize: '15px', color: '#acabab' }} />
+              <AiFillInstagram style={{ fontSize: '15px', color: '#acabab' , cursor: 'pointer'}} onClick={() => window.open('https://www.instagram.com/houseofdiamondtine/')}/>
               {islogin === "false" &&
                 <a href="/LoginOption" className="FontFamilySet" style={{ fontSize: "12px", color: 'black', textDecoration: 'none' }}>
                   Login
@@ -1279,10 +1279,10 @@ export default function Header() {
                   <div style={{ width: '100%', display: 'flex', gap: '60px', textTransform: 'uppercase' }}>
                     {selectedData?.param1?.map((param1Item, param1Index) => (
                       <div key={param1Index}>
-                        <span onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item)} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"PT Sans", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
+                        <span onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item)} className="level1MenuData" key={param1Index} style={{ fontSize: '15px', marginBottom: '10px', fontFamily: '"Poppins", sans-serif', textAlign: 'start', letterSpacing: 1, fontWeight: 600, cursor: 'pointer' }} > {param1Item?.param1dataname}</span>
                         <div style={{ height: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
                           {param1Item?.param2?.map((param2Item, param2Index) => (
-                            <p className="level2menuData" key={param2Index} onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item, param2Item)} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"PT Sans", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
+                            <p className="level2menuData" key={param2Index} onClick={() => handleMenuClick(menuItems[hoveredIndex], param1Item, param2Item)} style={{ fontSize: '13.5px', margin: '6px 15px 6px 0px', fontFamily: '"Poppins", sans-serif', letterSpacing: 0.4, textAlign: 'start', cursor: 'pointer', textTransform: 'capitalize', paddingRight: '15px' }}>
                               {param2Item?.param2dataname}
                             </p>
                           ))}

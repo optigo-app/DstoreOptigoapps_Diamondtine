@@ -48,7 +48,7 @@ const products = [
 const NewArrivalProduct = () => {
     return (
         <div className='NewArrMainDiv' style={{ margin: '50px 0px 50px 0px', padding: '0px 40px 40px 20px', background: '#f0e0e0' }}>
-            <h1 className='titleNewArrival' style={{ textAlign: 'center', padding: '20px 0px 20px 0px' }}>New Arrival</h1>
+            <h1 className='titleNewArrival' style={{ textAlign: 'center', padding: '20px 0px 20px 0px' }}>NEW ARRIVAL</h1>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Grid container spacing={2} justifyContent="center">
                     {products.map((product, index) => (

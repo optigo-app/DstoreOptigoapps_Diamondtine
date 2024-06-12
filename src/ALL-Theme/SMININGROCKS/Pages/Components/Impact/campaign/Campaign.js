@@ -58,7 +58,7 @@ const Campaign = () => {
         </div>
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingBottom: '30px' }}>
           <div style={{ width: '568px', marginTop: '25px', color: '#7d7f85' }}>
-            <p style={{ fontFamily: 'FreightDisp Pro Medium', fontSize: '26px' }}>Keeping The Promise</p>
+            <p style={{ fontFamily: "Poppins, sans-serif", fontSize: '26px' }}>Keeping The Promise</p>
             <p style={{ fontFamily: 'TT Commons, sans-serif', fontSize: '13px' }}>
               Together, we will create an unstoppable force in achieving the&nbsp;
               <b>Sustainable Development Goals</b>. With just nine years left the

@@ -9,7 +9,7 @@ const SustainAbility = () => {
     <>
       <div className='sustaionMain'>
         <div style={{ textAlign: 'center' }}>
-          <p className='sustaionMainTitle' style={{ fontSize: '40px', fontFamily: 'FreightDisp Pro Medium', color: '#7d7f85' }}>Committed on Sustainability</p>
+          <p className='sustaionMainTitle' style={{ fontSize: '40px', fontFamily: "Poppins, sans-serif", color: '#7d7f85' }}>Committed on Sustainability</p>
           <p style={{ fontSize: '14px', fontFamily: "TT Commons, sans-serif", color: '#7d7f85' }}>For our planet, our home, and our future</p>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px' }}>

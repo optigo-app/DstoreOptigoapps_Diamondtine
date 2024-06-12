@@ -40,7 +40,7 @@ const Blog = () => {
       }}
     >
         <div style={{textAlign:'center',margin:'60px 0px',marginBottom:'120px'}}>
-            <p style={{fontSize:'40px',fontFamily: 'FreightDisp Pro Medium', color: '#fff'}}>Blog and Style Guide</p>
+            <p style={{fontSize:'40px',fontFamily: "Poppins, sans-serif", color: '#fff'}}>Blog and Style Guide</p>
         </div>
         <div style={{display:'flex',justifyContent:'center',alignItems:'center',}}>
             <div className='smilingBlogMain'>
