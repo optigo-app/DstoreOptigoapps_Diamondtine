@@ -4,7 +4,7 @@
     width: 100%;
     top: 0;
     z-index: 11111111;
-    font-family: "PT Sans", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
     background: white;
 }
 .fixed {
@@ -274,6 +274,7 @@
     color: white !important;
     position: relative !important;
     text-decoration: none !important;
+    font-weight: 600;
   }
   
   .nav-li-sminingSpan::before {

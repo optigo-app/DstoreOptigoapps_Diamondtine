@@ -84,24 +84,24 @@ export default function Footer() {
                             <p className='FoooterTextLink' onClick={() => navigation('/faq')}>FAQs</p>
                             <p className='FoooterTextLink' onClick={openPdf}>Size Guide</p>
                             {/* <p className='FoooterTextLink'>Gift Cards</p> */}
-                            <p className='FoooterTextLink'>Material & Care</p>
+                            <p className='FoooterTextLink'  onClick={() => navigation('/faq')}>Material & Care</p>
                             <p className='FoooterTextLink' onClick={() => navigation('/term&condition')}>Terms & Conditions</p>
                             <p className='FoooterTextLink' onClick={() => navigation('/PrivacyPolicy')}>Privacy Policy</p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>CUSTOMER SERVICE</p>
-                            <p className='FoooterTextLink'>Shipping & Returns</p>
-                            <p className='FoooterTextLink'>Exchange & Buyback</p>
+                            <p className='FoooterTextLink'  onClick={() => navigation('/faq')}>Shipping & Returns</p>
+                            <p className='FoooterTextLink'  onClick={() => navigation('/faq')}>Exchange & Buyback</p>
                             {/* <p className='FoooterTextLink'>Loyalty Program</p> */}
-                            <p className='FoooterTextLink'>Material & Care</p>
+                            {/* <p className='FoooterTextLink'>Material & Care</p> */}
                             {/* <p className='FoooterTextLink'>Try at Home</p> */}
                             <p className='FoooterTextLink' onClick={() => handleNavigte('/contactUs')}>Contact us</p>
                         </div>
                         <div className='FooterLinkMainBox'>
                             <p className='footerMoteText'>MY ACCOUNT</p>
-                            <p className='FoooterTextLink'>Sign In</p>
+                            <p className='FoooterTextLink'  onClick={() => navigation('/LoginOption')}>Sign In</p>
                             {/* <p className='FoooterTextLink'>Track Your Order</p> */}
-                            <p className='FoooterTextLink'>Help</p>
+                            <p className='FoooterTextLink'  onClick={() => navigation('/faq')}>Help</p>
                         </div>
                     </div>
                 </div>
