@@ -37,7 +37,7 @@ const ServiceCards = () => {
                             </div>
                             <div className="containerLine">
                                 <div className="line"></div>
-                                <img src={storImagePath() + "/images/HomePage/MainBanner/Images/diamond.png"}
+                                <img src={storImagePath() + "/images/HomePage/Promo/Set/2/diamond.png"}
                                     alt="" class="centeredImage" />
                                 <div className="line"></div>
                             </div>
