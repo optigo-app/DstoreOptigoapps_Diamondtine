@@ -5,17 +5,18 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+import { storImagePath } from '../../../../Utils/globalFunctions/GlobalFunction';
 
 
 const sliderData = [
     {
-        imageUrl: "https://www.diamondtine.com/wp-content/uploads/2023/03/Diamondtine-Website-Banners_Diamond-letters_2.jpg",
+        imageUrl: "/images/HomePage/MainBanner/Images/HomepageMainBanner1.jpg",
     },
     {
-        imageUrl: "https://www.diamondtine.com/wp-content/uploads/2023/03/Diamondtine-Website-Banners_Manifest-It.jpg",
+        imageUrl: "/images/HomePage/MainBanner/Images/HomepageMainBanner2.jpg",
     },
     {
-        imageUrl: "https://www.diamondtine.com/wp-content/uploads/2023/03/Diamondtine-Website-Banners_Zodiac_2.jpg",
+        imageUrl: "/images/HomePage/MainBanner/Images/HomepageMainBanner3.jpg",
     },
 ];
 
@@ -34,12 +35,12 @@ export default function Topbanner() {
             >
                 {sliderData.map((slide, index) => (
                     <SwiperSlide key={index}>
-                        <img src={slide.imageUrl} alt={`Slide ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </SwiperSlide>
                 ))}
             </Swiper>
             <div className="image-container">
-                <img src="https://www.diamondtine.com/wp-content/uploads/2023/03/Daimondtine-Banner-Values.png" className="centered-image" alt="Diamondtine Banner" />
+                <img src={`${storImagePath()}/images/HomePage/Promo/Banner/PromoBanner1.png`} className="centered-image" alt="Diamondtine Banner" />
             </div>
         </div>
     );

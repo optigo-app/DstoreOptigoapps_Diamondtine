@@ -1318,9 +1318,24 @@ export default function CartPage() {
         className="paddingTopMobileSet"
         style={{ height: isLoading ? '390px' : '100%' }}
       >
+        <div class="bg-imageCart" style={{
+          backgroundImage: `url(${storImagePath()}/images/HomePage/MainBanner/Images/TopBanner1.png)`
+        }}>
+          <div class="overlay"></div>
+          <div class="text-container">
+            <div className='textContainerData'>
+              <div style={{ textAlign: 'center' }}>
+                <p className="designCounttext" style={{ fontSize: '30px', fontWeight: '400', letterSpacing: '1px', textTransform: 'capitalize' }}>
+                  Shopping Cart <br />
+                </p>
+                <span style={{ color: '#AF8538', fontSize: '18px' }}>Shop</span>
+              </div>
+            </div>
+          </div>
+        </div>
         {cartListData?.length == 0 && !isLoading &&
           <div>
-            <div class="bg-imageCart">
+            {/* <div class="bg-imageCart">
               <div class="overlay"></div>
               <div class="text-container">
                 <div className='textContainerData'>
@@ -1332,7 +1347,7 @@ export default function CartPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div>
               <div
                 style={{

@@ -398,7 +398,7 @@
 .bg-image {
     position: relative;
     height: 140px;
-    background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png");
+    /* background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png"); */
     background-size: cover;
     background-position: center;
     /* z-index: -1; */
