@@ -1019,28 +1019,28 @@ const ProductList = () => {
     let SubCategoryFilter = JSON?.parse(localStorage.getItem("SubCategoryFilter"))
 
     if (categoryFilter) {
-      newFilter?.push({ label: "CATEGORY", filterList: categoryFilter.map((res) => { return { "label": res?.CategoryName, "id": res?.Categoryid } }), listType: 'Categoryid' })
+      newFilter?.push({ label: "Category", filterList: categoryFilter.map((res) => { return { "label": res?.CategoryName, "id": res?.Categoryid } }), listType: 'Categoryid' })
     }
     if (ProductTypeFilter) {
-      newFilter?.push({ label: "PRODUCT TYPE", filterList: ProductTypeFilter.map((res) => { return { "label": res?.ProducttypeName, "id": res?.Producttypeid } }), listType: 'Producttypeid' })
+      newFilter?.push({ label: "Product Type", filterList: ProductTypeFilter.map((res) => { return { "label": res?.ProducttypeName, "id": res?.Producttypeid } }), listType: 'Producttypeid' })
     }
     if (GenderFilter) {
-      newFilter?.push({ label: "GENDER", filterList: GenderFilter.map((res) => { return { "label": res?.GenderName, "id": res?.Genderid } }), listType: 'Genderid' })
+      newFilter?.push({ label: "Gender", filterList: GenderFilter.map((res) => { return { "label": res?.GenderName, "id": res?.Genderid } }), listType: 'Genderid' })
     }
     if (CollectionFilter) {
-      newFilter?.push({ label: "COLLECTION", filterList: CollectionFilter.map((res) => { return { "label": res?.CollectionName, "id": res?.Collectionid } }), listType: 'Collectionid' })
+      newFilter?.push({ label: "Collection", filterList: CollectionFilter.map((res) => { return { "label": res?.CollectionName, "id": res?.Collectionid } }), listType: 'Collectionid' })
     }
     if (BrandFilter) {
-      newFilter?.push({ label: "BRAND", filterList: BrandFilter.map((res) => { return { "label": res?.BrandName, "id": res?.Brandid } }), listType: 'Brandid' })
+      newFilter?.push({ label: "Brand", filterList: BrandFilter.map((res) => { return { "label": res?.BrandName, "id": res?.Brandid } }), listType: 'Brandid' })
     }
     if (OcassionFilter) {
-      newFilter?.push({ label: "OCASSION", filterList: OcassionFilter.map((res) => { return { "label": res?.OcassionName, "id": res?.Ocassionid } }), listType: 'Ocassionid' })
+      newFilter?.push({ label: "Ocassion", filterList: OcassionFilter.map((res) => { return { "label": res?.OcassionName, "id": res?.Ocassionid } }), listType: 'Ocassionid' })
     }
     if (ThemeFilter) {
-      newFilter?.push({ label: "THEME", filterList: ThemeFilter.map((res) => { return { "label": res?.ThemeName, "id": res?.Themeid } }), listType: 'Themeid' })
+      newFilter?.push({ label: "Theme", filterList: ThemeFilter.map((res) => { return { "label": res?.ThemeName, "id": res?.Themeid } }), listType: 'Themeid' })
     }
     if (SubCategoryFilter) {
-      newFilter?.push({ label: "SUBCATEGORY", filterList: SubCategoryFilter.map((res) => { return { "label": res?.SubCategoryName, "id": res?.SubCategoryid } }), listType: 'SubCategoryid' })
+      newFilter?.push({ label: "Subcategory", filterList: SubCategoryFilter.map((res) => { return { "label": res?.SubCategoryName, "id": res?.SubCategoryid } }), listType: 'SubCategoryid' })
     }
 
     // newFilter.push({ label: "PRICE", filterList: [] });
@@ -2618,96 +2618,96 @@ const ProductList = () => {
                   {((isDaimondCstoFlag == 1) && (productData?.diamondweight !== 0 || productData?.diamondpcs !== 0)) &&
                     <div className="divider"></div>}
 
-                  {isCColrStoneCustFlag === 1 && DaimondQualityColor?.length !== 0 &&
-                    <div className="part" style={{ flex: '20%' }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          width: '95%',
-                          gap: '5px',
-                        }}
+                {isCColrStoneCustFlag === 1 && DaimondQualityColor?.length !== 0 &&
+                  <div className="part" style={{ flex: '20%' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: '95%',
+                        gap: '5px',
+                      }}
+                    >
+                      <select
+                        className='menuitemSelectoreMain'
+                        onChange={(e) =>
+                          // setCSQOpt(e.target.value)
+                          ShortcutComboFunc(e.target.value, "cs")
+                        }
+                        value={cSQopt}
+                        style={{ color: '#7b7b7b', fontSize: '12px', fontWeight: 400, cursor: 'pointer' }}
                       >
-                        <select
-                          className='menuitemSelectoreMain'
-                          onChange={(e) =>
-                            // setCSQOpt(e.target.value)
-                            ShortcutComboFunc(e.target.value, "cs")
-                          }
-                          value={cSQopt}
-                          style={{ color: '#7b7b7b', fontSize: '12px', fontWeight: 400, cursor: 'pointer' }}
-                        >
-                          {DaimondQualityColor.map((data, index) => (
-                            <option
-                              key={index}
-                              value={`${data.Quality}-${data.color}`}
-                            >
-                              {`${data.Quality}-${data.color}`}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  }
-                  {isCColrStoneCustFlag === 1 &&
-                    <div className="divider"></div>}
-                  <div className="part" style={{ flex: '20%', justifyContent: 'end' }}>
-                    <div className="part-content">
-                      <IoGrid style={{ height: '18px', width: '18px', opacity: 0.7, color: '#7b7b7b' }} onClick={() => handle2ImageShow()} />
-                      <AppsIcon style={{ height: '22px', width: '22px', opacity: 0.8, color: '#1f1919' }} onClick={() => handle3ImageShow()} />
-                      <TfiLayoutGrid4Alt style={{ height: '17px', width: '17px', opacity: 0.6 }} onClick={() => handle4ImageShow()} />
+                        {DaimondQualityColor.map((data, index) => (
+                          <option
+                            key={index}
+                            value={`${data.Quality}-${data.color}`}
+                          >
+                            {`${data.Quality}-${data.color}`}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
+                }
+                {isCColrStoneCustFlag === 1 &&
+                  <div className="divider"></div>}
+                <div className="part" style={{ flex: '20%', justifyContent: 'end' }}>
+                  <div className="part-content">
+                    <IoGrid style={{ height: '18px', width: '18px', opacity: 0.7, color: '#7b7b7b' }} onClick={() => handle2ImageShow()} />
+                    <AppsIcon style={{ height: '22px', width: '22px', opacity: 0.8, color: '#1f1919' }} onClick={() => handle3ImageShow()} />
+                    <TfiLayoutGrid4Alt style={{ height: '17px', width: '17px', opacity: 0.6 }} onClick={() => handle4ImageShow()} />
+                  </div>
                 </div>
-                <div className="smilingProductMain" id="smilingProductMain">
-
-                  <div
-                    className="smilingProductSubMain"
-                    style={{ width: "100%", display: "flex", position: "relative", gap: '14px' }}
-                  >
-                    <div className="smilingWebProductListSideBar" style={{ transition: "1s ease", width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: newProData?.length != 0 || ProductApiData2?.length != 0 && "absolute" }}>
-                      <ul className="d-flex" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '0px 20px 0px 0px', marginTop: '10px' }}>
-                        <li className="finejwelery me-4" id="finejwelery" style={{ fontSize: '14px', marginTop: '5px' }}>
-                          Filters:
-                          {/* {newProData.length > 0 ? ` (${newProData.length}/${ProductApiData2?.length}) ` : null} */}
-                        </li>
-                        <li
-                          // className="finejwelery" id="finejwelery"
-                          onClick={() => handlePageReload()}
-                          style={{ cursor: 'pointer', fontSize: '12px', listStyle: 'none', color: '#a8807c', fontFamily: 'Poppins, sans-serif' }}>
-                          {
-                            (Object.values(filterChecked))?.filter(fc => fc.checked !== false)?.filter(fc => fc.checked !== undefined).length ?
-                              "Clean All"
-                              :
-                              // `Product: ${ProductApiData2?.length}`
-                              null
-                          }
-                        </li>
-                      </ul>
-                      <div style={{ borderTop: '1px solid #e1e1e1' }}>
-                        {NewFilterData1()?.map((ele, index) => (
-                          <>
-                            <Accordion
-                              elevation={0}
+              </div>
+              <div className="smilingProductMain" id="smilingProductMain">
+                
+                <div
+                  className="smilingProductSubMain"
+                  style={{ width: "100%", display: "flex", position: "relative",gap:'14px'}}
+                >
+                  <div className="smilingWebProductListSideBar" style={{ transition: "1s ease", width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: newProData?.length != 0 || ProductApiData2?.length != 0 && "absolute" }}>
+                    <ul className="d-flex" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '0px 20px 0px 0px',marginTop:'10px'}}>
+                      <li  style={{listStyle:'none' , color:'#999', fontSize: '14px',marginTop:'5px'}}>
+                        Filters:
+                        {/* {newProData.length > 0 ? ` (${newProData.length}/${ProductApiData2?.length}) ` : null} */}
+                      </li>
+                      <li 
+                      // className="finejwelery" id="finejwelery"
+                        onClick={() => handlePageReload()}
+                        style={{ cursor: 'pointer', fontSize: '12px',listStyle:'none',color:'#a8807c',fontFamily:'Poppins, sans-serif'}}>
+                        {
+                          (Object.values(filterChecked))?.filter(fc => fc.checked !== false)?.filter(fc => fc.checked !== undefined).length ?
+                            "Clean All"
+                            :
+                            // `Product: ${ProductApiData2?.length}`
+                            null
+                        }
+                      </li>
+                    </ul>
+                    <div style={{borderTop:'1px solid #e1e1e1'}}>
+                      {NewFilterData1()?.map((ele, index) => (
+                        <>
+                          <Accordion
+                            elevation={0}
+                            sx={{
+                              // borderBottom: "1px solid #c7c8c9",
+                              borderRadius: 0,
+                              "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
+                                borderBottomLeftRadius: "0px",
+                                borderBottomRightRadius: "0px",
+                              },
+                              "&.MuiPaper-root.MuiAccordion-root:before": {
+                                background: "none",
+                              },
+                            }}
+                          >
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
+                              aria-controls="panel1-content"
+                              id="panel1-header"
                               sx={{
-                                // borderBottom: "1px solid #c7c8c9",
+                                color: "#7f7d85",
                                 borderRadius: 0,
-                                "&.MuiPaper-root.MuiAccordion-root:last-of-type": {
-                                  borderBottomLeftRadius: "0px",
-                                  borderBottomRightRadius: "0px",
-                                },
-                                "&.MuiPaper-root.MuiAccordion-root:before": {
-                                  background: "none",
-                                },
-                              }}
-                            >
-                              <AccordionSummary
-                                expandIcon={<ExpandMoreIcon sx={{ width: "20px" }} />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                                sx={{
-                                  color: "#7f7d85",
-                                  borderRadius: 0,
 
                                   "&.MuiAccordionSummary-root": {
                                     padding: 0,

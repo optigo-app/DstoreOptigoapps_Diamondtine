@@ -619,9 +619,8 @@
 
 .filtercategoryLable {
     font-family: "Poppins", sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500px !important;
-    text-transform: uppercase;
     letter-spacing: 1.5px;
     line-height: 1.5;
     filter: contrast(10.4);

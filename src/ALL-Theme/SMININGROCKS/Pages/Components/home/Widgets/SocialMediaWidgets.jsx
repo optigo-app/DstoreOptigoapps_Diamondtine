@@ -25,6 +25,7 @@ const InstagramGallery = () => {
 
     return (
         <>
+            <p className='followInsTitle'>FOLLOW US ON INSTAGRAM</p>
             <div className='SocialmediawidgetsComponentsCard'>
                 <div className="instagram-gallery">
                     {photos.map((photo, index) => (
