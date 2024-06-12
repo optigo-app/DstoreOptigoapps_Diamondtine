@@ -23,7 +23,7 @@ const services = [
 
 const ServiceCards = () => {
     const handleImageError = (event) => {
-        event.target.src = storImagePath() + "/images/HomePage/MainBanner/Images/placeholderImage.png";
+        event.target.src = storImagePath() + "/images/HomePage/Promo/Set/2/placeHolderImage.png";
     };
 
     return (
