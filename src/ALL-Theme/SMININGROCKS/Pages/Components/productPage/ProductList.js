@@ -1018,28 +1018,28 @@ const ProductList = () => {
     let SubCategoryFilter = JSON?.parse(localStorage.getItem("SubCategoryFilter"))
 
     if (categoryFilter) {
-      newFilter?.push({ label: "CATEGORY", filterList: categoryFilter.map((res) => { return { "label": res?.CategoryName, "id": res?.Categoryid } }), listType: 'Categoryid' })
+      newFilter?.push({ label: "Category", filterList: categoryFilter.map((res) => { return { "label": res?.CategoryName, "id": res?.Categoryid } }), listType: 'Categoryid' })
     }
     if (ProductTypeFilter) {
-      newFilter?.push({ label: "PRODUCT TYPE", filterList: ProductTypeFilter.map((res) => { return { "label": res?.ProducttypeName, "id": res?.Producttypeid } }), listType: 'Producttypeid' })
+      newFilter?.push({ label: "Product Type", filterList: ProductTypeFilter.map((res) => { return { "label": res?.ProducttypeName, "id": res?.Producttypeid } }), listType: 'Producttypeid' })
     }
     if (GenderFilter) {
-      newFilter?.push({ label: "GENDER", filterList: GenderFilter.map((res) => { return { "label": res?.GenderName, "id": res?.Genderid } }), listType: 'Genderid' })
+      newFilter?.push({ label: "Gender", filterList: GenderFilter.map((res) => { return { "label": res?.GenderName, "id": res?.Genderid } }), listType: 'Genderid' })
     }
     if (CollectionFilter) {
-      newFilter?.push({ label: "COLLECTION", filterList: CollectionFilter.map((res) => { return { "label": res?.CollectionName, "id": res?.Collectionid } }), listType: 'Collectionid' })
+      newFilter?.push({ label: "Collection", filterList: CollectionFilter.map((res) => { return { "label": res?.CollectionName, "id": res?.Collectionid } }), listType: 'Collectionid' })
     }
     if (BrandFilter) {
-      newFilter?.push({ label: "BRAND", filterList: BrandFilter.map((res) => { return { "label": res?.BrandName, "id": res?.Brandid } }), listType: 'Brandid' })
+      newFilter?.push({ label: "Brand", filterList: BrandFilter.map((res) => { return { "label": res?.BrandName, "id": res?.Brandid } }), listType: 'Brandid' })
     }
     if (OcassionFilter) {
-      newFilter?.push({ label: "OCASSION", filterList: OcassionFilter.map((res) => { return { "label": res?.OcassionName, "id": res?.Ocassionid } }), listType: 'Ocassionid' })
+      newFilter?.push({ label: "Ocassion", filterList: OcassionFilter.map((res) => { return { "label": res?.OcassionName, "id": res?.Ocassionid } }), listType: 'Ocassionid' })
     }
     if (ThemeFilter) {
-      newFilter?.push({ label: "THEME", filterList: ThemeFilter.map((res) => { return { "label": res?.ThemeName, "id": res?.Themeid } }), listType: 'Themeid' })
+      newFilter?.push({ label: "Theme", filterList: ThemeFilter.map((res) => { return { "label": res?.ThemeName, "id": res?.Themeid } }), listType: 'Themeid' })
     }
     if (SubCategoryFilter) {
-      newFilter?.push({ label: "SUBCATEGORY", filterList: SubCategoryFilter.map((res) => { return { "label": res?.SubCategoryName, "id": res?.SubCategoryid } }), listType: 'SubCategoryid' })
+      newFilter?.push({ label: "Subcategory", filterList: SubCategoryFilter.map((res) => { return { "label": res?.SubCategoryName, "id": res?.SubCategoryid } }), listType: 'SubCategoryid' })
     }
 
     // newFilter.push({ label: "PRICE", filterList: [] });
@@ -2664,7 +2664,7 @@ const ProductList = () => {
                 >
                   <div className="smilingWebProductListSideBar" style={{ transition: "1s ease", width: `19%`, left: `${isShowfilter ? "0" : "-500%"}`, position: newProData?.length != 0 || ProductApiData2?.length != 0 && "absolute" }}>
                     <ul className="d-flex" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '0px 20px 0px 0px',marginTop:'10px'}}>
-                      <li className="finejwelery me-4" id="finejwelery" style={{ fontSize: '14px',marginTop:'5px'}}>
+                      <li  style={{listStyle:'none' , color:'#999', fontSize: '14px',marginTop:'5px'}}>
                         Filters:
                         {/* {newProData.length > 0 ? ` (${newProData.length}/${ProductApiData2?.length}) ` : null} */}
                       </li>

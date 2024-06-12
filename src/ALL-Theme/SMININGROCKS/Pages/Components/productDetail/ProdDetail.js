@@ -1610,7 +1610,7 @@ debugger
                   </p>
                   {isPriseShow == 1 && (
                     <div>
-                      <p style={{ color: "#7d7f85", fontSize: "14px", display: 'flex' }}>
+                      <p style={{ color: "#7d7f85", fontSize: "12px", display: 'flex' }}>
                         <span className='mainpriceDeatilPage'>
                           <text>Form:</text>
                           <div dangerouslySetInnerHTML={{ __html: decodeEntities(currData?.Currencysymbol) }} />

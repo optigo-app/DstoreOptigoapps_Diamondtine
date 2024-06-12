@@ -60,10 +60,10 @@ const NewArrivalProduct = () => {
                                     alt={product.title}
                                 />
                                 <div>
-                                    <p className='newArrivalPdTitle' style={{ margin: "8px 0", fontSize: "18px", fontWeight: "bold" }}>
+                                    <p className='newArrivalPdTitle' style={{ margin: "8px 0", fontSize: "16px", fontWeight: "500" }}>
                                         {product.title}
                                     </p>
-                                    <p  className='newArrivalPdPrice' style={{ margin: "0", color: "#666" }}>
+                                    <p  className='newArrivalPdPrice' style={{ margin: "0",fontSize:'15px', color: "#666" }}>
                                        From: ₹{product.price}
                                     </p>
                                 </div>

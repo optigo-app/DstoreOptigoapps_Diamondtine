@@ -553,6 +553,8 @@
     height: 50px;
     border: none;
     outline: none;
+    color: #222;
+    font-size: 13px;
 }
 
 .smlingTopSerachOver-Fixed {
@@ -707,7 +709,8 @@
 }
 
 .level2menuData {
-    color: #7d7f85 !important;
+    color: #999 !important;
+    font-family: inherit;
 }
 
 .level2menuData:hover {
