@@ -30,7 +30,7 @@ import CountdownTimer from './CountDownTimer/CountDownTimer';
 import AffiliationData from './PromoComponent/BrandsComponent/AffiliationData';
 import SocialMedia from './Gallery/SocialMediaSlider';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { companyLogo, designSet, isB2CFlag, loginState, visiterCookieId } from '../../../../../Recoil/atom';
+import { CartListCounts, WishListCounts, companyLogo, designSet, isB2CFlag, loginState, visiterCookieId } from '../../../../../Recoil/atom';
 import { Helmet } from 'react-helmet';
 import Topbanner from './topVideo/Topbanner';
 import NewArrivalProduct from './NewArrival/NewArrivalProduct';
@@ -38,6 +38,7 @@ import WidgetsComponents from './Widgets/WidgetsComponents';
 import SocialMediaWidgets from './Widgets/SocialMediaWidgets';
 import { DesignSet } from '../../../Utils/API/DesignSet';
 import { useCookies } from 'react-cookie';
+import { GetCount } from '../../../Utils/API/GetCount';
 
 export default function Home() {
   const [cookies, setCookie, removeCookie] = useCookies(['visiterId']);
@@ -50,6 +51,8 @@ export default function Home() {
   const [favicon, setFavIcon] = useState();
   const location = useLocation();
   const [storeInit, setStoreInit] = useState();
+  const setCartCount = useSetRecoilState(CartListCounts)
+  const setWishCount = useSetRecoilState(WishListCounts)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -364,6 +367,24 @@ export default function Home() {
       window.scrollTo(0, 0);
     }
   }, [])
+
+      
+  const getCountFunc = async () => {
+    const islogin = localStorage.getItem('LoginUser')
+    await GetCount(cookies, islogin).then((res) => {
+        if (res) {
+            setCartCount(res.CountCart)
+            setWishCount(res.WishCount)
+        }
+    })
+
+}
+useEffect(() => {
+
+    setTimeout(() => {
+        getCountFunc();
+    }, 100);
+}, [])
 
   console.log('islogin', islogin);
   //  let domainName =  `((window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'astore.orail.co.in' : window.location.hostname)/ufcc/image/`
