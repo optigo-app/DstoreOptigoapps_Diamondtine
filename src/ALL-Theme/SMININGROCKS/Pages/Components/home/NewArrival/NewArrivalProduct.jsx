@@ -1,45 +1,46 @@
 import React from 'react';
 import './Styles.css'
 import { Grid, Box } from '@mui/material';
+import { storImagePath } from '../../../../Utils/globalFunctions/GlobalFunction';
 
 const products = [
     {
-        image: "https://www.diamondtine.com/wp-content/uploads/2022/11/faith-ring.jpg",
+        image: "/images/HomePage/Promo/Set/1/promoSetBanner1Img1.jpg",
         title: "Faith Diamond Ring",
         price: '24,380.00'
     },
     {
-        image: "https://www.diamondtine.com/wp-content/uploads/2022/11/faith-bracelet.jpg",
+        image: "/images/HomePage/Promo/Set/1/promoSetBanner1Img2.jpg",
         title: "Faith Bracelet",
         price: '19,315.00'
     },
     {
-        image: "https://www.diamondtine.com/wp-content/uploads/2022/11/hope-ring.jpg",
+        image: "/images/HomePage/Promo/Set/1/promoSetBanner1Img3.jpg",
         title: "Hope Diamond Ring",
         price: '15,788.00'
     },
     {
-        image: "https://www.diamondtine.com/wp-content/uploads/2022/11/DSC07252-scaled.jpg",
+        image: "/images/HomePage/Promo/Set/1/promoSetBanner1Img4.jpg",
         title: "Hope Bracelet",
         price: '24,808.00'
     },
     {
-        image: "https://www.diamondtine.com/wp-content/uploads/2022/11/SJKJP512-1.jpg",
+        image: "/images/HomePage/Promo/Set/1/promoSetBanner1Img5.jpg",
         title: "Cancer",
         price: '6,760.00'
     },
     {
-        image: "https://www.diamondtine.com/wp-content/uploads/2022/11/SJKJP519-1.jpg",
+        image: "/images/HomePage/Promo/Set/1/promoSetBanner1Img6.jpg",
         title: "Leo",
         price: '6,760.00'
     },
     {
-        image: "https://www.diamondtine.com/wp-content/uploads/2022/11/SJKJP509-1.jpg",
+        image: "/images/HomePage/Promo/Set/1/promoSetBanner1Img7.jpg",
         title: "Aries",
         price: '15,788.00'
     },
     {
-        image: "https://www.diamondtine.com/wp-content/uploads/2022/11/SJKJP513-1.jpg",
+        image: "/images/HomePage/Promo/Set/1/promoSetBanner1Img8.jpg",
         title: "Libra",
         price: '6,760.00'
     }
@@ -56,7 +57,8 @@ const NewArrivalProduct = () => {
                             <div style={{paddingBottom:'20px'}}>
                                 <img
                                     style={{ height: "100%", width: "100%" }}
-                                    src={product.image}
+                                    src={storImagePath() + product?.image}
+                                    // src={product.image}
                                     alt={product.title}
                                 />
                                 <div>

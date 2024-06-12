@@ -198,7 +198,7 @@ const ProdDetail = () => {
     const storedDataAll = localStorage.getItem('storeInit');
     const data = JSON.parse(storedDataAll);
 
-    let obj = { "CurrencyRate": data?.IsB2BWebsite == 0 ? data?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": data?.IsB2BWebsite == 0 ? data?.Currencysymbol : loginData?.Currencysymbol }
+    let obj = { "CurrencyRate": data?.IsB2BWebsite == 0 && islogin == 'false' ? data?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": data?.IsB2BWebsite == 0 && islogin == 'false' ? data?.Currencysymbol : loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
     }
