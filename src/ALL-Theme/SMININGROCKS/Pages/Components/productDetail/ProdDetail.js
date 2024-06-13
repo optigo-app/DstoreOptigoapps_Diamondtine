@@ -143,7 +143,7 @@ const ProdDetail = () => {
     }, 100)
   }, [])
 
-  console.log("metalFilterData", catSizeData?.sizename);
+  console.log("metalFilterData", catSizeData);
   //   const handelCurrencyData = () =>{
   //     let currencyData = JSON.parse(localStorage.getItem('CURRENCYCOMBO'));
   //     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
@@ -1336,7 +1336,7 @@ debugger
     const filteredDataDaimond = filteredData?.filter(item => item.DiamondStoneTypeName === "DIAMOND")
     const filteredDataColorStone = filteredData?.filter(item => item.DiamondStoneTypeName === "COLOR STONE")
     const filteredDataFinding = filteredData?.filter(item => item.DiamondStoneTypeName === "FINDING")
-    console.log("getAllFilterSizeData", getAllFilterSizeData)
+    console.log("getAllFilterSizeData", selectedSize)
     setMetalFilterData(filteredDataMetal)
     setDaimondFiletrData(filteredDataDaimond)
     setColorStoneFiletrData(filteredDataColorStone)

@@ -3,6 +3,7 @@ import axios from "axios";
 // const APIURL = 'https://api.optigoapps.com/storev26/store.aspx';
 const APIURL = 'https://api.optigoapps.com/test/store.aspx';
 // const ZENURL = 'http://zen/api/store.aspx'
+// const APIURL = 'https://api.optigoapps.com/TESTONESIGNAL/store.aspx';
 
 
 export const CommonAPI = async (body) => {
