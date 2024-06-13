@@ -410,9 +410,12 @@ useEffect(() => {
   return (
     <div className='paddingTopMobileSet' style={{ backgroundColor: 'white', paddingTop: '0px' }}>
       <div className='homeMain'>
-        <Helmet>
+      <Helmet>
           <title>{title}</title>
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+          <meta name="description" content={title} />
+          <link rel="apple-touch-icon" href={favicon} />
+          <link rel="manifest" href={favicon} />
         </Helmet>
         <>
           <Topbanner />

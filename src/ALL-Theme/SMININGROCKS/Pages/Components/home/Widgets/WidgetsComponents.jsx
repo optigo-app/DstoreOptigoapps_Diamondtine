@@ -22,9 +22,9 @@ const services = [
 ];
 
 const ServiceCards = () => {
-    const handleImageError = (event) => {
-        event.target.src = storImagePath() + "/images/HomePage/Promo/Set/2/placeHolderImage.png";
-    };
+    // const handleImageError = (event) => {
+    //     event.target.src = storImagePath() + "/images/HomePage/Promo/Set/2/placeHolderImage.png";
+    // };
 
     return (
         <div className='widgetsComponentsCard'> 
@@ -54,7 +54,7 @@ const ServiceCards = () => {
                                 width='100%'
                                 src={storImagePath() + service.image}
                                 alt={service.title}
-                                onError={handleImageError}
+                                // onError={handleImageError}
                             />
                         </Card>
                     </Grid>
