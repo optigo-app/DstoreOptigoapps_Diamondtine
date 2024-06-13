@@ -30,7 +30,7 @@ import CountdownTimer from './CountDownTimer/CountDownTimer';
 import AffiliationData from './PromoComponent/BrandsComponent/AffiliationData';
 import SocialMedia from './Gallery/SocialMediaSlider';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { companyLogo, designSet, isB2CFlag, loginState, visiterCookieId } from '../../../../../Recoil/atom';
+import { CartListCounts, WishListCounts, companyLogo, designSet, isB2CFlag, loginState, visiterCookieId } from '../../../../../Recoil/atom';
 import { Helmet } from 'react-helmet';
 import Topbanner from './topVideo/Topbanner';
 import NewArrivalProduct from './NewArrival/NewArrivalProduct';
@@ -38,6 +38,7 @@ import WidgetsComponents from './Widgets/WidgetsComponents';
 import SocialMediaWidgets from './Widgets/SocialMediaWidgets';
 import { DesignSet } from '../../../Utils/API/DesignSet';
 import { useCookies } from 'react-cookie';
+import { GetCount } from '../../../Utils/API/GetCount';
 
 export default function Home() {
   const [cookies, setCookie, removeCookie] = useCookies(['visiterId']);
@@ -50,6 +51,8 @@ export default function Home() {
   const [favicon, setFavIcon] = useState();
   const location = useLocation();
   const [storeInit, setStoreInit] = useState();
+  const setCartCount = useSetRecoilState(CartListCounts)
+  const setWishCount = useSetRecoilState(WishListCounts)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +65,7 @@ export default function Home() {
         Authorization: 'Bearer optigo_json_api',
         domain: (window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'dstore.optigoapps.com' : window.location.hostname,
         // domain: 'estore.orail.co.in',
-        version: 'Live',
+        version: 'V7',
         sp: "1"
         // domain: 'zen',
       };
@@ -102,6 +105,7 @@ export default function Home() {
           //   setVisitorCookie(visiterId);
           // }
 
+          if(islogin == 'false'){
           if (!cookies?.visiterId) {
             const expires = new Date();
             expires.setDate(expires.getDate() + 30);
@@ -113,6 +117,7 @@ export default function Home() {
               removeCookie('visiterId', { path: '/' });
             }
           }
+        }
 
           console.log('visitor--', visiterId);
           setTitle(title);
@@ -128,10 +133,7 @@ export default function Home() {
         console.error('Error:', error);
       }
     }
-    const storeInit = localStorage.getItem('storeInit');
-    if(!storeInit){
     fetchData();
-    }
 
   }, [islogin, cookies, setCookie, removeCookie])
 
@@ -366,6 +368,24 @@ export default function Home() {
     }
   }, [])
 
+      
+  const getCountFunc = async () => {
+    const islogin = localStorage.getItem('LoginUser')
+    await GetCount(cookies, islogin).then((res) => {
+        if (res) {
+            setCartCount(res.CountCart)
+            setWishCount(res.WishCount)
+        }
+    })
+
+}
+useEffect(() => {
+
+    setTimeout(() => {
+        getCountFunc();
+    }, 100);
+}, [])
+
   console.log('islogin', islogin);
   //  let domainName =  `((window.location.hostname === 'localhost' || window.location.hostname === 'zen') ? 'astore.orail.co.in' : window.location.hostname)/ufcc/image/`
 
@@ -390,9 +410,12 @@ export default function Home() {
   return (
     <div className='paddingTopMobileSet' style={{ backgroundColor: 'white', paddingTop: '0px' }}>
       <div className='homeMain'>
-        <Helmet>
+      <Helmet>
           <title>{title}</title>
           <link rel="icon" type="image/png" href={favicon} sizes="16x16" />
+          <meta name="description" content={title} />
+          <link rel="apple-touch-icon" href={favicon} />
+          <link rel="manifest" href={favicon} />
         </Helmet>
         <>
           <Topbanner />

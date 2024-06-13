@@ -183,7 +183,7 @@ const ProdDetail = () => {
 
   const setProdFullInfo = async () => {
     let srProductsData = JSON.parse(localStorage.getItem('srProductsData'))
-    await FullProInfoAPI(srProductsData?.designno).then(res => {
+    await FullProInfoAPI(srProductsData?.designno, cookies, islogin).then(res => {
       if (res) {
         getProdFullInfo();
       }
@@ -197,8 +197,9 @@ const ProdDetail = () => {
     let loginData = JSON.parse(localStorage.getItem('loginUserDetail'));
     const storedDataAll = localStorage.getItem('storeInit');
     const data = JSON.parse(storedDataAll);
+    console.log('iseloginData---', islogin);
 
-    let obj = { "CurrencyRate": data?.IsB2BWebsite == 0 ? data?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": data?.IsB2BWebsite == 0 ? data?.Currencysymbol : loginData?.Currencysymbol }
+    let obj = { "CurrencyRate": data?.IsB2BWebsite == 0 && islogin == 'false' || 'f' ? data?.CurrencyRate : loginData?.CurrencyRate, "Currencysymbol": data?.IsB2BWebsite == 0 && islogin == 'false' || 'f' ? data?.Currencysymbol : loginData?.Currencysymbol }
     if (obj) {
       setCurrData(obj)
     }
@@ -808,7 +809,7 @@ const ProdDetail = () => {
 
   const getCountFunc = async () => {
 
-    await GetCount(cookies).then((res) => {
+    await GetCount(cookies, islogin).then((res) => {
       if (res) {
         setCartCount(res.CountCart)
         setWishCount(res.WishCount)
@@ -818,12 +819,12 @@ const ProdDetail = () => {
   }
 
   const getCartAndWishListData = async () => {
-
+debugger
     const UserEmail = localStorage.getItem("registerEmail")
     const storeInit = JSON.parse(localStorage.getItem("storeInit"))
     const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
-    let customerId = storeInit?.IsB2BWebsite === 0 && !islogin ? cookies?.visiterId : Customer_id?.id
-    let customerAppUserId = storeInit?.IsB2BWebsite === 0 && !islogin ? cookies?.visiterId : UserEmail
+    let customerId = (storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : Customer_id?.id
+    let customerAppUserId = (storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : UserEmail
 
     let EncodeData = { FrontEnd_RegNo: `${storeInit?.FrontEnd_RegNo}`, Customerid: `${customerId}` }
 
@@ -877,13 +878,12 @@ const ProdDetail = () => {
 
 
   const handelCart = async (event) => {
-    
     try {
       if (addToCartFlag) {
         const storeInit = JSON.parse(localStorage.getItem("storeInit"))
         const UserEmail = localStorage.getItem("registerEmail")
         const Customer_id = JSON.parse(localStorage.getItem("loginUserDetail"));
-        let customerAppUserId = storeInit?.IsB2BWebsite === 0 ? cookies?.visiterId : UserEmail
+        let customerAppUserId = (storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : UserEmail
         productData.checkFlag = addToCartFlag;
         localStorage.setItem("srProductsData", JSON.stringify(productData))
         const product = productData
@@ -1066,7 +1066,7 @@ const ProdDetail = () => {
           "updatedate": `${product?.UpdateDate ?? 0}`,
           "videoname": `${product?.videoname ?? ""}`,
           "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-          "Customerid": Number(`${storeInit?.IsB2BWebsite == 0 ? cookies?.visiterId : Customer_id?.id}`),
+          "Customerid": Number(`${(storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : Customer_id?.id}`),
           "PriceMastersetid": Number(`${product?.PriceMastersetid ?? 0}`),
           "quantity": Number(`${product?.quantity ?? 1}`),
           "CurrencyRate": `${product?.CurrencyRate ?? ""}`,
@@ -1611,7 +1611,7 @@ const ProdDetail = () => {
                   </p>
                   {isPriseShow == 1 && (
                     <div>
-                      <p style={{ color: "#7d7f85", fontSize: "14px", display: 'flex' }}>
+                      <p style={{ color: "#7d7f85", fontSize: "12px", display: 'flex' }}>
                         <span className='mainpriceDeatilPage'>
                           <text>Form:</text>
                           <div dangerouslySetInnerHTML={{ __html: decodeEntities(currData?.Currencysymbol) }} />
@@ -2317,7 +2317,7 @@ const ProdDetail = () => {
             <div className='smilingCompleteLookMainWeb' style={{ position: 'relative', marginInline: '10%', minHeight: '350px', display: 'flex', alignItems: 'center', marginBottom: '7%' }}>
               <div className='similiarBrand' style={{ right: '0px', position: 'absolute', display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: '100px', marginTop: !(productData?.OriginalImagePath) && '120px' }}>
                 <div style={{ marginBottom: '12px' }}>
-                  <span style={{ fontFamily: 'FreightDisp Pro Medium', color: '#7d7f85', fontSize: '26px' }}>Complete The Look</span>
+                  <span style={{ fontFamily: "Poppins, sans-serif", color: '#7d7f85', fontSize: '26px' }}>Complete The Look</span>
                 </div>
                 <div style={{ border: '1px solid #e1e1e1', backgroundColor: 'white', borderRadius: '4px', padding: '30px', display: 'flex', flexDirection: 'column', gap: '40px' }}>
                   {
@@ -2365,7 +2365,7 @@ const ProdDetail = () => {
               </div>
               <div className='similiarBrand' style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: '100px', marginTop: !(productData?.OriginalImagePath) && '120px' }}>
                 <div style={{ marginBottom: '12px' }}>
-                  <span style={{ fontFamily: 'FreightDisp Pro Medium', color: '#7d7f85', fontSize: '26px' }}>Complete The Look</span>
+                  <span style={{ fontFamily: "Poppins, sans-serif", color: '#7d7f85', fontSize: '26px' }}>Complete The Look</span>
                 </div>
                 <div style={{ border: '1px solid #e1e1e1', backgroundColor: 'white', borderRadius: '4px', padding: '30px', display: 'flex', flexDirection: 'column', gap: '40px' }}>
                   {

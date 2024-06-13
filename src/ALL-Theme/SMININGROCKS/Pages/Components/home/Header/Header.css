@@ -4,7 +4,7 @@
     width: 100%;
     top: 0;
     z-index: 11111111;
-    font-family: "PT Sans", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
     background: white;
 }
 .fixed {
@@ -274,6 +274,7 @@
     color: white !important;
     position: relative !important;
     text-decoration: none !important;
+    font-weight: 600;
   }
   
   .nav-li-sminingSpan::before {
@@ -552,6 +553,8 @@
     height: 50px;
     border: none;
     outline: none;
+    color: #222;
+    font-size: 13px;
 }
 
 .smlingTopSerachOver-Fixed {
@@ -706,7 +709,8 @@
 }
 
 .level2menuData {
-    color: #7d7f85 !important;
+    color: #999 !important;
+    font-family: inherit;
 }
 
 .level2menuData:hover {
@@ -902,12 +906,6 @@
         max-width: 80% !important;
     }
 
-}
-
-@media (min-width: 1200px) and (max-width: 1440px) {
-    .mobileViewFirstDiv2 {
-        margin-top: -5px;
-    }
 }
 
 @media (min-width: 768px) and (max-width: 1440px) {

@@ -5,17 +5,20 @@ import Footer from "../home/Footer/Footer";
 import { CommonAPI } from "../../../Utils/API/CommonAPI";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
-import { Button, CircularProgress, Dialog, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, useMediaQuery } from "@mui/material";
-import { useSetRecoilState } from "recoil";
-import { CartListCounts, WishListCounts } from "../../../../../Recoil/atom";
+import { Button, CircularProgress, Dialog, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { CartListCounts, WishListCounts, loginState } from "../../../../../Recoil/atom";
 import { GetCount } from "../../../Utils/API/GetCount";
 import notFound from "../../assets/image-not-found.png";
 import { FilterListAPI } from "../../../Utils/API/FilterListAPI";
 import { productListApiCall } from "../../../Utils/API/ProductListAPI";
 import { getDesignPriceList } from "../../../Utils/API/PriceDataApi";
 import { toast } from "react-toastify";
+import { useCookies } from "react-cookie";
+
 
 export default function MyWishList() {
+  const islogin = useRecoilValue(loginState)
   const [wishlistData, setWishlistData] = useState([]);
   const [wishlistDataNew, setWishlistDataNew] = useState([]);
   const [yKey, setYouKey] = useState("");
@@ -31,6 +34,7 @@ export default function MyWishList() {
   const [currData, setCurrData] = useState()
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [cookies] = useCookies(['visiterId']);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -82,7 +86,7 @@ export default function MyWishList() {
   }, [])
 
   const getCountFunc = async () => {
-    await GetCount().then((res) => {
+    await GetCount(cookies, islogin).then((res) => {
       if (res) {
         setCartCount(res.CountCart);
         setWishCount(res.WishCount);
@@ -296,8 +300,8 @@ export default function MyWishList() {
     let finalData = JSON.parse(localStorage.getItem("menuparams"))
 
     if (finalData) {
-      await FilterListAPI(finalData)
-      await productListApiCall(finalData).then((res) => {
+      await FilterListAPI(finalData, islogin)
+      await productListApiCall(finalData, 1, {},  islogin).then((res) => {
         if (res) {
           localStorage.setItem("allproductlist", JSON.stringify(res))
           localStorage.setItem("finalAllData", JSON.stringify(res))
@@ -306,7 +310,7 @@ export default function MyWishList() {
       }).then(async (res) => {
         if (res) {
           let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
-          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList)
+          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList, islogin)
         }
       }).catch((err) => {
         if (err) toast.error("Something Went Wrong!!!")
@@ -365,8 +369,6 @@ export default function MyWishList() {
 
   console.log('wishlistData New', wishlistDataNew);
   console.log('wishlistData', wishlistData);
-
-  const isMobile = useMediaQuery('(max-width: 768px)');
 
   return (
     <div
@@ -592,147 +594,79 @@ export default function MyWishList() {
                 </tbody>
 
               ) :
-              <>
-                {!isMobile ? (
-                  <tbody className="table-customTbody">
-                    {
-                      wishlistDataNew.map((product) => (
-                        <tr className="table-customTr" key={product.id}>
-                          <td className="align-middle imagetextTd d-flex align-items-center justify-content-start">
-                            <img
-                              src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
-                              className=""
-                              style={{ cursor: "pointer", maxWidth: '180px', maxHeight: '180px' }}
-                              alt="Wishlist item"
-                              onClick={() => handelProductSubmit(product)}
-                              onError={(e) => {
-                                e.target.src = notFound;
-                              }}
-                            />
-                            <div className="product-title">
-                              {product.TitleLine}
-                            </div>
-                          </td>
-                          <td className="align-middle">
-                            {isPriseShow === 1 && (
-                              <div style={{ display: "flex", alignItems: "center" }}>
-                                <span style={{ marginRight: '5px' }}>From: </span>
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(currData?.Currencysymbol),
-                                  }}
-                                  style={{
-                                    fontFamily: "serif",
-                                    marginRight: "1px",
-                                  }}
-                                />
-                                {product.TotalUnitCost}
-                              </div>
-                            )}
-                          </td>
-                          {/* <td className="align-middle">{product.stockStatus}</td> */}
-                          <td className="align-middle">
-                            <Button
-                              onClick={() => handleAddToCart(product.autocode)}
-                              disableRipple={false}
-                              sx={{
-                                border: 'none',
-                                backgroundColor: 'transparent',
-                                cursor: 'pointer',
-                                position: 'relative',
-                                overflow: 'hidden',
-                                color: '#Af8238',
-                                width: '100%',
-                                minWidth: '150px',
-                                '&:hover': { backgroundColor: 'transparent' },
-                                '& .MuiTouchRipple-root': {
-                                  backgroundColor: 'transparent',
-                                },
-                              }}
-                            >
-                              {product.match === 'true' ? 'ITEM IN CART' : 'ADD TO CART +'}
-                            </Button>
-                          </td>
-                          <td className="align-middle closeIcon">
-                            <IoClose
-                              style={{
-                                height: "30px",
-                                width: "30px",
-                                cursor: "pointer",
-                                color: "rgba(210,212,215,1)",
-                              }}
-                              onClick={() => handleRemoveWichList(product)}
-                            />
-                          </td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                ) :
-                  <tbody className="mobileTable">
-                    {wishlistDataNew.map((product) => (
-                      <tr key={product.id}>
-                        <td style={{ position: 'relative', textAlign: 'center' }}>
-                          <div style={{ marginBottom: '10px', display: 'block' }}>
-                            <img src={`${imageURL}/${yKey}/${product.DefaultImageName}`} alt='#productImage' style={{ maxWidth: '170px' }} />
-                          </div>
-                          <div style={{ marginBottom: '10px', display: 'block' }}>{product.TitleLine}</div>
-                          <div style={{ marginBottom: '10px', display: 'block' }}>
-                            {isPriseShow === 1 && (
-                              <div style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
-                                <span style={{ marginRight: '5px' }}>From: </span>
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: decodeEntities(currData?.Currencysymbol),
-                                  }}
-                                  style={{
-                                    fontFamily: "serif",
-                                    marginRight: "1px",
-                                  }}
-                                />
-                                {product.TotalUnitCost}
-                              </div>
-                            )}
-                          </div>
-                          <div style={{ marginBottom: '10px', display: 'block' }}>
-                            <Button
-                              onClick={() => handleAddToCart(product.autocode)}
-                              disableRipple={false}
-                              sx={{
-                                border: 'none',
-                                backgroundColor: 'transparent',
-                                cursor: 'pointer',
-                                position: 'relative',
-                                overflow: 'hidden',
-                                color: '#Af8238',
-                                width: '100%',
-                                minWidth: '150px',
-                                '&:hover': { backgroundColor: 'transparent' },
-                                '& .MuiTouchRipple-root': {
-                                  backgroundColor: 'transparent',
-                                },
-                              }}
-                            >
-                              {product.match === 'true' ? 'ITEM IN CART' : 'ADD TO CART +'}
-                            </Button>
-                          </div>
-                          <div style={{ position: 'absolute', top: '5px', right: '5px' }}>
-                            <IoClose
-                              style={{
-                                height: "30px",
-                                width: "30px",
-                                cursor: "pointer",
-                                color: "rgba(210,212,215,1)",
-                              }}
-                              onClick={() => handleRemoveWichList(product)}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                }
-              </>
+              <tbody className="table-customTbody">
+                {wishlistDataNew.map((product) => (
+                  <tr className="table-customTr tabletrData" key={product.id}>
+                    <td className="align-middle imagetextTd d-flex align-items-center justify-content-start">
+                      <img
+                        src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
+                        className=""
+                        style={{ cursor: "pointer", maxWidth: '180px', maxHeight: '180px' }}
+                        alt="Wishlist item"
+                        onClick={() => handelProductSubmit(product)}
+                        onError={(e) => {
+                          e.target.src = notFound;
+                        }}
+                      />
+                      <div className="">
+                        {product.TitleLine}
+                      </div>
+                    </td>
+                    <td className="align-middle">
+                      {isPriseShow === 1 && (
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span style={{ marginRight: '5px' }}>From: </span>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: decodeEntities(currData?.Currencysymbol),
+                            }}
+                            style={{
+                              fontFamily: "serif",
+                              marginRight: "1px",
+                            }}
+                          />
+                          {product.TotalUnitCost}
+                        </div>
+                      )}
+                    </td>
+                    {/* <td className="align-middle">{product.stockStatus}</td> */}
+                    <td className="align-middle">
+                      <Button
+                        onClick={() => handleAddToCart(product.autocode)}
+                        disableRipple={false}
+                        sx={{
+                          border: 'none',
+                          backgroundColor: 'transparent',
+                          cursor: 'pointer',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          color: '#Af8238',
+                          width: '100%',
+                          minWidth: '150px',
+                          '&:hover': { backgroundColor: 'transparent' },
+                          '& .MuiTouchRipple-root': {
+                            backgroundColor: 'transparent',
+                          },
+                        }}
+                      >
+                        {product.match === 'true' ? 'ITEM IN CART' : 'ADD TO CART +'}
+                      </Button>
+                    </td>
+                    <td className="align-middle closeIcon">
+                      <IoClose
+                        style={{
+                          height: "30px",
+                          width: "30px",
+                          cursor: "pointer",
+                          color: "rgba(210,212,215,1)",
+                        }}
+                        className="closeIconWish"
+                        onClick={() => handleRemoveWichList(product)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             }
           </table>
           {/* </div> */}
@@ -752,7 +686,7 @@ export default function MyWishList() {
                   <div style={{ marginBottom: '10px', display: 'block' }}>{product.TitleLine}</div>
                   <div style={{ marginBottom: '10px', display: 'block' }}>
                     {isPriseShow === 1 && (
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent:'center' }}>
                         <span style={{ marginRight: '5px' }}>From: </span>
                         <div
                           dangerouslySetInnerHTML={{

@@ -84,7 +84,7 @@
     font-weight: 500;
     color: #212529;
     text-align: center;
-    font-family: 'PT Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
 
 }
 
@@ -94,7 +94,7 @@
     color: #212529;
     text-align: center;
     margin: 0px;
-    font-family: 'PT Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .smiWishLsitBoxTitltLine {
@@ -104,7 +104,7 @@
     margin: 0px;
     opacity: 0.7;
     text-transform: uppercase;
-    font-family: 'PT Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
 
 }
 
@@ -126,7 +126,7 @@
     border: 1px solid black;
     height: 30px;
     width: 60%;
-    font-family: 'PT Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .smiWishLsitBoxDesc4 {
@@ -136,7 +136,7 @@
     border: 1px solid;
     height: 30px;
     width: 60%;
-    font-family: 'PT Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .smiWishLsitBoxDescPrice {
@@ -145,7 +145,7 @@
     color: #212529;
     margin: 0px;
     text-align: center;
-    font-family: 'PT Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -311,12 +311,13 @@
 }
 
 @media screen and (max-width: 768px) {
-    .table-customThead{
+    .table-customThead {
         display: none;
     }
-.table-custom{
-    border: 1px solid #ededed;
-}
+
+    .table-custom {
+        border: 1px solid #ededed;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -358,11 +359,57 @@
     }
 
     .mywislistComponents {
-        width: 100%;
         margin-inline: 5px;
     }
 
-  
+
+    /* table */
+
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .table-custom thead th {
+        padding: 15px;
+      }
+      .table-responsive{
+        width: 100%;
+      }
+
+      .table-custom tbody tr {
+        display: flex;
+        flex-direction: column; 
+        border-bottom: 1px solid #ede8e8;; 
+      }
+    
+      .table-custom tbody td {
+        padding: 15px;
+        text-align: center;
+        border: none !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .imagetextTd{
+        display: block !important;
+      }
+      .product-title{
+        width: 100% !important;
+        text-align: center;
+        max-width: 100% !important;
+      }
+      .product-titleCart{
+        display: block;
+      }
+      .tabletrData{
+        position: relative;
+      }
+      .closeIconWish{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+      }
 
 }
 
@@ -380,5 +427,4 @@
         width: 100% !important;
         margin: 5px 0px !important;
     }
-
 }

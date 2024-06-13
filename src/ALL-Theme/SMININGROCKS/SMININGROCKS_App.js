@@ -64,7 +64,8 @@ export default function SMININGROCKS_App() {
     const setWishCount = useSetRecoilState(WishListCounts)
     
     const getCountFunc = async () => {
-        await GetCount(cookies).then((res) => {
+        const islogin = localStorage.getItem('LoginUser')
+        await GetCount(cookies, islogin).then((res) => {
             if (res) {
                 setCartCount(res.CountCart)
                 setWishCount(res.WishCount)
@@ -74,7 +75,9 @@ export default function SMININGROCKS_App() {
     }
 
     useEffect(() => {
-        getCountFunc();
+        setTimeout(() => {
+            getCountFunc();
+        }, 200);
     }, [])
 
     console.log("isLoginStatus", isLoginStatus);

@@ -160,7 +160,7 @@
     display: flex;
     color: #7b7b7b;
     font-size: 13.5px;
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     align-items: center;
     cursor: pointer;
     justify-content: end !important;
@@ -172,7 +172,7 @@
     outline: none;
     font-size: 13px;
     color: rgb(66, 66, 66);
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: bold;
     letter-spacing: 2.2px;
 }
@@ -185,7 +185,7 @@
     outline: none;
     font-size: 13px;
     color: rgb(66, 66, 66);
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: bold;
     letter-spacing: 2.2px;
 }
@@ -398,7 +398,7 @@
 .bg-image {
     position: relative;
     height: 140px;
-    background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png");
+    /* background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png"); */
     background-size: cover;
     background-position: center;
     /* z-index: -1; */
@@ -454,7 +454,7 @@
 }
 
 .main-ProdcutListConatiner {
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     width: 33%;
     
 }
@@ -560,7 +560,7 @@
 .listing-details {
     padding: 5px 12px 0px 12px;
     /* min-height: 50px; */
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     overflow: hidden;
 }
 
@@ -583,7 +583,7 @@
     font-size: 14px;
     letter-spacing: 0.025em;
     opacity: 0.7;
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     color: #1f1919;
     max-height: 40px;
 }
@@ -592,7 +592,7 @@
     text-transform: uppercase;
     font-size: 14px;
     /* font-weight: 700; */
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: 0.025em;
     opacity: 0.7;
     color: #1f1919;
@@ -619,9 +619,8 @@
 
 .filtercategoryLable {
     font-family: "Poppins", sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500px !important;
-    text-transform: uppercase;
     letter-spacing: 1.5px;
     line-height: 1.5;
     filter: contrast(10.4);
@@ -845,7 +844,7 @@
         display: flex;
         color: #7b7b7b;
         font-size: 12.5px;
-        font-family: "PT Sans", sans-serif;
+        font-family: "Poppins", sans-serif;
         align-items: center;
         justify-content: end !important;
     }
@@ -980,7 +979,7 @@
         display: flex;
         color: #7b7b7b;
         font-size: 12.5px;
-        font-family: "PT Sans", sans-serif;
+        font-family: "Poppins", sans-serif;
         align-items: center;
         justify-content: end !important;
     }
@@ -1109,7 +1108,7 @@
         display: flex;
         color: #7b7b7b;
         font-size: 12.5px;
-        font-family: "PT Sans", sans-serif;
+        font-family: "Poppins", sans-serif;
         align-items: center;
         justify-content: end !important;
     }
@@ -1294,13 +1293,13 @@
 
     .menuitemSelectoreMain {
         font-size: 11px !important;
-        font-family: "PT Sans", sans-serif !important;
+        font-family: "Poppins", sans-serif !important;
         letter-spacing: 0px !important;
     }
 
     .menuitemSelectoreMainMobile {
         font-size: 11px !important;
-        font-family: "PT Sans", sans-serif !important;
+        font-family: "Poppins", sans-serif !important;
         letter-spacing: 0px !important;
     }
 
@@ -1309,7 +1308,7 @@
         display: flex;
         color: #7b7b7b;
         font-size: 12.5px;
-        font-family: "PT Sans", sans-serif;
+        font-family: "Poppins", sans-serif;
         align-items: center;
         justify-content: end !important;
     }

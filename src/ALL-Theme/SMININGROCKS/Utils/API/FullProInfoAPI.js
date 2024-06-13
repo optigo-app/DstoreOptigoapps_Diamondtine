@@ -1,7 +1,6 @@
 import { CommonAPI } from "./CommonAPI";
 
-export const FullProInfoAPI = async (prodInfo) => {
-
+export const FullProInfoAPI = async (prodInfo, cookies, islogin) => {
   console.log("prodInfo",prodInfo);
 
   const storeInit = JSON.parse(localStorage.getItem("storeInit"))
@@ -9,7 +8,7 @@ export const FullProInfoAPI = async (prodInfo) => {
   const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
   const UserEmail = localStorage.getItem("registerEmail");
 
-  
+  console.log('isloginStatus--', islogin);
   
   let encodedFilter = {
     "DesignNo":`${prodInfo}`,
@@ -24,13 +23,13 @@ export const FullProInfoAPI = async (prodInfo) => {
   }
 
   const GetPriceReq = {
-    "CurrencyRate": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.CurrencyRate : loginUserDetail?.CurrencyRate}`,
+    "CurrencyRate": `${(storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? storeInit?.CurrencyRate : loginUserDetail?.CurrencyRate}`,
     "FrontEnd_RegNo": `${storeInit?.FrontEnd_RegNo}`,
-    "Customerid": `${loginUserDetail?.id ?? 0}`,
-    "Laboursetid": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
-    "diamondpricelistname": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
-    "colorstonepricelistname": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
-    "SettingPriceUniqueNo": `${storeInit?.IsB2BWebsite == 0 ? storeInit?.SettingPriceUniqueNo : loginUserDetail?.SettingPriceUniqueNo}`,
+    "Customerid": `${(storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? cookies?.visiterId : loginUserDetail?.id ?? 0}`,
+    "Laboursetid": `${(storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? storeInit?.pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
+    "diamondpricelistname": `${(storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? storeInit?.diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
+    "colorstonepricelistname": `${(storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? storeInit?.colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,
+    "SettingPriceUniqueNo": `${(storeInit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ? storeInit?.SettingPriceUniqueNo : loginUserDetail?.SettingPriceUniqueNo}`,
     // "Laboursetid": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._pricemanagement_laboursetid : loginUserDetail?.pricemanagement_laboursetid}`,
     // "diamondpricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._diamondpricelistname : loginUserDetail?.diamondpricelistname}`,
     // "colorstonepricelistname": `${storeInit.PolicyApplyOnName === "Customer Wise Policy" ? loginUserDetail?._colorstonepricelistname : loginUserDetail?.colorstonepricelistname}`,

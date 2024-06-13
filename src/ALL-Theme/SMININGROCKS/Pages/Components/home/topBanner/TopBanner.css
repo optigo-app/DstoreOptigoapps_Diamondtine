@@ -30,7 +30,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: -15px;
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -50,7 +50,7 @@
 .gorjanaFavBoxLink2 {
     font-size: 19px;
     color: white;
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     text-decoration: underline;
 }
 
@@ -66,7 +66,7 @@
     font-size: 19px;
     color: white;
     margin-top: -15px;
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     text-decoration: underline;
 }
 
@@ -80,7 +80,7 @@
     font-size: 19px;
     color: white;
     margin-top: -15px;
-    font-family: "PT Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     text-decoration: underline;
     text-align: center;
 }

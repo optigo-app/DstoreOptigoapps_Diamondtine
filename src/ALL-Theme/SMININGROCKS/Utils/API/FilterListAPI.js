@@ -1,6 +1,6 @@
 import { CommonAPI } from "./CommonAPI" 
 
-export const FilterListAPI = async(param) =>{
+export const FilterListAPI = async(param, islogin) =>{
 
     console.log("paramfilter",param);
 
@@ -18,7 +18,7 @@ export const FilterListAPI = async(param) =>{
       }
 
     const data = {
-      "PackageId":`${storeinit?.IsB2BWebsite == 0 ?  storeinit?.PackageId : loginInfo?.PackageId}`,
+      "PackageId":`${(storeinit?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) ?  storeinit?.PackageId : loginInfo?.PackageId}`,
         "autocode":"","FrontEnd_RegNo":`${storeinit?.FrontEnd_RegNo}`,
         "Customerid":`${loginInfo?.id ?? 0}`,
         "Filter":btoa(JSON.stringify(encodedFilter)),
@@ -27,7 +27,7 @@ export const FilterListAPI = async(param) =>{
       console.log('encodedFilter',encodedFilter);
 
       let body = {
-        "con":`{\"id\":\"\",\"mode\":\"GETFILTERLIST\",\"appuserid\":\"${userEmail}\"}`,
+        "con":`{\"id\":\"\",\"mode\":\"GETFILTERLIST\",\"appuserid\":\"${userEmail ?? ''}\"}`,
         "f":"onClcikofMenuList (GETFILTERLIST)",
         "p":encData
       }

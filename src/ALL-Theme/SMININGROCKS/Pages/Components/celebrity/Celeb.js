@@ -96,7 +96,7 @@ const Celeb = () => {
                     <div className='smilingCelebMainSub'>
                         <img src={'https://smilingrocks.com/cdn/shop/files/Celebrity_Page_Banner_-_Met_Gala_2023_1680x.jpg?v=1683165587'} alt={''} className='smilingCeleMainTopImage' />
                         <div className='smilingCelebBoxMain' style={{ backgroundColor: 'white' }}>
-                            <h1 style={{ fontFamily: 'FreightDisp Pro Medium', color: '#7d7f85', textAlign: 'center', paddingTop: '80px' }}>Celebrities</h1>
+                            <h1 style={{ fontFamily: "Poppins, sans-serif", color: '#7d7f85', textAlign: 'center', paddingTop: '80px' }}>Celebrities</h1>
                             <div style={{ display: 'flex', margin: '30px 15px', flexWrap: 'wrap' }}>
                                 {
                                     demoJSON.map((dj) => (

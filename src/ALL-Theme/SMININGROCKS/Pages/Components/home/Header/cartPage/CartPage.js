@@ -136,7 +136,7 @@ export default function CartPage() {
 
 
   const setProdFullInfo = async (paramDesignno) => {
-    await FullProInfoAPI(paramDesignno).then(res => {
+    await FullProInfoAPI(paramDesignno, cookies, islogin).then(res => {
       if (res) {
         // getProdFullInfo();
         setFullProdData(res)
@@ -146,7 +146,7 @@ export default function CartPage() {
 
   const cartSingalDataAPICalling = async () => {
     if (cartListData) {
-      await SingleProductAPI(cartListData[0]?.designno).then((res) => {
+      await SingleProductAPI(cartListData[0]?.designno, islogin).then((res) => {
         let data = res[0]
         setSingleProdData(data)
       })
@@ -206,7 +206,7 @@ export default function CartPage() {
 
 
   const getCountFunc = async () => {
-    await GetCount(cookies).then((res) => {
+    await GetCount(cookies, islogin).then((res) => {
       if (res) {
         setCartCount(res.CountCart);
         setWishCount(res.WishCount);
@@ -1256,14 +1256,14 @@ export default function CartPage() {
 
 
   console.log('sizeData', FinalPrice())
-
+  console.log('islogincart', islogin);
   const handelBrowse = async () => {
     navigation("/productpage")
     let finalData = JSON.parse(localStorage.getItem("menuparams"))
 
     if (finalData) {
-      await FilterListAPI(finalData)
-      await productListApiCall(finalData).then((res) => {
+      await FilterListAPI(finalData, islogin)
+      await productListApiCall(finalData, 1, {}, islogin).then((res) => {
         if (res) {
           localStorage.setItem("allproductlist", JSON.stringify(res))
           localStorage.setItem("finalAllData", JSON.stringify(res))
@@ -1272,7 +1272,7 @@ export default function CartPage() {
       }).then(async (res) => {
         if (res) {
           let autoCodeList = JSON.parse(localStorage.getItem("autoCodeList"))
-          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList)
+          await getDesignPriceList(finalData, 1, {}, {}, autoCodeList, islogin)
         }
       }).catch((err) => {
         if (err) toast.error("Something Went Wrong!!!")
@@ -1281,7 +1281,7 @@ export default function CartPage() {
   }
 
   const handlePlaceOrder = () => {
-    if (storeInitData?.IsB2BWebsite == 0 && islogin == 'false') {
+    if ((storeInitData?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f"))) {
       setTimeout(() => {
         navigation("/LoginOption");
       }, 100);
@@ -1318,9 +1318,24 @@ export default function CartPage() {
         className="paddingTopMobileSet"
         style={{ height: isLoading ? '390px' : '100%' }}
       >
+        <div class="bg-imageCart" style={{
+          backgroundImage: `url(${storImagePath()}/images/HomePage/MainBanner/Images/TopBanner1.png)`
+        }}>
+          <div class="overlay"></div>
+          <div class="text-container">
+            <div className='textContainerData'>
+              <div style={{ textAlign: 'center' }}>
+                <p className="designCounttext" style={{ fontSize: '30px', fontWeight: '400', letterSpacing: '1px', textTransform: 'capitalize' }}>
+                  Shopping Cart <br />
+                </p>
+                <span style={{ color: '#AF8538', fontSize: '18px' }}>Shop</span>
+              </div>
+            </div>
+          </div>
+        </div>
         {cartListData?.length == 0 && !isLoading &&
           <div>
-            <div class="bg-imageCart">
+            {/* <div class="bg-imageCart">
               <div class="overlay"></div>
               <div class="text-container">
                 <div className='textContainerData'>
@@ -1332,7 +1347,7 @@ export default function CartPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div>
               <div
                 style={{
@@ -1383,7 +1398,7 @@ export default function CartPage() {
                       <tbody className="table-customTbody">
                         {cartListData?.map((product, index) => (
                           <tr className="table-customTr tabletrData" key={product.id}>
-                             <td className="align-middle imagetextTd d-flex align-items-center justify-content-start">
+                            <td className="align-middle imagetextTd d-flex align-items-center justify-content-start">
                               <img
                                 src={`${imageURL}/${yKey}/${product.DefaultImageName}`}
                                 className=""
@@ -1499,7 +1514,9 @@ export default function CartPage() {
                         <p className="addinfotext">Shipping to <span style={{ color: 'black', fontWeight: '500' }}>Delhi</span><br />
                           Estimate for Your Country
                         </p>
-                        <a href="/Delivery" class="btn btn-link addressLink" role="button">Change address</a>
+                        {(storeInitData?.IsB2BWebsite == 0 && (islogin == "false" || islogin == "f")) &&
+                          <a href="/Delivery" class="btn btn-link addressLink" role="button">Change address</a>
+                        }
                       </div>
 
                       <hr className="border-lines" />

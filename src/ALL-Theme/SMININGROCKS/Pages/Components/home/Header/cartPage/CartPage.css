@@ -529,7 +529,7 @@
     height: 140px;
     background-size: cover;
     background-position: center;
-    background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png");
+    /* background-image: url("https://d-themes.com/wordpress/molla/dummy/wp-content/uploads/sites/2/2020/04/21_shop_list.png"); */
 }
 
 .QTYUpateMain {
@@ -749,7 +749,7 @@
         font-size: 13px;
         cursor: pointer;
         font-weight: 500;
-        font-family: 'PT Sans', sans-serif;
+        font-family: "Poppins", sans-serif;
         margin: 10px;
     }
 

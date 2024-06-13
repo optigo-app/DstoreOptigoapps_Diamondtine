@@ -57,7 +57,7 @@ input.form-Control:invalid {
 }
 
 .formMainFont {
-    font-family: Lato, sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -212,13 +212,14 @@ select {
         flex-direction: column;
         order: 2;
     }
+
     .useBtn {
-        right: 10px!important;
-        width: 120px!important;
+        right: 10px !important;
+        width: 120px !important;
     }
 
     .formMainFontMobile {
-        font-family: Lato, sans-serif;
+        font-family: "Poppins", sans-serif;
         font-size: 1rem !important;
         font-weight: 600 !important;
         /* line-height: 2.5!important; */
@@ -250,7 +251,8 @@ select {
     .textMain {
         /* height: 150px!important; */
     }
-    .bottomFont{
+
+    .bottomFont {
         display: none;
     }
 
@@ -309,13 +311,14 @@ select {
         flex-direction: column;
         order: 2;
     }
+
     .useBtn {
-        right: 10px!important;
-        width: 120px!important;
+        right: 10px !important;
+        width: 120px !important;
     }
 
     .formMainFontMobile {
-        font-family: Lato, sans-serif;
+        font-family: "Poppins", sans-serif;
         font-size: 1rem !important;
         font-weight: 600 !important;
         /* line-height: 2.5!important; */
@@ -347,7 +350,8 @@ select {
     .textMain {
         /* height: 150px!important; */
     }
-    .bottomFont{
+
+    .bottomFont {
         display: none;
     }
 
@@ -406,13 +410,14 @@ select {
         flex-direction: column;
         order: 2;
     }
+
     .useBtn {
-        right: 10px!important;
-        width: 120px!important;
+        right: 10px !important;
+        width: 120px !important;
     }
 
     .formMainFontMobile {
-        font-family: Lato, sans-serif;
+        font-family: "Poppins", sans-serif;
         font-size: 1rem !important;
         font-weight: 600 !important;
         /* line-height: 2.5!important; */
@@ -444,7 +449,8 @@ select {
     .textMain {
         /* height: 150px!important; */
     }
-    .bottomFont{
+
+    .bottomFont {
         display: none;
     }
 
@@ -503,13 +509,14 @@ select {
         flex-direction: column;
         order: 2;
     }
+
     .useBtn {
-        right: 10px!important;
-        width: 120px!important;
+        right: 10px !important;
+        width: 120px !important;
     }
 
     .formMainFontMobile {
-        font-family: Lato, sans-serif;
+        font-family: "Poppins", sans-serif;
         font-size: 1rem !important;
         font-weight: 600 !important;
         /* line-height: 2.5!important; */
@@ -541,7 +548,8 @@ select {
     .textMain {
         /* height: 150px!important; */
     }
-    .bottomFont{
+
+    .bottomFont {
         display: none;
     }
 
@@ -600,13 +608,14 @@ select {
         flex-direction: column;
         order: 2;
     }
+
     .useBtn {
-        right: 10px!important;
-        width: 120px!important;
+        right: 10px !important;
+        width: 120px !important;
     }
 
     .formMainFontMobile {
-        font-family: Lato, sans-serif;
+        font-family: "Poppins", sans-serif;
         font-size: 1rem !important;
         font-weight: 600 !important;
         /* line-height: 2.5!important; */
@@ -638,7 +647,8 @@ select {
     .textMain {
         /* height: 150px!important; */
     }
-    .bottomFont{
+
+    .bottomFont {
         display: none;
     }
 
@@ -697,13 +707,14 @@ select {
         flex-direction: column;
         order: 2;
     }
+
     .useBtn {
-        right: 10px!important;
-        width: 120px!important;
+        right: 10px !important;
+        width: 120px !important;
     }
 
     .formMainFontMobile {
-        font-family: Lato, sans-serif;
+        font-family: "Poppins", sans-serif;
         font-size: 1rem !important;
         font-weight: 600 !important;
         /* line-height: 2.5!important; */
@@ -735,7 +746,8 @@ select {
     .textMain {
         /* height: 150px!important; */
     }
-    .bottomFont{
+
+    .bottomFont {
         display: none;
     }
 

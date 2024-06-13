@@ -29,8 +29,7 @@
     font-size: 22px;
     font-weight: 300;
     line-height: 1.25;
-    font-family: 'Freight Big Pro,serif';
-}
+font-family: "Poppins", sans-serif;}
 
 .gorViewLookBookimg {
     width: 50%;
@@ -53,8 +52,7 @@
 .gorGiftBoxMainTitleWeb {
     font-size: 31px;
     font-weight: 300;
-    font-family: 'Freight Big Pro,serif';
-    line-height: 1.25;
+font-family: "Poppins", sans-serif;    line-height: 1.25;
     margin: 0px;
 }
 
@@ -96,8 +94,7 @@
     .gorGiftBoxMainTitleMobile {
         font-size: 31px;
         font-weight: 300;
-        font-family: 'Freight Big Pro,serif';
-        line-height: 1.25px;
+    font-family: "Poppins", sans-serif;        line-height: 1.25px;
         margin: 30px;
     }
 
