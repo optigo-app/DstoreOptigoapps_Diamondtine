@@ -30,7 +30,7 @@ const InstagramGallery = () => {
                 <div className="instagram-gallery">
                     {photos.map((photo, index) => (
                         <div key={index} className="instagram-photo">
-                            <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`} />
+                            <img src={storImagePath() + photo?.image} alt={`Instagram Photo ${index + 1}`}  loading='lazy'/>
                             <div className="overlay"></div>
                         </div>
                     ))}

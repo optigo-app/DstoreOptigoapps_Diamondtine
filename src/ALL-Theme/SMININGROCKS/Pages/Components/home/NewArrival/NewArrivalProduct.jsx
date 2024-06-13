@@ -60,6 +60,7 @@ const NewArrivalProduct = () => {
                                     src={storImagePath() + product?.image}
                                     // src={product.image}
                                     alt={product.title}
+                                    loading='lazy'
                                 />
                                 <div>
                                     <p className='newArrivalPdTitle' style={{ margin: "8px 0", fontSize: "16px", fontWeight: "500" }}>

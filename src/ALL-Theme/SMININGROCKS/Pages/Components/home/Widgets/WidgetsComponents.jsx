@@ -38,7 +38,7 @@ const ServiceCards = () => {
                             <div className="containerLine">
                                 <div className="line"></div>
                                 <img src={storImagePath() + "/images/HomePage/Promo/Set/2/diamond.png"}
-                                    alt="" class="centeredImage" />
+                                    alt="" class="centeredImage" loading='lazy' />
                                 <div className="line"></div>
                             </div>
                         </div>
@@ -54,6 +54,7 @@ const ServiceCards = () => {
                                 width='100%'
                                 src={storImagePath() + service.image}
                                 alt={service.title}
+                                loading='lazy'
                                 // onError={handleImageError}
                             />
                         </Card>

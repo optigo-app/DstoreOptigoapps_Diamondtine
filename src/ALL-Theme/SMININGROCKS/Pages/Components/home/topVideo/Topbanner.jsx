@@ -35,7 +35,7 @@ export default function Topbanner() {
             >
                 {sliderData.map((slide, index) => (
                     <SwiperSlide key={index}>
-                        <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src={storImagePath() + slide.imageUrl} alt={`Slide ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading='eager'/>
                     </SwiperSlide>
                 ))}
             </Swiper>
