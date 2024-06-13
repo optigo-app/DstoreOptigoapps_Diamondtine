@@ -53,6 +53,13 @@ export default function Home() {
   const [storeInit, setStoreInit] = useState();
   const setCartCount = useSetRecoilState(CartListCounts)
   const setWishCount = useSetRecoilState(WishListCounts)
+  const [pageLoading,setPageLoading]= useState(false)
+
+
+  setTimeout(()=>{
+    setPageLoading(true)
+  },1000)
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -417,8 +424,8 @@ useEffect(() => {
           <link rel="apple-touch-icon" href={favicon} />
           <link rel="manifest" href={favicon} />
         </Helmet>
-        <>
-          <Topbanner />
+        { pageLoading === true && <>
+          <Topbanner/>
           <NewArrivalProduct />
           <WidgetsComponents />
           <SocialMediaWidgets />
@@ -443,7 +450,7 @@ useEffect(() => {
           {/* <ShopifySection /> */}
           {/* <ShopOurInstagram /> */}
           <Footer />
-        </>
+        </>}
       </div>
     </div>
   )
